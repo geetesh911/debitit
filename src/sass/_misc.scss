@@ -1,0 +1,410 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap");
+
+.content {
+  border-left: 0.5px solid $border-color;
+  border-right: 0.5px solid $border-color;
+  padding: 0;
+  position: relative;
+  min-height: 100vh;
+}
+
+.button {
+  display: block;
+  text-align: center;
+  text-transform: capitalize;
+  padding: 7px 20px;
+  border-radius: 25px;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.filled-button {
+  background-color: $hover-color;
+  color: $text-color-dark;
+  text-decoration: none;
+  &:hover {
+    transition: all 0.4s ease;
+    background-color: $filled-button-hover-color;
+  }
+}
+
+.transparent-button {
+  border: 1px solid $hover-color;
+  background-color: $transparent-button-color;
+  color: $text-color-dark;
+  text-decoration: none;
+  &:hover {
+    transition: all 0.4s ease;
+    background-color: $transparent-button-hover-color;
+  }
+}
+
+.dr-input {
+  margin-top: 30px;
+  position: relative;
+  .form-input {
+    position: relative;
+    height: 55px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: $input-background-color;
+    padding: 10px;
+    &:first-of-type {
+      margin-top: 10px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding-top: 12px;
+      border: none;
+      outline: none;
+      background-color: #294056;
+      color: $text-color-dark;
+
+      &:focus + .label .label-content,
+      &:valid + .label .label-content {
+        // &:read-only + .label .label-content {
+        transform: translateY(-90%);
+        font-size: 12px;
+        font-weight: 500;
+        color: $hover-color;
+      }
+      &:focus + .label::after,
+      &:valid + .label {
+        // &:read-only + .label::after {
+        transform: translateX(0%);
+      }
+    }
+    .label {
+      position: absolute;
+      margin-bottom: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-transform: capitalize;
+      font-size: 15px;
+      font-weight: 500;
+      pointer-events: none;
+      border-bottom: 1px solid $hover-color;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        height: 100%;
+        width: 100%;
+        border-bottom: 2px solid $hover-color;
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+      }
+      .label-content {
+        color: $text-dim-color-dark;
+        position: absolute;
+        bottom: 17px;
+        left: 10px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+  .setAlert {
+    .label {
+      border-bottom: 2px solid $alert-color !important;
+      transition: all 0.2s ease;
+      &::after {
+        transition: all 0.2s ease;
+        border-bottom: 2px solid $alert-color !important;
+      }
+    }
+    .label-content {
+      transition: all 0.2s ease;
+      color: $alert-color !important;
+    }
+  }
+  .alert-msg,
+  .helper-text {
+    transition: all 0.2s ease;
+    font-size: 13px;
+    position: absolute;
+    left: 10px;
+    color: $alert-color;
+    margin-bottom: 0;
+  }
+  .helper-text {
+    left: auto;
+    right: 10px;
+    color: $hover-color;
+  }
+}
+
+.dr-select {
+  position: relative;
+  margin-top: 30px;
+  width: 100%;
+  background-color: $input-background-color;
+  height: 55px;
+  border-radius: 5px;
+  padding: 25px 10px;
+  border-bottom: 1px solid $hover-color;
+
+  .select-label {
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $hover-color;
+  }
+  .select-area {
+    // padding: 0 15px 0 0;
+    select {
+      width: 100%;
+      border-radius: 5px;
+      background-color: $input-background-color;
+      border: none;
+      color: $text-color-dark;
+      outline: none;
+      appearance: none;
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+    &::after {
+      content: "\f078";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 600;
+      position: absolute;
+      right: 15px;
+      pointer-events: none;
+    }
+  }
+}
+.select-alert {
+  border-bottom: 1px solid $alert-color;
+  transition: all 0.2s ease;
+  .select-label {
+    transition: all 0.2s ease;
+    color: $alert-color;
+  }
+  .select-alert-msg {
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: $alert-color;
+    position: absolute;
+    margin-top: 4px;
+    right: 0;
+  }
+}
+
+.seperator {
+  background-color: $seperator-color;
+  height: 10px;
+  width: 100%;
+}
+
+.page-heading {
+  position: fixed;
+  z-index: 50;
+  background-color: $body-background-color;
+  // margin-left: -1px;
+  width: calc(11 * 83.2px);
+  padding: 10px 20px;
+  height: 50px;
+  font-size: 20px;
+  border-bottom: 0.5px solid $border-color;
+  border-left: 0.5px solid $border-color;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+
+.not-found {
+  text-align: center;
+  .not-found-text {
+    font-size: 23px;
+    font-weight: bold;
+    padding: 39px 10px;
+  }
+  .not-found-subtext {
+    font-size: 15px;
+  }
+}
+
+.dr-toast,
+.dr-mobile-toast {
+  .toast-header,
+  .toast {
+    background-color: $div-background-color;
+  }
+  .close {
+    color: $text-color-dark;
+    outline: none;
+  }
+  .toast-body {
+    background-color: $hover-color;
+    text-align: center;
+  }
+}
+
+.toast-info {
+  .toast-body {
+    background-color: $hover-color;
+    text-align: center;
+  }
+}
+.toast-danger {
+  .toast-body {
+    background-color: $alert-color;
+    text-align: center;
+  }
+}
+
+.dr-toast {
+  .toast {
+    position: absolute;
+    z-index: 999;
+    top: 10px;
+    right: 70px;
+  }
+  .btn {
+    position: absolute;
+    z-index: 20;
+  }
+}
+.dr-mobile-toast {
+  display: none;
+  .toast {
+    display: none;
+  }
+}
+
+.dr-vertical-table {
+  margin-top: 20px;
+  margin-bottom: 0;
+  background-color: $div-background-color;
+  border-radius: 10px;
+  border: none;
+  tbody {
+    border: none;
+    border-radius: 10px;
+    td {
+      text-transform: capitalize;
+      width: 200px;
+    }
+    th {
+      color: $hover-color;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .dr-toast {
+    .toast {
+      display: none;
+    }
+  }
+  .dr-mobile-toast {
+    display: block;
+    .toast {
+      display: block;
+      position: absolute;
+      z-index: 999;
+      // top: 10px;
+      right: 0;
+      left: 0;
+      bottom: 60px;
+      margin: auto;
+      width: 250px;
+      border-radius: 8px;
+    }
+    .btn {
+      position: absolute;
+      z-index: 200;
+      top: 20px;
+    }
+  }
+  .dr-vertical-table {
+    tbody {
+      td {
+        width: 120px;
+      }
+    }
+  }
+}
+
+// CSS Transition Group
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+@media (min-width: 540px) {
+  .page-heading {
+    width: calc(5.4 * 83.333333px - 2px);
+  }
+  .dr-vertical-table {
+    tbody {
+      td {
+        width: 150px;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .page-heading {
+    width: calc(7.5 * 79.8px);
+  }
+  .dr-toast {
+    .toast {
+      right: 40px;
+    }
+  }
+  .dr-vertical-table {
+    tbody {
+      td {
+        width: 150px;
+      }
+    }
+  }
+}
+@media (min-width: 992px) {
+  .page-heading {
+    width: calc(9.7 * 82.3px);
+  }
+  .dr-toast {
+    .toast {
+      right: 50px;
+    }
+  }
+  .dr-vertical-table {
+    tbody {
+      td {
+        width: 200px;
+      }
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .page-heading {
+    width: calc(11 * 83.33333px - 2px);
+  }
+  .dr-toast {
+    .toast {
+      right: 70px;
+    }
+  }
+}

@@ -1,0 +1,53 @@
+// mixins
+@mixin center {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register,
+.login {
+  @include center();
+  width: 100%;
+  position: relative;
+  background-color: $body-background-color;
+  .form-area {
+    height: 90%;
+    width: 600px;
+    background-color: $div-background-color;
+    border-radius: 20px;
+    padding: 20px;
+    .logo {
+      text-align: center;
+      .brand-img {
+        height: 40px;
+        width: 40px;
+      }
+    }
+    .form {
+      margin: 30px 0 0;
+      padding: 0 20px;
+      .text {
+        font-size: 23px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .submit-button {
+        margin: 30px 0 0 0;
+        width: 100%;
+        float: right;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .register,
+  .login {
+    .form-area {
+      background-color: transparent !important;
+    }
+  }
+}

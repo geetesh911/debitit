@@ -1,0 +1,66 @@
+.accordion {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .accordion {
+    display: block;
+    .card {
+      background-color: $body-background-color;
+      border: 0;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(211, 211, 211, 0.2);
+
+      .card-header {
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        text-align: left;
+        .accordian-heading {
+          font-size: 14px;
+          display: inline;
+          color: white;
+        }
+      }
+      .nav-icon {
+        position: absolute;
+        display: inline-block !important;
+        right: 10px;
+        fill: $text-dim-color-dark;
+        margin-top: 2px;
+        height: 18px;
+        width: 18px;
+      }
+      .btn-link {
+        font-size: 14px;
+        display: inline-block;
+        text-align: left;
+        color: white;
+        background-color: $body-background-color;
+        border-radius: 0;
+        border: 0;
+        padding: 15px 15px;
+        text-decoration: none;
+        border: 0.5px solid rgba(211, 211, 211, 0.2);
+        border-left: none;
+        border-right: none;
+        width: 100%;
+        height: 100%;
+      }
+      .collapsed {
+        background-color: $body-background-color;
+        border: 0.5px solid rgba(211, 211, 211, 0.2);
+        &:hover {
+          background-color: $active-background-color;
+        }
+      }
+      .shown {
+        background-color: $active-background-color;
+        border-bottom: 2px solid rgba($hover-color, 1);
+      }
+      .show ~ div {
+        height: 100px;
+      }
+    }
+  }
+}

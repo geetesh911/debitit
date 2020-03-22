@@ -1,0 +1,120 @@
+// mixins
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home {
+  height: 100vh;
+  width: 100vw;
+  .usp {
+    @include center();
+    height: 94vh;
+    background-image: url("https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80");
+    background-size: 100vw 100vh;
+    background-position: center;
+
+    .usp-content {
+      padding: 0 15px;
+      ul {
+        li {
+          .usp-list {
+            display: flex;
+            .usp-list-img {
+              height: 20px;
+              width: 20px;
+              margin-right: 10px;
+            }
+            .list-text {
+              margin-top: 2px;
+            }
+          }
+          padding: 20px 0;
+          font-size: 19px;
+          font-weight: 700;
+          list-style: none;
+        }
+      }
+    }
+  }
+  .links {
+    @include center();
+    height: 94vh;
+
+    .links-content {
+      padding: 15px;
+      .brand-img {
+        height: 40px;
+        width: 40px;
+        margin: 10px 0;
+      }
+      .tagline {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Ubuntu, "Helvetica Neue", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        margin: 0 0 40px;
+      }
+      .msg {
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .signup-button,
+      .login-button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 25px;
+        font-weight: 700;
+      }
+      a {
+        text-decoration: none;
+      }
+      .signup-button {
+        background-color: $hover-color;
+        color: $text-color-dark;
+        text-decoration: none;
+        &:hover {
+          background-color: $filled-button-hover-color;
+        }
+      }
+      .login-button {
+        border: 1px solid $hover-color;
+        background-color: $transparent-button-color;
+        color: $text-color-dark;
+        text-decoration: none;
+        &:hover {
+          background-color: $transparent-button-hover-color;
+        }
+      }
+    }
+  }
+  .footer {
+    @include center();
+    height: 6vh;
+    font-size: 13px;
+    color: $text-dim-color-dark;
+  }
+}
+@media (min-width: 992px) {
+  .home {
+    .usp,
+    .links {
+      width: 100vw;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .home {
+    .usp {
+      height: 40vh;
+    }
+    .links {
+      height: 54vh !important;
+    }
+  }
+}
