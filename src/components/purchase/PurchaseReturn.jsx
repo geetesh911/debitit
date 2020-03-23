@@ -299,7 +299,7 @@ const PurchaseReturn = ({
 };
 
 const mapStateToProps = state => ({
-  purchase: state.purchase,
+  purchase: state.transaction.purchase,
   alert: state.alert
 });
 

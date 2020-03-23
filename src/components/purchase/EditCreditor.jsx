@@ -118,7 +118,7 @@ const EditCreditor = ({
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.purchase
+  purchase: state.transaction.purchase
 });
 
 export default connect(mapStateToProps, {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { addSales } from "../../actions/salesAction";
 import {
   getProducts,
-  addExistingPurchase,
   filterExistingPurchase,
   clearFilterExistingPurchase
 } from "../../actions/purchaseAction";
@@ -10,36 +10,34 @@ import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 
-const PurchaseExistingProduct = ({
+const AddSales = ({
   purchase: {
     products,
-    creditors,
     filtered: { purchaseExistingProduct }
   },
+  sales: { sales, customers },
   getProducts,
-  addExistingPurchase,
+  addSales,
   filterExistingPurchase,
   clearFilterExistingPurchase
 }) => {
   const [formData, setFormData] = useState({
     payment: "cash",
     quantity: "",
-    perPieceCost: "",
-    perPieceSellingPrice: "",
+    price: "",
     otherExpenses: "0",
-    creditorId: "",
+    customerId: "",
     product: "",
     search: "",
     disabled: false,
     productOptions: null,
     setAlert: {
       product: false,
-      creditorId: false,
-      perPieceCost: false,
-      perPieceSellingPrice: false,
+      customerId: false,
+      price: false,
       otherExpenses: false
     },
-    showCreditors: false
+    showCustomers: false
   });
 
   const [loading, setLoading] = useState(false);
@@ -47,16 +45,15 @@ const PurchaseExistingProduct = ({
   const {
     payment,
     quantity,
-    perPieceCost,
-    perPieceSellingPrice,
-    creditorId,
+    price,
+    customerId,
     otherExpenses,
     product,
     search,
     disabled,
     setAlert,
     productOptions,
-    showCreditors
+    showCustomers
   } = formData;
 
   useEffect(() => {
@@ -84,11 +81,11 @@ const PurchaseExistingProduct = ({
     if (payment === "credit")
       setFormData({
         ...formData,
-        showCreditors: true
-        // creditorId: creditors[0]._id
+        showCustomers: true
+        // customerId: creditors[0]._id
       });
     if (payment === "cash") {
-      setFormData({ ...formData, showCreditors: false, creditorId: "" });
+      setFormData({ ...formData, showCustomers: false, customerId: "" });
     }
     // eslint-disable-next-line
   }, [payment]);
@@ -106,14 +103,11 @@ const PurchaseExistingProduct = ({
   }, [product]);
 
   const onChange = e => {
-    if (
-      e.target.name === "perPieceCost" ||
-      e.target.name === "perPieceSellingPrice"
-    ) {
+    if (e.target.name === "price") {
       setFormData({
         ...formData,
-        perPieceCost: perPieceCost || "",
-        perPieceSellingPrice: perPieceSellingPrice || ""
+
+        price: price || ""
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -121,12 +115,12 @@ const PurchaseExistingProduct = ({
     if (e.target.name === "product") {
       const productData = e.target.value
         ? JSON.parse(e.target.value)
-        : { perPieceCost: "", perPieceSellingPrice: "" };
+        : { price: "" };
       setFormData({
         ...formData,
         product: e.target.value,
-        perPieceCost: productData.perPieceCost,
-        perPieceSellingPrice: productData.perPieceSellingPrice
+
+        price: productData.perPieceSellingPrice
       });
     }
     if (e.target.name === "search" && e.target.value !== "") {
@@ -142,64 +136,67 @@ const PurchaseExistingProduct = ({
     setLoading(true);
     if (product.length <= 0) {
       setFormData({ ...formData, setAlert: { ...setAlert, product: true } });
-    } else if (payment === "credit" && creditorId === "") {
-      setFormData({ ...formData, setAlert: { ...setAlert, creditorId: true } });
+    } else if (payment === "credit" && customerId === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, customerId: true } });
     } else {
-      if (creditorId.length > 0) {
-        await addExistingPurchase({
-          productName: JSON.parse(product).productName,
-          productId: JSON.parse(product)._id,
-          payment,
-          quantity: parseInt(quantity),
-          perPieceCost: parseInt(perPieceCost),
-          otherExpenses: parseInt(otherExpenses),
-          creditorId,
-          perPieceSellingPrice: parseInt(perPieceSellingPrice)
-        });
+      if (customerId.length > 0) {
+        await addSales(
+          {
+            productName: JSON.parse(product).productName,
+            productId: JSON.parse(product)._id,
+            payment,
+            quantity: parseInt(quantity),
+            otherExpenses: parseInt(otherExpenses),
+            customerId,
+            price: parseInt(price)
+          },
+          products
+        );
       } else {
-        await addExistingPurchase({
-          productName: JSON.parse(product).productName,
-          productId: JSON.parse(product)._id,
-          payment,
-          quantity: parseInt(quantity),
-          perPieceCost: parseInt(perPieceCost),
-          otherExpenses: parseInt(otherExpenses),
-          perPieceSellingPrice: parseInt(perPieceSellingPrice)
-        });
+        await addSales(
+          {
+            productName: JSON.parse(product).productName,
+            productId: JSON.parse(product)._id,
+            payment,
+            quantity: parseInt(quantity),
+
+            otherExpenses: parseInt(otherExpenses),
+            price: parseInt(price)
+          },
+          products
+        );
       }
 
       setFormData({
         ...formData,
         payment: "cash",
         quantity: "",
-        perPieceCost: "",
-        perPieceSellingPrice: "",
+        price: "",
         otherExpenses: "0",
-        creditorId: "",
+        customerId: "",
         product: "",
         search: "",
         disabled: false,
         productOptions: null,
         setAlert: {
           product: false,
-          creditorId: false,
-          perPieceCost: false,
-          perPieceSellingPrice: false,
+          customerId: false,
+          price: false,
           otherExpenses: false
         },
-        showCreditors: false
+        showCustomers: false
       });
     }
     setLoading(false);
   };
 
-  const creditorsOptions = () => {
+  const customersOptions = () => {
     let options = [];
-    creditors.forEach(creditor => {
+    customers.forEach(customer => {
       let option = {};
 
-      option.name = creditor.name;
-      option.value = creditor._id;
+      option.name = customer.name;
+      option.value = customer._id;
 
       options.push(option);
     });
@@ -219,9 +216,9 @@ const PurchaseExistingProduct = ({
   };
 
   return (
-    <div className="purchase-new-content">
-      <div className="heading">Add a Purchase</div>
-      <div className="purchase-form">
+    <div className="sale-new-content">
+      <div className="heading">Add a Sale</div>
+      <div className="sale-form">
         <form onSubmit={onSubmit}>
           {products && (
             <Input
@@ -256,14 +253,14 @@ const PurchaseExistingProduct = ({
             value={payment}
             onChange={onChange}
           />
-          {showCreditors && creditors && (
+          {showCustomers && customers && (
             <Select
               label="Creditor*"
-              options={creditorsOptions()}
-              id="creditorId"
-              value={creditorId}
+              options={customersOptions()}
+              id="customerId"
+              value={customerId}
               first={true}
-              alert={setAlert.creditorId}
+              alert={setAlert.customerId}
               alertMsg="Choose a creditor"
               onChange={onChange}
             />
@@ -277,24 +274,14 @@ const PurchaseExistingProduct = ({
             onChange={onChange}
           />
           <Input
-            name="perPieceCost"
-            label="Per Piece Cost"
+            name="price"
+            label="Price"
             type="number"
-            value={perPieceCost}
+            value={price}
             min="1"
             onChange={onChange}
-            alert={setAlert.perPieceCost}
-            alertMsg="Cost price is required"
-          />
-          <Input
-            name="perPieceSellingPrice"
-            label="Per Piece Selling Price"
-            type="number"
-            value={perPieceSellingPrice}
-            min="1"
-            onChange={onChange}
-            alert={setAlert.perPieceSellingPrice}
-            alertMsg="Selling price is required"
+            alert={setAlert.price}
+            alertMsg="Price is required"
           />
           <Input
             name="otherExpenses"
@@ -312,12 +299,13 @@ const PurchaseExistingProduct = ({
 };
 
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  sales: state.transaction.sales
 });
 
 export default connect(mapStateToProps, {
-  addExistingPurchase,
+  addSales,
   getProducts,
   filterExistingPurchase,
   clearFilterExistingPurchase
-})(PurchaseExistingProduct);
+})(AddSales);

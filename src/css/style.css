@@ -599,19 +599,60 @@
   }
 }
 
-.purchase .side-nav-col .nav-heading {
+.side-nav-col .nav-heading {
   font-size: 19px;
   font-weight: 700;
   padding: 10px 10px;
 }
 
-.purchase .side-content .purchase-new-content .heading,
-.purchase .card-body .purchase-new-content .heading {
+.side-content .heading,
+.card-body .heading {
   font-size: 25px;
   font-weight: 700;
 }
 
-.purchase .submit-button {
+.submit-button {
+  margin-top: 30px;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .sales {
+    margin-top: 50px;
+  }
+  .sales .row {
+    padding: 15px 15px 60px;
+  }
+  .sales .tab-content {
+    display: none;
+  }
+  .side-content {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sales {
+    margin-top: 50px;
+  }
+  .side-content .active {
+    padding: 10px 15px;
+  }
+}
+
+.sales .side-nav-col .nav-heading {
+  font-size: 19px;
+  font-weight: 700;
+  padding: 10px 10px;
+}
+
+.sales .side-content .sales-new-content .heading,
+.sales .card-body .sales-new-content .heading {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.sales .submit-button {
   margin-top: 30px;
   width: 100%;
 }

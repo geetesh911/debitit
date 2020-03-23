@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
-import { addCreditor } from "../../actions/purchaseAction";
+import { addCustomer } from "../../actions/salesAction";
 
-const AddCreditor = ({ addCreditor }) => {
+const AddCustomer = ({ addCustomer }) => {
   const [formData, setFormData] = useState({
     name: "",
-    contact: "",
+    mobile: "",
     setAlert: {
       name: false,
-      contact: false
+      mobile: false
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  const { name, contact, setAlert } = formData;
+  const { name, mobile, setAlert } = formData;
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,9 +27,9 @@ const AddCreditor = ({ addCreditor }) => {
 
     setLoading(true);
 
-    await addCreditor({
+    await addCustomer({
       name,
-      contact
+      mobile
     });
 
     setLoading(false);
@@ -37,33 +37,33 @@ const AddCreditor = ({ addCreditor }) => {
     setFormData({
       ...formData,
       name: "",
-      contact: "",
-      setAlert: { name: false, contact: false }
+      mobile: "",
+      setAlert: { name: false, mobile: false }
     });
   };
 
   return (
-    <div className="purchase-new-content">
-      <div className="heading">Add a Creditor</div>
-      <div className="purchase-form">
+    <div className="sales-new-content">
+      <div className="heading">Add a Customer</div>
+      <div className="sales-form">
         <form onSubmit={onSubmit}>
           <Input
             name="name"
-            label="Creditor Name*"
+            label="Customer Name*"
             value={name}
             onChange={onChange}
             alert={setAlert.name}
-            alertMsg="Creditor name is required"
+            alertMsg="Customer name is required"
           />
           <Input
-            name="contact"
-            label="Creditor Mobile*"
-            value={contact}
+            name="mobile"
+            label="Customer Mobile*"
+            value={mobile}
             onChange={onChange}
             minLength="10"
             maxLength="10"
-            alert={setAlert.contact}
-            alertMsg="Creditor mobile is required"
+            alert={setAlert.mobile}
+            alertMsg="Customer mobile is required"
           />
           <SaveButton label="Add" loading={loading} />
         </form>
@@ -72,9 +72,9 @@ const AddCreditor = ({ addCreditor }) => {
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  sales: state.transaction.sales
 });
 
 export default connect(mapStateToProps, {
-  addCreditor
-})(AddCreditor);
+  addCustomer
+})(AddCustomer);

@@ -38,17 +38,15 @@ import {
   FILTER_EDIT_PRODUCT,
   FILTER_DELETE_PRODUCT,
   CLEAR_FILTER_DELETE_PRODUCT,
-  FILTER_PURCHASE_RETURN
+  FILTER_PURCHASE_RETURN,
+  CLEAR_FILTER_PURCHASE_RETURN
 } from "../actions/types";
 import axios from "axios";
-import { CLEAR_FILTER_PURCHASE_RETURN } from "./types";
 
 let url = "";
 if (process.env.NODE_ENV !== "production") {
-  console.log("dev");
   url = "http://localhost:5000/api";
 } else {
-  console.log("prod");
   url = "https://debitit-api.herokuapp.com/api";
 }
 
@@ -123,6 +121,7 @@ export const getPurchaseUsingProduct = productName => async dispatch => {
   }
 };
 
+// add purchase return
 export const addPurchaseReturn = formData => async dispatch => {
   const config = {
     headers: {
@@ -262,7 +261,7 @@ export const deleteCreditor = id => async dispatch => {
   }
 };
 
-// delete creditor
+// delete product
 export const deleteProduct = id => async dispatch => {
   try {
     await axios.delete(`${url}/product/${id}`);

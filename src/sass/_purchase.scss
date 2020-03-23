@@ -25,25 +25,21 @@
   }
 }
 
-.purchase {
-  .side-nav-col {
-    .nav-heading {
-      font-size: 19px;
-      font-weight: 700;
-      padding: 10px 10px;
-    }
+.side-nav-col {
+  .nav-heading {
+    font-size: 19px;
+    font-weight: 700;
+    padding: 10px 10px;
   }
-  .side-content,
-  .card-body {
-    .purchase-new-content {
-      .heading {
-        font-size: 25px;
-        font-weight: 700;
-      }
-    }
+}
+.side-content,
+.card-body {
+  .heading {
+    font-size: 25px;
+    font-weight: 700;
   }
-  .submit-button {
-    margin-top: 30px;
-    width: 100%;
-  }
+}
+.submit-button {
+  margin-top: 30px;
+  width: 100%;
 }

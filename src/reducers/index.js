@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-import purchaseReducer from "./purchaseReducer";
+import transactionReducer from "./transactionReducer";
 import alertReducer from "./alertReducer";
 
 export default combineReducers({
   auth: authReducer,
-  purchase: purchaseReducer,
+  transaction: transactionReducer,
   alert: alertReducer
 });

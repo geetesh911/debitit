@@ -104,7 +104,7 @@ const PurchaseNewProduct = ({
         quantity: "",
         perPieceCost: "",
         perPieceSellingPrice: "",
-        otherExpenses: "",
+        otherExpenses: "0",
         creditorId: "",
         setAlert: {
           productName: false,
@@ -210,7 +210,7 @@ const PurchaseNewProduct = ({
 };
 
 const mapStateToProps = state => ({
-  purchase: state.purchase
+  purchase: state.transaction.purchase
 });
 
 export default connect(mapStateToProps, {
