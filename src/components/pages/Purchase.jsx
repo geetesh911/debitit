@@ -141,7 +141,7 @@ export const Purchase = () => {
                   seperator: true,
                   firstOption: {
                     name: "sidetab-purchase-return",
-                    label: "PurchaseReturn"
+                    label: "Purchase Return"
                   }
                 }
               ]}

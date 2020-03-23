@@ -1,4 +1,5 @@
 import {
+  // customers
   GET_CUSTOMER,
   GET_CUSTOMER_FAILED,
   GET_CUSTOMERS,
@@ -9,8 +10,17 @@ import {
   DELETE_CUSTOMER_FAILED,
   EDIT_CUSTOMER,
   EDIT_CUSTOMER_FAILED,
+
+  // sales
   ADD_SALES,
-  ADD_SALES_FAILED
+  ADD_SALES_FAILED,
+  CLEAR_SALES_ERRORS,
+
+  // filter
+  FILTER_ADD_SALES,
+  CLEAR_FILTER_ADD_SALES,
+  FILTER_SALES_RETURN,
+  CLEAR_FILTER_SALES_RETURN
 } from "./types";
 import axios from "axios";
 
@@ -122,9 +132,37 @@ export const addSales = formData => async dispatch => {
       payload: { res: res.data, productId: formData.productId }
     });
   } catch (err) {
+    console.log(err.response.data.msg);
     dispatch({
       type: ADD_SALES_FAILED,
       payload: err.response.data.msg
     });
   }
+};
+
+// filter add sales
+export const filterAddSales = text => dispatch => {
+  dispatch({ type: FILTER_ADD_SALES, payload: text });
+};
+
+// clear add sales filter
+export const clearFilterAddSales = text => dispatch => {
+  dispatch({ type: CLEAR_FILTER_ADD_SALES });
+};
+
+// filter add sales
+export const filterSalesReturn = text => dispatch => {
+  dispatch({ type: FILTER_SALES_RETURN, payload: text });
+};
+
+// clear add sales filter
+export const clearFilterSalesReturn = text => dispatch => {
+  dispatch({ type: CLEAR_FILTER_SALES_RETURN });
+};
+
+// Clear Errors
+export const clearSalesErrors = () => {
+  return {
+    type: CLEAR_SALES_ERRORS
+  };
 };

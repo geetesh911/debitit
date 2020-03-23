@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { addSales } from "../../actions/salesAction";
 import {
-  getProducts,
-  filterExistingPurchase,
-  clearFilterExistingPurchase
-} from "../../actions/purchaseAction";
+  addSales,
+  clearSalesErrors,
+  filterAddSales,
+  clearFilterAddSales
+} from "../../actions/salesAction";
+import { getProducts } from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
 const AddSales = ({
-  purchase: {
-    products,
-    filtered: { purchaseExistingProduct }
+  purchase: { products },
+  sales: {
+    customers,
+    error,
+    filtered: { addSale }
   },
-  sales: { sales, customers },
   getProducts,
   addSales,
-  filterExistingPurchase,
-  clearFilterExistingPurchase
+  filterAddSales,
+  clearFilterAddSales,
+  clearSalesErrors,
+  Alert
 }) => {
   const [formData, setFormData] = useState({
     payment: "cash",
@@ -59,9 +64,9 @@ const AddSales = ({
   useEffect(() => {
     getProducts();
 
-    if (purchaseExistingProduct) {
+    if (addSale) {
       let options = [];
-      purchaseExistingProduct.forEach(product => {
+      addSale.forEach(product => {
         let option = {};
         option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
         option.value = JSON.stringify(product);
@@ -70,12 +75,12 @@ const AddSales = ({
       });
       setFormData({ ...formData, productOptions: options });
     }
-    if (!purchaseExistingProduct) {
+    if (!addSale) {
       setFormData({ ...formData, productOptions: null });
     }
 
     // eslint-disable-next-line
-  }, [purchaseExistingProduct]);
+  }, [addSale]);
 
   useEffect(() => {
     if (payment === "credit")
@@ -99,8 +104,15 @@ const AddSales = ({
     else {
       setFormData({ ...formData, disabled: false });
     }
+
+    if (error === "Enough stock is not available") {
+      console.log("run");
+      Alert(error, "danger");
+      clearSalesErrors();
+    }
+
     // eslint-disable-next-line
-  }, [product]);
+  }, [product, error]);
 
   const onChange = e => {
     if (e.target.name === "price") {
@@ -124,9 +136,9 @@ const AddSales = ({
       });
     }
     if (e.target.name === "search" && e.target.value !== "") {
-      filterExistingPurchase(e.target.value);
+      filterAddSales(e.target.value);
     } else {
-      clearFilterExistingPurchase();
+      clearFilterAddSales();
     }
   };
 
@@ -134,6 +146,7 @@ const AddSales = ({
     e.preventDefault();
 
     setLoading(true);
+
     if (product.length <= 0) {
       setFormData({ ...formData, setAlert: { ...setAlert, product: true } });
     } else if (payment === "credit" && customerId === "") {
@@ -166,7 +179,6 @@ const AddSales = ({
           products
         );
       }
-
       setFormData({
         ...formData,
         payment: "cash",
@@ -306,6 +318,8 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addSales,
   getProducts,
-  filterExistingPurchase,
-  clearFilterExistingPurchase
+  filterAddSales,
+  clearFilterAddSales,
+  clearSalesErrors,
+  Alert
 })(AddSales);

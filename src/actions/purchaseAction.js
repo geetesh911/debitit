@@ -312,7 +312,7 @@ export const filterProduct = text => dispatch => {
   dispatch({ type: FILTER_CARDS, payload: text });
 };
 
-// Filter product
+// Filter existing purchase
 export const filterExistingPurchase = text => dispatch => {
   dispatch({ type: FILTER_PURCHASE_EXISTING_PRODUCT, payload: text });
 };

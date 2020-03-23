@@ -2,14 +2,11 @@ import React from "react";
 import { Heading } from "./../common/Heading";
 import { RouteSideNav } from "../common/RouteSideNav";
 import { MobileAccordian } from "../common/MobileAccordian";
-import EditProduct from "../purchase/EditProduct";
-import DeleteProduct from "../purchase/DeleteProduct";
-import PurchaseReturn from "./../purchase/PurchaseReturn";
-import ProductDetails from "../purchase/ProductDetails";
 import AddCustomer from "../sales/AddCustomer";
 import EditCustomer from "../sales/EditCustomer";
 import DeleteCustomer from "../sales/DeleteCustomer";
 import AddSales from "../sales/AddSales";
+import SalesReturn from "../sales/SalesReturn";
 
 export const Sales = () => {
   return (
@@ -27,27 +24,6 @@ export const Sales = () => {
                       heading: "Add Sale",
                       body: <AddSales />,
                       name: "add_sale"
-                    }
-                  ]
-                },
-                {
-                  heading: "Products",
-                  seperator: true,
-                  arr: [
-                    {
-                      heading: "Product Details",
-                      body: <ProductDetails />,
-                      name: "product_details"
-                    },
-                    {
-                      heading: "Edit Product",
-                      body: <EditProduct />,
-                      name: "edit_product"
-                    },
-                    {
-                      heading: "Delete Product",
-                      body: <DeleteProduct />,
-                      name: "delete_product"
                     }
                   ]
                 },
@@ -74,13 +50,13 @@ export const Sales = () => {
                 },
 
                 {
-                  heading: "Purcahse Return",
+                  heading: "Sales Return",
                   seperator: true,
                   arr: [
                     {
-                      heading: "Purcahse Return",
-                      body: <PurchaseReturn />,
-                      name: "purchase_return"
+                      heading: "Sales Return",
+                      body: <SalesReturn />,
+                      name: "sales_return"
                     }
                   ]
                 }
@@ -92,25 +68,6 @@ export const Sales = () => {
                   heading: "Add Sale",
                   firstOption: { name: "sidetab-add-sale", label: "Add Sale" },
                   firstActive: true
-                },
-
-                {
-                  heading: "Products",
-                  seperator: true,
-                  firstOption: {
-                    name: "sidetab-product-details",
-                    label: "Product Details"
-                  },
-                  otherOptions: [
-                    {
-                      name: "sidetab-edit-product",
-                      label: "Edit Product"
-                    },
-                    {
-                      name: "sidetab-delete-product",
-                      label: "Delete Product"
-                    }
-                  ]
                 },
                 {
                   heading: "Customers",
@@ -128,11 +85,11 @@ export const Sales = () => {
                   ]
                 },
                 {
-                  heading: "Purchase Return",
+                  heading: "Sales Return",
                   seperator: true,
                   firstOption: {
-                    name: "sidetab-purchase-return",
-                    label: "PurchaseReturn"
+                    name: "sidetab-sales-return",
+                    label: "Sales Return"
                   }
                 }
               ]}
@@ -175,35 +132,11 @@ export const Sales = () => {
                 </div>
                 <div
                   className="tab-pane fade show"
-                  id="sidetab-product-details"
+                  id="sidetab-sales-return"
                   role="tabpanel"
-                  aria-labelledby="product-details-tab"
+                  aria-labelledby="sales-return-tab"
                 >
-                  <ProductDetails />
-                </div>
-                <div
-                  className="tab-pane fade show"
-                  id="sidetab-edit-product"
-                  role="tabpanel"
-                  aria-labelledby="edit-product-tab"
-                >
-                  <EditProduct />
-                </div>
-                <div
-                  className="tab-pane fade show"
-                  id="sidetab-delete-product"
-                  role="tabpanel"
-                  aria-labelledby="delete-product-tab"
-                >
-                  <DeleteProduct />
-                </div>
-                <div
-                  className="tab-pane fade show"
-                  id="sidetab-purchase-return"
-                  role="tabpanel"
-                  aria-labelledby="purchase-return-tab"
-                >
-                  <PurchaseReturn />
+                  <SalesReturn />
                 </div>
               </div>
             </div>

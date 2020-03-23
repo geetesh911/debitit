@@ -66,7 +66,16 @@ import {
 
   // sales
   ADD_SALES,
-  ADD_SALES_FAILED
+  ADD_SALES_FAILED,
+
+  // sales error
+  CLEAR_SALES_ERRORS,
+
+  // sales filter
+  FILTER_ADD_SALES,
+  CLEAR_FILTER_ADD_SALES,
+  FILTER_SALES_RETURN,
+  CLEAR_FILTER_SALES_RETURN
 } from "../actions/types";
 
 const initialState = {
@@ -91,6 +100,10 @@ const initialState = {
     customers: [],
     customer: [],
     sales: [],
+    filtered: {
+      addSale: null,
+      saleReturn: null
+    },
     error: null
   }
 };
@@ -493,6 +506,64 @@ export default (state = initialState, action) => {
               };
             else return product;
           })
+        }
+      };
+
+    // sales
+    case FILTER_ADD_SALES:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: {
+            ...state.sales.filtered,
+            addSale: state.purchase.products.filter(product => {
+              const regex = new RegExp(`${action.payload}`, "gi");
+              return product.productName.match(regex);
+            })
+          }
+        }
+      };
+
+    case CLEAR_FILTER_ADD_SALES:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: { ...state.sales.fileterd, addSale: null }
+        }
+      };
+    case FILTER_SALES_RETURN:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: {
+            ...state.sales.filtered,
+            saleReturn: state.purchase.products.filter(product => {
+              const regex = new RegExp(`${action.payload}`, "gi");
+              return product.productName.match(regex);
+            })
+          }
+        }
+      };
+
+    case CLEAR_FILTER_SALES_RETURN:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: { ...state.sales.fileterd, saleReturn: null }
+        }
+      };
+
+    // error
+    case CLEAR_SALES_ERRORS:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          error: null
         }
       };
 
