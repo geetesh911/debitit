@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import {
   AccountsIcon,
   SalesIcon,
@@ -6,15 +6,16 @@ import {
   OthersIcon
 } from "./NavbarIcons";
 import { NavLink } from "../common/NavLink";
+import { connect } from "react-redux";
+import { loadUser } from "./../../actions/authAction";
 
-export const MobileNavbar = () => {
-  const [activeIcons, setActiveIcons] = useState({
-    home: false,
-    accounts: false,
-    sales: false,
-    purchase: false,
-    others: false
-  });
+const MobileNavbar = ({
+  auth: { isAuthenticated },
+  loadUser,
+  activeIcons,
+  setActiveIcons
+}) => {
+  const { accounts, sales, purchase, others } = activeIcons;
 
   const routeChange = path => {
     let pathname = path.split("/");
@@ -24,18 +25,18 @@ export const MobileNavbar = () => {
       pathname[1] === "purchase" ||
       pathname[1] === "others"
     ) {
-      document.getElementById(`mobile-${pathname[1]}`).classList.add("active");
       setActiveIcons({ [pathname[1]]: true });
     }
   };
 
   useEffect(() => {
     routeChange(window.location.pathname);
+
+    // eslint-disable-next-line
   }, []);
 
   const onClick = id => {
-    document.querySelector(".active").classList.remove("active");
-    document.getElementById(id).classList.add("active");
+    document.getElementById(id).classList.add("activeNav");
     setActiveIcons({ [id]: true });
   };
 
@@ -56,6 +57,7 @@ export const MobileNavbar = () => {
             activeIcons={activeIcons}
             onClick={onClick}
             id="mobile-accounts"
+            active={accounts}
           />
         </div>
         <div className="mobile-nav-items">
@@ -64,6 +66,7 @@ export const MobileNavbar = () => {
             activeIcons={activeIcons}
             onClick={onClick}
             id="mobile-sales"
+            active={sales}
           />
         </div>
         <div className="mobile-nav-items">
@@ -72,6 +75,7 @@ export const MobileNavbar = () => {
             activeIcons={activeIcons}
             onClick={onClick}
             id="mobile-purchase"
+            active={purchase}
           />
         </div>
         <div className="mobile-nav-items">
@@ -80,9 +84,15 @@ export const MobileNavbar = () => {
             activeIcons={activeIcons}
             onClick={onClick}
             id="mobile-others"
+            active={others}
           />
         </div>
       </div>
     </Fragment>
   );
 };
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { loadUser })(MobileNavbar);

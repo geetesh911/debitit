@@ -43,7 +43,14 @@ import {
 import axios from "axios";
 import { CLEAR_FILTER_PURCHASE_RETURN } from "./types";
 
-const url = "https://debitit-api.herokuapp.com/api";
+let url = "";
+if (process.env.NODE_ENV !== "production") {
+  console.log("dev");
+  url = "http://localhost:5000/api";
+} else {
+  console.log("prod");
+  url = "https://debitit-api.herokuapp.com/api";
+}
 
 // add new purchase
 export const addNewPurchase = formData => async dispatch => {

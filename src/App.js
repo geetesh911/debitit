@@ -3,9 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import setAuthToken from "./utils/setAuthToken";
 import Register from "./components/pages/Register";
 import Login from "./components/pages/Login";
+import { Navbar } from "./components/layout/Navbar";
 import { Home } from "./components/pages/Home";
-import DesktopNavbar from "./components/layout/DesktopNavbar";
-import { MobileNavbar } from "./components/layout/MobileNavbar";
 import { Accounts } from "./components/pages/Accounts";
 import { Sales } from "./components/pages/Sales";
 import { Purchase } from "./components/pages/Purchase";
@@ -33,8 +32,7 @@ function App() {
           <div className="row">
             {localStorage.getItem("token") && (
               <Fragment>
-                <MobileNavbar />
-                <DesktopNavbar />
+                <Navbar />
               </Fragment>
             )}
             <Switch>

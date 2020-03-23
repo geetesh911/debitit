@@ -726,6 +726,8 @@
 
 .dr-nav .dr-nav-menu ul li a {
   color: #ffffff;
+  margin: 6px 0;
+  border-radius: 25px;
   font-weight: 700;
 }
 
@@ -741,7 +743,6 @@
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
-  margin: 6px 0;
   padding: 8px 20px 8px 10px;
   border-radius: 25px;
   display: -webkit-box;
@@ -796,11 +797,11 @@
   background-image: url("../assets/images/more-hover.svg");
 }
 
-.dr-nav .dr-nav-menu ul li a .active .menu-text {
+.dr-nav .dr-nav-menu ul li a .activeNav .menu-text {
   color: #1da1f2;
 }
 
-.dr-nav .dr-nav-menu ul li a .active .dr-nav-menu-icon {
+.dr-nav .dr-nav-menu ul li a .activeNav .dr-nav-menu-icon {
   fill: #1da1f2;
   color: #1da1f2;
 }
@@ -909,11 +910,11 @@
   .dr-mobile-nav .mobile-nav-items:hover .more {
     background-image: url("../assets/images/more-hover.svg");
   }
-  .dr-mobile-nav .mobile-nav-items .active .menu-text {
+  .dr-mobile-nav .mobile-nav-items .activeNav .menu-text {
     color: #1da1f2;
     font-weight: 700;
   }
-  .dr-mobile-nav .mobile-nav-items .active .dr-nav-menu-icon {
+  .dr-mobile-nav .mobile-nav-items .activeNav .dr-nav-menu-icon {
     fill: #1da1f2;
     color: #1da1f2;
   }

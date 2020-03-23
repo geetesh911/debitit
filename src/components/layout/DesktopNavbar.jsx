@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import {
   AccountsIcon,
   SalesIcon,
@@ -9,14 +9,13 @@ import { NavLink } from "../common/NavLink";
 import { connect } from "react-redux";
 import { loadUser } from "./../../actions/authAction";
 
-const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
-  const [activeIcons, setActiveIcons] = useState({
-    home: false,
-    accounts: false,
-    sales: false,
-    purchase: false,
-    others: false
-  });
+const DesktopNavbar = ({
+  auth: { isAuthenticated },
+  loadUser,
+  activeIcons,
+  setActiveIcons
+}) => {
+  const { accounts, sales, purchase, others } = activeIcons;
 
   const routeChange = path => {
     let pathname = path.split("/");
@@ -26,7 +25,7 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
       pathname[1] === "purchase" ||
       pathname[1] === "others"
     ) {
-      document.getElementById(pathname[1]).classList.add("active");
+      document.getElementById(pathname[1]).classList.add("activeNav");
       setActiveIcons({ [pathname[1]]: true });
     }
   };
@@ -34,11 +33,12 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
   useEffect(() => {
     // loadUser();
     routeChange(window.location.pathname);
+
+    // eslint-disable-next-line
   }, []);
 
   const onClick = id => {
-    document.querySelector(".active").classList.remove("active");
-    document.getElementById(id).classList.add("active");
+    document.getElementById(id).classList.add("activeNav");
     setActiveIcons({ [id]: true });
   };
 
@@ -61,6 +61,7 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
                   activeIcons={activeIcons}
                   onClick={onClick}
                   id="accounts"
+                  active={accounts}
                 />
               </li>
               <li>
@@ -69,6 +70,7 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
                   activeIcons={activeIcons}
                   onClick={onClick}
                   id="sales"
+                  active={sales}
                 />
               </li>
               <li>
@@ -77,6 +79,7 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
                   activeIcons={activeIcons}
                   onClick={onClick}
                   id="purchase"
+                  active={purchase}
                 />
               </li>
               <li>
@@ -85,6 +88,7 @@ const DesktopNavbar = ({ auth: { isAuthenticated }, loadUser }) => {
                   activeIcons={activeIcons}
                   onClick={onClick}
                   id="others"
+                  active={others}
                 />
               </li>
             </ul>

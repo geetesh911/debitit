@@ -12,7 +12,12 @@ import {
 import axios from "axios";
 import setAuthToken from "./../utils/setAuthToken";
 
-const url = "https://debitit-api.herokuapp.com/api";
+let url = "";
+if (process.env.NODE_ENV !== "production") {
+  url = "http://localhost:5000/api";
+} else {
+  url = "https://debitit-api.herokuapp.com/api";
+}
 
 export const loadUser = () => async dispatch => {
   if (localStorage.token) setAuthToken(localStorage.token);

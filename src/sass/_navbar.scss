@@ -21,6 +21,8 @@
         list-style: none;
         a {
           color: $text-color-dark;
+          margin: 6px 0;
+          border-radius: 25px;
           font-weight: 700;
           &:hover {
             text-decoration: none;
@@ -31,7 +33,7 @@
           }
           .menu-option {
             width: max-content;
-            margin: 6px 0;
+
             padding: 8px 20px 8px 10px;
             border-radius: 25px;
             display: flex;
@@ -69,7 +71,7 @@
               }
             }
           }
-          .active {
+          .activeNav {
             .menu-text {
               color: $hover-color;
             }
