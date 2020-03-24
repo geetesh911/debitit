@@ -57,6 +57,10 @@
               background-image: url("../assets/images/more.png");
               background-size: 25px 25px;
             }
+            .sale {
+              background-image: url("../assets/images/sales.svg");
+              background-size: 25px 25px;
+            }
             &:hover {
               background-color: $menu-hover-color;
               color: $hover-color;
@@ -69,6 +73,9 @@
               }
               .more {
                 background-image: url("../assets/images/more-hover.png");
+              }
+              .sale {
+                background-image: url("../assets/images/sales-hover.svg");
               }
             }
           }

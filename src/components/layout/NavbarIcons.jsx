@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import cartActive from "../../assets/images/cart-active.svg";
+import salesActive from "../../assets/images/sales-active.svg";
 import moreActive from "../../assets/images/more-active.png";
 
 export const HomeIcon = ({ active }) => {
@@ -40,9 +41,9 @@ export const SalesIcon = ({ active }) => {
   return (
     <Fragment>
       {active ? (
-        <i className="fas fa-money-bill-alt dr-nav-menu-icon"></i>
+        <img src={salesActive} alt="" className="dr-nav-menu-icon"></img>
       ) : (
-        <i className="far fa-money-bill-alt dr-nav-menu-icon"></i>
+        <div className="dr-nav-menu-icon sale"></div>
       )}
     </Fragment>
   );

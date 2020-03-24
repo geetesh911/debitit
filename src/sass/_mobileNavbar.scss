@@ -36,7 +36,7 @@
           color: $text-color-dark;
           height: 30px;
           width: 30px;
-          font-size: 25px;
+          font-size: 27px;
           display: flex;
           align-items: center;
         }
@@ -54,6 +54,12 @@
           background-image: url("../assets/images/more.png");
           background-size: 30px 30px;
         }
+        .sale {
+          margin: auto;
+          // margin-top: 5px;
+          background-image: url("../assets/images/sales.svg");
+          background-size: 30px 30px;
+        }
       }
       // &:hover {
       //   background-color: $menu-hover-color;
@@ -69,6 +75,9 @@
       //   }
       //   .more {
       //     background-image: url("../assets/images/more-hover.png");
+      //   }
+      //   .sale {
+      //     background-image: url("../assets/images/sale-hover.svg");
       //   }
       // }
       .activeNav {

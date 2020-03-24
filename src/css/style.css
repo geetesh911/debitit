@@ -820,6 +820,11 @@
   background-size: 25px 25px;
 }
 
+.dr-nav .dr-nav-menu ul li a .menu-option .sale {
+  background-image: url("../assets/images/sales.svg");
+  background-size: 25px 25px;
+}
+
 .dr-nav .dr-nav-menu ul li a .menu-option:hover {
   background-color: rgba(29, 161, 242, 0.1);
   color: #1da1f2;
@@ -836,6 +841,10 @@
 
 .dr-nav .dr-nav-menu ul li a .menu-option:hover .more {
   background-image: url("../assets/images/more-hover.png");
+}
+
+.dr-nav .dr-nav-menu ul li a .menu-option:hover .sale {
+  background-image: url("../assets/images/sales-hover.svg");
 }
 
 .dr-nav .dr-nav-menu ul li a .activeNav .menu-text {
@@ -921,7 +930,7 @@
     color: #ffffff;
     height: 30px;
     width: 30px;
-    font-size: 25px;
+    font-size: 27px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -938,6 +947,11 @@
   .dr-mobile-nav .mobile-nav-items .menu-option .more {
     margin: auto;
     background-image: url("../assets/images/more.png");
+    background-size: 30px 30px;
+  }
+  .dr-mobile-nav .mobile-nav-items .menu-option .sale {
+    margin: auto;
+    background-image: url("../assets/images/sales.svg");
     background-size: 30px 30px;
   }
   .dr-mobile-nav .mobile-nav-items .activeNav .menu-text {
