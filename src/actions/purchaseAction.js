@@ -39,7 +39,9 @@ import {
   FILTER_DELETE_PRODUCT,
   CLEAR_FILTER_DELETE_PRODUCT,
   FILTER_PURCHASE_RETURN,
-  CLEAR_FILTER_PURCHASE_RETURN
+  CLEAR_FILTER_PURCHASE_RETURN,
+  FILTER_PURCHASE,
+  CLEAR_FILTER_PURCHASE
 } from "../actions/types";
 import axios from "axios";
 
@@ -332,6 +334,11 @@ export const filterPurcahseReturn = text => dispatch => {
   dispatch({ type: FILTER_PURCHASE_RETURN, payload: text });
 };
 
+// Filter purchase products
+export const filterPurchase = text => dispatch => {
+  dispatch({ type: FILTER_PURCHASE, payload: text });
+};
+
 // Clear Filter
 export const clearFilterCards = () => dispatch => {
   dispatch({ type: CLEAR_FILTER_CARDS });
@@ -355,6 +362,11 @@ export const clearDeleteProductFilter = () => dispatch => {
 // Clear purchase return product filter
 export const clearPurchaseReturnFilter = () => dispatch => {
   dispatch({ type: CLEAR_FILTER_PURCHASE_RETURN });
+};
+
+// Clear purchase product filter
+export const clearPurchaseFilter = () => dispatch => {
+  dispatch({ type: CLEAR_FILTER_PURCHASE });
 };
 
 // Clear Errors

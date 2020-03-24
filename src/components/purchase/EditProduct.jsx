@@ -78,7 +78,8 @@ const EditProduct = ({
             productName: p.productName,
             perPieceCost: p.perPieceCost,
             perPieceSellingPrice: p.perPieceSellingPrice,
-            disabled: true
+            disabled: true,
+            search: ""
           })
       );
     } else {

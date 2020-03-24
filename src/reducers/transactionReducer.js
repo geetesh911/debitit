@@ -51,6 +51,8 @@ import {
   CLEAR_FILTER_DELETE_PRODUCT,
   FILTER_PURCHASE_RETURN,
   CLEAR_FILTER_PURCHASE_RETURN,
+  FILTER_PURCHASE,
+  CLEAR_FILTER_PURCHASE,
 
   // customers
   GET_CUSTOMERS,
@@ -96,7 +98,8 @@ const initialState = {
       purchaseExistingProduct: null,
       editProducts: null,
       deleteProducts: null,
-      purchaseReturn: null
+      purchaseReturn: null,
+      purchase: null
     },
     purchaseUsingProduct: [],
     purchaseReturn: [],
@@ -288,6 +291,23 @@ export default (state = initialState, action) => {
           }
         }
       };
+    case FILTER_PURCHASE:
+      return {
+        ...state,
+        purchase: {
+          ...state.purchase,
+          filtered: {
+            ...state.purchase.filtered,
+            purchase: state.purchase.purchaseUsingProduct.filter(purchase => {
+              const regex = new RegExp(`${action.payload}`, "gi");
+              return (
+                purchase.creditor.name.match(regex) ||
+                purchase.creditor.contact.match(regex)
+              );
+            })
+          }
+        }
+      };
     case FILTER_PURCHASE_RETURN:
       return {
         ...state,
@@ -343,6 +363,14 @@ export default (state = initialState, action) => {
         purchase: {
           ...state.purchase,
           filtered: { ...state.purchase.filtered, purchaseReturn: null }
+        }
+      };
+    case CLEAR_FILTER_PURCHASE:
+      return {
+        ...state,
+        purchase: {
+          ...state.purchase,
+          filtered: { ...state.purchase.filtered, purchase: null }
         }
       };
 

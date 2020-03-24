@@ -97,7 +97,8 @@ const PurchaseExistingProduct = ({
     if (product)
       setFormData({
         ...formData,
-        disabled: true
+        disabled: true,
+        search: ""
       });
     else {
       setFormData({ ...formData, disabled: false });

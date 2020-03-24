@@ -54,7 +54,8 @@ const DeleteProduct = ({
     if (productId)
       setFormData({
         ...formData,
-        disabled: true
+        disabled: true,
+        search: ""
       });
     else {
       setFormData({ ...formData, disabled: false });
