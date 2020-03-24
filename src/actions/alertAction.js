@@ -3,7 +3,6 @@ import { uuid } from "uuidv4";
 
 // Set Alert
 export const setAlert = (msg, type, timeout = 5000) => dispatch => {
-  console.log("called");
   const id = uuid();
   dispatch({
     type: SET_ALERT,

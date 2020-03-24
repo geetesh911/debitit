@@ -4,54 +4,64 @@ import { Select } from "../common/Select";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import {
-  getPurchases,
-  getPurchaseUsingProduct,
-  addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter
-} from "../../actions/purchaseAction";
+  getSales,
+  getSalesUsingProduct,
+  addSalesReturn,
+  filterSalesReturn,
+  clearFilterSalesReturn,
+  filterCustomer,
+  clearFilterCustomer,
+  clearSalesErrors
+} from "../../actions/salesAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
-import { clearErrors } from "./../../actions/purchaseAction";
 import convertDate from "./../../utils/convertDate";
 
 const SalesReturn = ({
-  purchase: {
-    products,
-    purchaseUsingProduct,
-    error,
-    filtered: { purchaseReturn }
+  purchase: { products },
+  sales: {
+    salesUsingProduct,
+    filtered: { saleReturn, sale },
+    error
   },
-  getPurchases,
-  getPurchaseUsingProduct,
-  addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter,
+  getSales,
+  getSalesUsingProduct,
+  addSalesReturn,
+  filterSalesReturn,
+  filterCustomer,
+  clearFilterSalesReturn,
+  clearFilterCustomer,
   Alert,
-  clearErrors
+  clearSalesErrors
 }) => {
   const [formData, setFormData] = useState({
-    perPieceCost: "",
+    price: "",
     productId: "",
-    purchaseId: "",
+    salesId: "",
     quantity: "",
     search: "",
+    searchCustomer: "",
     productOptions: null,
+    salesOptions: null,
     disabled: false,
+    disabledSearchCustomer: false,
     setAlert: {
       productId: { alert: false, msg: "" },
-      purchaseId: false,
+      salesId: false,
       productName: false,
-      perPieceCost: false
+      price: false
     }
   });
   const {
-    perPieceCost,
+    price,
     productId,
-    purchaseId,
+    salesId,
     quantity,
     search,
+    searchCustomer,
     productOptions,
+    salesOptions,
     disabled,
+    disabledSearchCustomer,
     setAlert
   } = formData;
 
@@ -60,26 +70,32 @@ const SalesReturn = ({
   useEffect(() => {
     if (productId) {
       setFormData({ ...formData, quantity: "" });
-      getPurchases();
+      getSales();
       products.filter(async p => {
         if (p._id === productId) {
           setLoading(true);
-          await getPurchaseUsingProduct(p.productName);
+          await getSalesUsingProduct(p.productName);
           setFormData({
             ...formData,
             productName: p.productName,
-            perPieceCost: p.perPieceCost,
+            price: p.perPieceSellingPrice,
             quantity: "",
             // purchaseId: "",
             disabled: true,
+            search: "",
             setAlert: { ...setAlert, productId: { alert: false, msg: "" } }
           });
-          if (productId && purchaseId) {
+          if (productId && salesId) {
             // setFormData({ ...formData, purchaseId: "" });
-            purchaseUsingProduct.filter(
+            salesUsingProduct.filter(
               p =>
-                p._id === purchaseId &&
-                setFormData({ ...formData, quantity: p.quantity })
+                p._id === salesId &&
+                setFormData({
+                  ...formData,
+                  quantity: p.quantity,
+                  searchCustomer: "",
+                  disabledSearchCustomer: true
+                })
             );
           }
           setLoading(false);
@@ -88,33 +104,33 @@ const SalesReturn = ({
     } else {
       setFormData({
         ...formData,
-        perPieceCost: "",
-        perPieceSellingPrice: "",
+        price: "",
         productId: "",
-        purchaseId: "",
+        salesId: "",
         quantity: "",
         disabled: false,
+        disabledSearchCustomer: false,
         setAlert: {
           productId: { alert: false, msg: "" },
-          purchaseId: false,
+          salesId: false,
           productName: false,
           perPieceCost: false
         }
       });
     }
 
-    if (error === "Cannot return more than purchased") {
+    if (error === "Cannot return more than sold") {
       Alert(error, "danger");
-      clearErrors();
+      clearSalesErrors();
     }
 
     //eslint-disable-next-line
-  }, [productId, purchaseId, error]);
+  }, [productId, salesId, error]);
 
   useEffect(() => {
-    if (purchaseReturn) {
+    if (saleReturn) {
       let options = [];
-      purchaseReturn.forEach(product => {
+      saleReturn.forEach(product => {
         let option = {};
         option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
         option.value = product._id;
@@ -123,27 +139,49 @@ const SalesReturn = ({
       });
       setFormData({ ...formData, productOptions: options });
     }
-    if (!purchaseReturn) {
+    if (!saleReturn) {
       setFormData({ ...formData, productOptions: null });
     }
 
     // eslint-disable-next-line
-  }, [purchaseReturn]);
+  }, [saleReturn]);
+
+  useEffect(() => {
+    if (sale) {
+      let options = [];
+      sale.forEach(s => {
+        let option = {};
+        option.name = `${s.customer.name} - ${convertDate(s.date)}`;
+        option.value = s._id;
+
+        options.push(option);
+      });
+      setFormData({ ...formData, salesOptions: options });
+    }
+    if (!sale) {
+      setFormData({ ...formData, salesOptions: null });
+    }
+
+    // eslint-disable-next-line
+  }, [sale]);
 
   const onChange = e => {
-    if (e.target.name === "perPieceCost") {
+    if (e.target.name === "price") {
       setFormData({
         ...formData,
-        perPieceCost: perPieceCost || ""
+        price: price || ""
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
       if (e.target.name === "productId") {
-        setFormData({ ...formData, productId: e.target.value, purchaseId: "" });
+        setFormData({ ...formData, productId: e.target.value, salesId: "" });
       }
       if (e.target.name === "search" && e.target.value !== "") {
-        filterPurcahseReturn(e.target.value);
-      } else clearPurchaseReturnFilter();
+        filterSalesReturn(e.target.value);
+      } else clearFilterSalesReturn();
+      if (e.target.name === "searchCustomer" && e.target.value !== "") {
+        filterCustomer(e.target.value);
+      } else clearFilterCustomer();
     }
   };
 
@@ -158,40 +196,41 @@ const SalesReturn = ({
           productId: { alert: true, msg: "Choose a product" }
         }
       });
-    } else if (purchaseUsingProduct.length <= 0) {
+    } else if (salesUsingProduct.length <= 0) {
       setFormData({
         ...formData,
         setAlert: {
           ...setAlert,
           productId: {
             alert: true,
-            msg: "No credit purchase available with this product"
+            msg: "No credit sales available with this product"
           }
         }
       });
-    } else if (purchaseId === "") {
-      setFormData({ ...formData, setAlert: { ...setAlert, purchaseId: true } });
+    } else if (salesId === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, salesId: true } });
     } else {
       setLoading(true);
-      await addPurchaseReturn({
+      await addSalesReturn({
         productId,
-        purchaseId,
+        salesId,
         quantity: parseInt(quantity),
-        perPieceCost
+        price
       });
       setFormData({
         ...formData,
-        perPieceCost: "",
-        perPieceSellingPrice: "",
+        price: "",
         productId: "",
-        purchaseId: "",
+        salesId: "",
         search: "",
+        searchCustomer: "",
         disabled: false,
+        disabledSearchCustomer: false,
         setAlert: {
           productId: { alert: false, msg: "" },
-          purchaseId: false,
+          salesId: false,
           productName: false,
-          perPieceCost: false
+          price: false
         }
       });
       setLoading(false);
@@ -210,13 +249,13 @@ const SalesReturn = ({
     return options;
   };
 
-  const purchaseOptions = () => {
+  const initialSalesOptions = () => {
     let options = [];
-    // setFormData({ ...setFormData, purchaseId: "" });
-    purchaseUsingProduct.forEach(purchase => {
+    // setFormData({ ...setFormData, salesId: "" });
+    salesUsingProduct.forEach(sales => {
       let option = {};
-      option.name = `${purchase.productName} => ${convertDate(purchase.date)}`;
-      option.value = purchase._id;
+      option.name = `${sales.customer.name} - ${convertDate(sales.date)}`;
+      option.value = sales._id;
 
       options.push(option);
     });
@@ -224,14 +263,14 @@ const SalesReturn = ({
   };
 
   return (
-    <div className="purchase-new-content">
+    <div className="sales-new-content">
       <div className="heading">Sales Return</div>
-      <div className="purchase-form">
+      <div className="sales-form">
         <form onSubmit={onSubmit}>
           {products && (
             <Input
               name="search"
-              id="purchaseReturnSearch"
+              id="salesReturnSearch"
               label="Search Product"
               value={search}
               min="1"
@@ -255,19 +294,30 @@ const SalesReturn = ({
               onChange={onChange}
             />
           )}
-          {productId && purchaseUsingProduct.length > 0 && (
+          {productId && salesUsingProduct.length > 0 && (
             <Fragment>
+              <Input
+                name="searchCustomer"
+                id="customerSearch"
+                label="Search Customer"
+                value={searchCustomer}
+                min="1"
+                disabled={disabledSearchCustomer}
+                onChange={onChange}
+                helperText="Filter customer by name or mobile"
+                required={false}
+              />
               <Select
-                label="Purchase*"
-                options={purchaseOptions()}
-                id="purchaseId"
-                value={purchaseId}
+                label="Sales*"
+                options={salesOptions ? salesOptions : initialSalesOptions()}
+                id="salesId"
+                value={salesId}
                 first={true}
-                alert={setAlert.purchaseId}
-                alertMsg="Choose a purchase"
+                alert={setAlert.salesId}
+                alertMsg="Choose a sale"
                 onChange={onChange}
               />
-              {purchaseId && (
+              {salesId && (
                 <Input
                   name="quantity"
                   label="Quantity*"
@@ -280,14 +330,14 @@ const SalesReturn = ({
                 />
               )}
               <Input
-                name="perPieceCost"
-                label="per Piece Cost"
-                value={perPieceCost}
+                name="price"
+                label="Price"
+                value={price}
                 onChange={onChange}
                 type="number"
                 min="1"
-                alert={setAlert.perPieceCost}
-                alertMsg="Cost price is required"
+                alert={setAlert.price}
+                alertMsg="Price is required"
               />
             </Fragment>
           )}
@@ -299,16 +349,19 @@ const SalesReturn = ({
 };
 
 const mapStateToProps = state => ({
+  sales: state.transaction.sales,
   purchase: state.transaction.purchase,
   alert: state.alert
 });
 
 export default connect(mapStateToProps, {
-  getPurchases,
-  getPurchaseUsingProduct,
-  addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter,
+  getSales,
+  getSalesUsingProduct,
+  addSalesReturn,
+  filterSalesReturn,
+  clearFilterSalesReturn,
+  filterCustomer,
+  clearFilterCustomer,
   Alert,
-  clearErrors
+  clearSalesErrors
 })(SalesReturn);

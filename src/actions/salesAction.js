@@ -12,15 +12,23 @@ import {
   EDIT_CUSTOMER_FAILED,
 
   // sales
+  GET_SALES,
+  GET_SALES_FAILED,
   ADD_SALES,
   ADD_SALES_FAILED,
+  ADD_SALES_RETURN,
+  ADD_SALES_RETURN_FAILED,
+  GET_SALES_USING_PRODUCTNAME,
+  GET_SALES_USING_PRODUCTNAME_FAILED,
   CLEAR_SALES_ERRORS,
 
   // filter
   FILTER_ADD_SALES,
   CLEAR_FILTER_ADD_SALES,
   FILTER_SALES_RETURN,
-  CLEAR_FILTER_SALES_RETURN
+  CLEAR_FILTER_SALES_RETURN,
+  FILTER_CUSTOMER,
+  CLEAR_FILTER_CUSTOMER
 } from "./types";
 import axios from "axios";
 
@@ -115,6 +123,32 @@ export const deleteCustomer = id => async dispatch => {
   }
 };
 
+// get sales
+export const getSales = () => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/sales`);
+    dispatch({ type: GET_SALES, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GET_SALES_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// get sales using product name
+export const getSalesUsingProduct = productName => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/sales?product=${productName}`);
+    dispatch({ type: GET_SALES_USING_PRODUCTNAME, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GET_SALES_USING_PRODUCTNAME_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
 // add sales
 export const addSales = formData => async dispatch => {
   formData.productName = formData.productName.trim();
@@ -140,6 +174,29 @@ export const addSales = formData => async dispatch => {
   }
 };
 
+// add sales return
+export const addSalesReturn = formData => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const res = await axios.post(`${url}/salesreturn`, formData, config);
+    dispatch({
+      type: ADD_SALES_RETURN,
+      payload: { res: res.data, productId: formData.productId }
+    });
+  } catch (err) {
+    console.log(err.response.data.msg);
+    dispatch({
+      type: ADD_SALES_RETURN_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
 // filter add sales
 export const filterAddSales = text => dispatch => {
   dispatch({ type: FILTER_ADD_SALES, payload: text });
@@ -155,9 +212,19 @@ export const filterSalesReturn = text => dispatch => {
   dispatch({ type: FILTER_SALES_RETURN, payload: text });
 };
 
+// filter customer
+export const filterCustomer = text => dispatch => {
+  dispatch({ type: FILTER_CUSTOMER, payload: text });
+};
+
 // clear add sales filter
 export const clearFilterSalesReturn = text => dispatch => {
   dispatch({ type: CLEAR_FILTER_SALES_RETURN });
+};
+
+// clear customer filter
+export const clearFilterCustomer = text => dispatch => {
+  dispatch({ type: CLEAR_FILTER_CUSTOMER });
 };
 
 // Clear Errors

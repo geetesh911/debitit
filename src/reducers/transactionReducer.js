@@ -65,8 +65,14 @@ import {
   DELETE_CUSTOMER_FAILED,
 
   // sales
+  GET_SALES,
+  GET_SALES_FAILED,
   ADD_SALES,
   ADD_SALES_FAILED,
+  ADD_SALES_RETURN,
+  ADD_SALES_RETURN_FAILED,
+  GET_SALES_USING_PRODUCTNAME,
+  GET_SALES_USING_PRODUCTNAME_FAILED,
 
   // sales error
   CLEAR_SALES_ERRORS,
@@ -75,7 +81,9 @@ import {
   FILTER_ADD_SALES,
   CLEAR_FILTER_ADD_SALES,
   FILTER_SALES_RETURN,
-  CLEAR_FILTER_SALES_RETURN
+  CLEAR_FILTER_SALES_RETURN,
+  FILTER_CUSTOMER,
+  CLEAR_FILTER_CUSTOMER
 } from "../actions/types";
 
 const initialState = {
@@ -102,8 +110,11 @@ const initialState = {
     sales: [],
     filtered: {
       addSale: null,
-      saleReturn: null
+      saleReturn: null,
+      sale: null
     },
+    salesUsingProduct: [],
+    salesReturn: [],
     error: null
   }
 };
@@ -488,6 +499,14 @@ export default (state = initialState, action) => {
       };
 
     // sales
+    case GET_SALES:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          sales: action.payload
+        }
+      };
     case ADD_SALES:
       return {
         ...state,
@@ -508,8 +527,33 @@ export default (state = initialState, action) => {
           })
         }
       };
+    case ADD_SALES_RETURN:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          salesReturn: action.payload.res,
+          products: state.purchase.products.map(product => {
+            if (product._id === action.payload.productId)
+              return {
+                ...product,
+                numberInStock:
+                  product.numberInStock - action.payload.res.quantity
+              };
+            else return product;
+          })
+        }
+      };
+    case GET_SALES_USING_PRODUCTNAME:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          salesUsingProduct: action.payload
+        }
+      };
 
-    // sales
+    // filter sales
     case FILTER_ADD_SALES:
       return {
         ...state,
@@ -524,13 +568,12 @@ export default (state = initialState, action) => {
           }
         }
       };
-
     case CLEAR_FILTER_ADD_SALES:
       return {
         ...state,
         sales: {
           ...state.sales,
-          filtered: { ...state.sales.fileterd, addSale: null }
+          filtered: { ...state.sales.filtered, addSale: null }
         }
       };
     case FILTER_SALES_RETURN:
@@ -547,13 +590,37 @@ export default (state = initialState, action) => {
           }
         }
       };
-
     case CLEAR_FILTER_SALES_RETURN:
       return {
         ...state,
         sales: {
           ...state.sales,
-          filtered: { ...state.sales.fileterd, saleReturn: null }
+          filtered: { ...state.sales.filtered, saleReturn: null }
+        }
+      };
+    case FILTER_CUSTOMER:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: {
+            ...state.sales.filtered,
+            sale: state.sales.salesUsingProduct.filter(sale => {
+              const regex = new RegExp(`${action.payload}`, "gi");
+              return (
+                sale.customer.name.match(regex) ||
+                sale.customer.mobile.match(regex)
+              );
+            })
+          }
+        }
+      };
+    case CLEAR_FILTER_CUSTOMER:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          filtered: { ...state.sales.filtered, sale: null }
         }
       };
 
@@ -574,6 +641,9 @@ export default (state = initialState, action) => {
     case EDIT_CUSTOMER_FAILED:
     case DELETE_CUSTOMER_FAILED:
     case ADD_SALES_FAILED:
+    case ADD_SALES_RETURN_FAILED:
+    case GET_SALES_USING_PRODUCTNAME_FAILED:
+    case GET_SALES_FAILED:
       return {
         ...state,
         sales: {

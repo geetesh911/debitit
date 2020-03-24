@@ -215,7 +215,7 @@ const PurchaseReturn = ({
     // setFormData({ ...setFormData, purchaseId: "" });
     purchaseUsingProduct.forEach(purchase => {
       let option = {};
-      option.name = `${purchase.productName} => ${convertDate(purchase.date)}`;
+      option.name = `${purchase.creditor.name} - ${convertDate(purchase.date)}`;
       option.value = purchase._id;
 
       options.push(option);
