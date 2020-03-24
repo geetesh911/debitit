@@ -816,7 +816,7 @@
 }
 
 .dr-nav .dr-nav-menu ul li a .menu-option .more {
-  background-image: url("../assets/images/more.svg");
+  background-image: url("../assets/images/more.png");
   background-size: 25px 25px;
 }
 
@@ -835,7 +835,7 @@
 }
 
 .dr-nav .dr-nav-menu ul li a .menu-option:hover .more {
-  background-image: url("../assets/images/more-hover.svg");
+  background-image: url("../assets/images/more-hover.png");
 }
 
 .dr-nav .dr-nav-menu ul li a .activeNav .menu-text {
@@ -937,7 +937,7 @@
   }
   .dr-mobile-nav .mobile-nav-items .menu-option .more {
     margin: auto;
-    background-image: url("../assets/images/more.svg");
+    background-image: url("../assets/images/more.png");
     background-size: 30px 30px;
   }
   .dr-mobile-nav .mobile-nav-items .activeNav .menu-text {

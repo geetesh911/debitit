@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import cartActive from "../../assets/images/cart-active.svg";
-import moreActive from "../../assets/images/more-active.svg";
+import moreActive from "../../assets/images/more-active.png";
 
 export const HomeIcon = ({ active }) => {
   return (
