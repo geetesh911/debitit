@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const NavLink = ({ Icon, onClick, activeIcons, id, active }) => {
+export const NavLink = ({
+  Icon,
+  onClick,
+  activeIcons,
+  id,
+  active,
+  onlyIcon
+}) => {
   let name = id.split("-");
 
   if (name.length === 1) name = name[0];
@@ -15,7 +22,7 @@ export const NavLink = ({ Icon, onClick, activeIcons, id, active }) => {
         onClick={() => onClick(name)}
       >
         <Icon active={activeIcons[name]} />
-        <div className="menu-text">{name}</div>
+        {!onlyIcon && <div className="menu-text">{name}</div>}
       </div>
     </Link>
   );

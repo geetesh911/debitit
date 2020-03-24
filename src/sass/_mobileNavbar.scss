@@ -34,39 +34,43 @@
         .dr-nav-menu-icon {
           fill: $text-color-dark;
           color: $text-color-dark;
-          height: 20px;
-          width: 20px;
+          height: 30px;
+          width: 30px;
+          font-size: 25px;
+          display: flex;
+          align-items: center;
         }
+
         .cart {
           margin: auto;
           padding-top: 5px;
-          margin-top: 5px;
+          // margin-top: 5px;
           background-image: url("../assets/images/cart.svg");
-          background-size: 20px 20px;
+          background-size: 30px 30px;
         }
         .more {
           margin: auto;
-          margin-top: 5px;
+          // margin-top: 5px;
           background-image: url("../assets/images/more.svg");
-          background-size: 20px 20px;
+          background-size: 30px 30px;
         }
       }
-      &:hover {
-        background-color: $menu-hover-color;
-        .dr-nav-menu-icon {
-          fill: $hover-color;
-          color: $hover-color;
-        }
-        .menu-text {
-          color: $hover-color;
-        }
-        .cart {
-          background-image: url("../assets/images/cartHover.svg");
-        }
-        .more {
-          background-image: url("../assets/images/more-hover.svg");
-        }
-      }
+      // &:hover {
+      //   background-color: $menu-hover-color;
+      //   .dr-nav-menu-icon {
+      //     fill: $hover-color;
+      //     color: $hover-color;
+      //   }
+      //   .menu-text {
+      //     color: $hover-color;
+      //   }
+      //   .cart {
+      //     background-image: url("../assets/images/cartHover.svg");
+      //   }
+      //   .more {
+      //     background-image: url("../assets/images/more-hover.svg");
+      //   }
+      // }
       .activeNav {
         .menu-text {
           color: $hover-color;

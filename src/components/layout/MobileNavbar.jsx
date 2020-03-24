@@ -58,6 +58,7 @@ const MobileNavbar = ({
             onClick={onClick}
             id="mobile-accounts"
             active={accounts}
+            onlyIcon={true}
           />
         </div>
         <div className="mobile-nav-items">
@@ -67,6 +68,7 @@ const MobileNavbar = ({
             onClick={onClick}
             id="mobile-sales"
             active={sales}
+            onlyIcon={true}
           />
         </div>
         <div className="mobile-nav-items">
@@ -76,6 +78,7 @@ const MobileNavbar = ({
             onClick={onClick}
             id="mobile-purchase"
             active={purchase}
+            onlyIcon={true}
           />
         </div>
         <div className="mobile-nav-items">
@@ -85,6 +88,7 @@ const MobileNavbar = ({
             onClick={onClick}
             id="mobile-others"
             active={others}
+            onlyIcon={true}
           />
         </div>
       </div>

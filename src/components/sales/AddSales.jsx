@@ -107,7 +107,6 @@ const AddSales = ({
     }
 
     if (error === "Enough stock is not available") {
-      console.log("run");
       Alert(error, "danger");
       clearSalesErrors();
     }
