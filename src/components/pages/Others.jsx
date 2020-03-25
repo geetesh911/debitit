@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { Heading } from "./../common/Heading";
 import { RouteSideNav } from "../common/RouteSideNav";
 import { MobileAccordian } from "../common/MobileAccordian";
-import AddSales from "../sales/AddSales";
 import { logout, loadUser } from "../../actions/authAction";
 import { clearTransactionState } from "./../../actions/salesAction";
 import { connect } from "react-redux";
+import AddExpenseCategory from "../others/AddExpenseCategory";
+import EditExpenseCategory from "../others/EditExpenseCategory";
+import DeleteExpenseCategory from "../others/DeleteExpenseCategory";
+import AddExpense from "../others/AddExpense";
 
 const Others = ({
   auth: { user },
@@ -36,8 +39,28 @@ const Others = ({
                   arr: [
                     {
                       heading: "Add Expenses",
-                      body: <AddSales />,
+                      body: <AddExpense />,
                       name: "add_expenses"
+                    }
+                  ]
+                },
+                {
+                  heading: "Expense Type",
+                  arr: [
+                    {
+                      heading: "Add Expense Category",
+                      body: <AddExpenseCategory />,
+                      name: "add_expense_category"
+                    },
+                    {
+                      heading: "Edit Expense Category",
+                      body: <EditExpenseCategory />,
+                      name: "edit_expense_category"
+                    },
+                    {
+                      heading: "Delete Expense Category",
+                      body: <DeleteExpenseCategory />,
+                      name: "delete_expense_category"
                     }
                   ]
                 },
@@ -65,6 +88,23 @@ const Others = ({
                   firstActive: true
                 },
                 {
+                  heading: "Expense Type",
+                  firstOption: {
+                    name: "sidetab-add-expense-category",
+                    label: "Add Expense Category"
+                  },
+                  otherOptions: [
+                    {
+                      name: "sidetab-edit-expense-category",
+                      label: "Edit Expense Category"
+                    },
+                    {
+                      name: "sidetab-delete-expense-category",
+                      label: "Delete Expense Category"
+                    }
+                  ]
+                },
+                {
                   seperator: true,
                   other: {
                     name: "sidetab-logout",
@@ -84,7 +124,31 @@ const Others = ({
                   role="tabpanel"
                   aria-labelledby="add-expenses-tab"
                 >
-                  <AddSales />
+                  <AddExpense />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-add-expense-category"
+                  role="tabpanel"
+                  aria-labelledby="add-expense-category-tab"
+                >
+                  <AddExpenseCategory />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-edit-expense-category"
+                  role="tabpanel"
+                  aria-labelledby="edit-expense-category-tab"
+                >
+                  <EditExpenseCategory />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-delete-expense-category"
+                  role="tabpanel"
+                  aria-labelledby="delete-expense-category-tab"
+                >
+                  <DeleteExpenseCategory />
                 </div>
               </div>
             </div>
