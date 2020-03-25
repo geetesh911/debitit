@@ -15,6 +15,7 @@ import {
 import { setAlert as Alert } from "./../../actions/alertAction";
 import { clearErrors } from "./../../actions/purchaseAction";
 import convertDate from "./../../utils/convertDate";
+import { clearMsg } from "./../../actions/salesAction";
 
 const PurchaseReturn = ({
   purchase: {
@@ -23,6 +24,8 @@ const PurchaseReturn = ({
     error,
     filtered: { purchaseReturn, purchase }
   },
+  msg,
+  clearMsg,
   getPurchases,
   getPurchaseUsingProduct,
   addPurchaseReturn,
@@ -121,6 +124,23 @@ const PurchaseReturn = ({
     if (error === "Cannot return more than purchased") {
       Alert(error, "danger");
       clearErrors();
+      setFormData({
+        ...formData,
+        perPieceCost: "",
+        perPieceSellingPrice: "",
+        productId: "",
+        purchaseId: "",
+        search: "",
+        disabled: false,
+        searchPurchase: "",
+        disabledPurchase: "",
+        setAlert: {
+          productId: { alert: false, msg: "" },
+          purchaseId: false,
+          productName: false,
+          perPieceCost: false
+        }
+      });
     }
 
     //eslint-disable-next-line
@@ -216,23 +236,7 @@ const PurchaseReturn = ({
         quantity: parseInt(quantity),
         perPieceCost
       });
-      setFormData({
-        ...formData,
-        perPieceCost: "",
-        perPieceSellingPrice: "",
-        productId: "",
-        purchaseId: "",
-        search: "",
-        disabled: false,
-        searchPurchase: "",
-        disabledPurchase: "",
-        setAlert: {
-          productId: { alert: false, msg: "" },
-          purchaseId: false,
-          productName: false,
-          perPieceCost: false
-        }
-      });
+
       setLoading(false);
     }
   };
@@ -352,6 +356,7 @@ const PurchaseReturn = ({
 
 const mapStateToProps = state => ({
   purchase: state.transaction.purchase,
+  msg: state.transaction.msg,
   alert: state.alert
 });
 
@@ -364,5 +369,6 @@ export default connect(mapStateToProps, {
   filterPurchase,
   clearPurchaseFilter,
   Alert,
+  clearMsg,
   clearErrors
 })(PurchaseReturn);

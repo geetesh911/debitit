@@ -351,6 +351,15 @@
   opacity: 0;
   transition: opacity 500ms ease-in;
 }
+.heading-container {
+  display: flex;
+  align-items: flex-end;
+  .avatar {
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+  }
+}
 
 @media (min-width: 540px) {
   .page-heading {

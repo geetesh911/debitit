@@ -3,6 +3,7 @@ import { Input } from "../common/Input";
 import { connect } from "react-redux";
 import { registerUser } from "./../../actions/authAction";
 import { clearErrors } from "./../../actions/authAction";
+import { Select } from "./../common/Select";
 
 const Register = ({
   auth: { isAuthenticated, error },
@@ -14,15 +15,17 @@ const Register = ({
     email: "",
     password: "",
     password2: "",
+    gender: "",
     setAlert: {
       email: false,
-      password: false
+      password: false,
+      gender: false
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  const { name, email, password, password2, setAlert } = formData;
+  const { name, email, password, password2, gender, setAlert } = formData;
 
   useEffect(() => {
     if (isAuthenticated) window.location = "/accounts";
@@ -41,7 +44,7 @@ const Register = ({
     e.preventDefault();
     setFormData({
       ...formData,
-      setAlert: { ...setAlert, email: false, password: false }
+      setAlert: { ...setAlert, email: false, password: false, gender: false }
     });
 
     if (password !== password2) {
@@ -52,12 +55,15 @@ const Register = ({
     } else if (error === "User already exist") {
       setFormData({ ...formData, setAlert: { ...setAlert, email: true } });
       clearErrors();
+    } else if (gender === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, gender: true } });
     } else {
       setLoading(true);
       await registerUser({
         name,
         email,
-        password
+        password,
+        gender
       });
       setLoading(false);
     }
@@ -78,21 +84,31 @@ const Register = ({
           <form onSubmit={onSubmit}>
             <Input
               name="name"
-              label="business name"
+              label="business name*"
               onChange={onChange}
               value={name}
             />
             <Input
               name="email"
-              label="email"
+              label="email*"
               alert={setAlert.email}
               alertMsg="User Already Exists"
               onChange={onChange}
               value={email}
             />
+            <Select
+              label="Proprieter's Gender*"
+              options={["male", "female", "other"]}
+              id="gender"
+              value={gender}
+              first={true}
+              onChange={onChange}
+              alert={setAlert.gender}
+              alertMsg="Specify your gender"
+            />
             <Input
               name="password"
-              label="password"
+              label="password*"
               type="password"
               alert={setAlert.password}
               onChange={onChange}
@@ -101,7 +117,7 @@ const Register = ({
             />
             <Input
               name="password2"
-              label="confirm password"
+              label="confirm password*"
               type="password"
               alert={setAlert.password}
               alertMsg="Passwords do not match"

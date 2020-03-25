@@ -5,12 +5,15 @@ import { setAlert as Alert } from "../../actions/alertAction";
 import { Input } from "../common/Input";
 import { VerticalTable } from "../common/VerticalTable";
 import { SaveButton } from "../common/SaveButton";
+import { clearMsg } from "./../../actions/salesAction";
 
 const ProductDetails = ({
   purchase: {
     products,
     filtered: { productDetails }
   },
+  msg,
+  clearMsg,
   filterProduct,
   clearFilterCards,
   Alert
@@ -35,9 +38,14 @@ const ProductDetails = ({
   useEffect(() => {
     if (productDetails && productDetails.length === 0) {
       Alert("No product Found with the given name", "info");
+      clearFilterCards();
+    }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
     }
     //eslint-disable-next-line
-  }, [productDetails]);
+  }, [productDetails, msg]);
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -102,11 +110,13 @@ const ProductDetails = ({
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   filterProduct,
   clearFilterCards,
-  Alert
+  Alert,
+  clearMsg
 })(ProductDetails);

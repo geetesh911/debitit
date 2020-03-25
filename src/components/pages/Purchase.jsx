@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Heading } from "./../common/Heading";
 import { RouteSideNav } from "../common/RouteSideNav";
 import PurchaseNewProduct from "../purchase/PurchaseNewProduct";
@@ -11,11 +11,17 @@ import EditProduct from "../purchase/EditProduct";
 import DeleteProduct from "../purchase/DeleteProduct";
 import PurchaseReturn from "./../purchase/PurchaseReturn";
 import ProductDetails from "../purchase/ProductDetails";
+import { connect } from "react-redux";
+import { loadUser } from "./../../actions/authAction";
 
-export const Purchase = () => {
+const Purchase = ({ auth: { user }, loadUser }) => {
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="offset-lg-2 col-lg-10 offset-md-2 col-md-10 offset-sm-2 col-sm-10 content">
-      <Heading heading="Purchase" />
+      <Heading heading="Purchase" icon={user ? user.icon : ""} />
       <div className="purchase">
         <div className="row nav-row">
           <div className="col-lg-4 col-md-4 col-sm-12 side-nav-col">
@@ -230,3 +236,11 @@ export const Purchase = () => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  loadUser
+})(Purchase);

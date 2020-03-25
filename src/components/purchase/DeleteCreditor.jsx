@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import { Select } from "../common/Select";
 import { deleteCreditor } from "./../../actions/purchaseAction";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
-const DeleteCreditor = ({ purchase: { creditors }, deleteCreditor }) => {
+const DeleteCreditor = ({
+  purchase: { creditors },
+  msg,
+  clearMsg,
+  Alert,
+  deleteCreditor
+}) => {
   const [formData, setFormData] = useState({
     creditorId: "",
     setAlert: {
@@ -14,6 +22,20 @@ const DeleteCreditor = ({ purchase: { creditors }, deleteCreditor }) => {
   const { creditorId, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        creditorId: "",
+        setAlert: { creditorId: false }
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,12 +52,6 @@ const DeleteCreditor = ({ purchase: { creditors }, deleteCreditor }) => {
       await deleteCreditor(creditorId);
 
       setLoading(false);
-
-      setFormData({
-        ...formData,
-        creditorId: "",
-        setAlert: { creditorId: false }
-      });
     }
   };
 
@@ -75,9 +91,12 @@ const DeleteCreditor = ({ purchase: { creditors }, deleteCreditor }) => {
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
-  deleteCreditor
+  deleteCreditor,
+  clearMsg,
+  Alert
 })(DeleteCreditor);

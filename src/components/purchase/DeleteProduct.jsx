@@ -8,12 +8,17 @@ import {
   filterDeleteProduct,
   clearDeleteProductFilter
 } from "./../../actions/purchaseAction";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
 const DeleteProduct = ({
   purchase: {
     products,
     filtered: { deleteProducts }
   },
+  msg,
+  Alert,
+  clearMsg,
   deleteProduct,
   filterDeleteProduct,
   clearDeleteProductFilter
@@ -46,9 +51,21 @@ const DeleteProduct = ({
     if (!deleteProducts) {
       setFormData({ ...formData, productOptions: null });
     }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+
+      setFormData({
+        ...formData,
+        productId: "",
+        search: "",
+        disabled: false,
+        setAlert: { productId: false }
+      });
+    }
 
     //eslint-disable-next-line
-  }, [deleteProducts]);
+  }, [deleteProducts, msg]);
 
   useEffect(() => {
     if (productId)
@@ -81,14 +98,6 @@ const DeleteProduct = ({
       await deleteProduct(productId);
 
       setLoading(false);
-
-      setFormData({
-        ...formData,
-        productId: "",
-        search: "",
-        disabled: false,
-        setAlert: { productId: false }
-      });
     }
   };
 
@@ -142,11 +151,14 @@ const DeleteProduct = ({
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   deleteProduct,
   filterDeleteProduct,
-  clearDeleteProductFilter
+  clearDeleteProductFilter,
+  Alert,
+  clearMsg
 })(DeleteProduct);

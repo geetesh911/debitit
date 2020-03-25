@@ -4,7 +4,8 @@ import {
   addSales,
   clearSalesErrors,
   filterAddSales,
-  clearFilterAddSales
+  clearFilterAddSales,
+  clearMsg
 } from "../../actions/salesAction";
 import { getProducts } from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
@@ -19,12 +20,14 @@ const AddSales = ({
     error,
     filtered: { addSale }
   },
+  msg,
   getProducts,
   addSales,
   filterAddSales,
   clearFilterAddSales,
   clearSalesErrors,
-  Alert
+  Alert,
+  clearMsg
 }) => {
   const [formData, setFormData] = useState({
     payment: "cash",
@@ -110,9 +113,32 @@ const AddSales = ({
       Alert(error, "danger");
       clearSalesErrors();
     }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        payment: "cash",
+        quantity: "",
+        price: "",
+        otherExpenses: "0",
+        customerId: "",
+        product: "",
+        search: "",
+        disabled: false,
+        productOptions: null,
+        setAlert: {
+          product: false,
+          customerId: false,
+          price: false,
+          otherExpenses: false
+        },
+        showCustomers: false
+      });
+    }
 
     // eslint-disable-next-line
-  }, [product, error]);
+  }, [product, error, msg]);
 
   const onChange = e => {
     if (e.target.name === "price") {
@@ -179,25 +205,6 @@ const AddSales = ({
           products
         );
       }
-      setFormData({
-        ...formData,
-        payment: "cash",
-        quantity: "",
-        price: "",
-        otherExpenses: "0",
-        customerId: "",
-        product: "",
-        search: "",
-        disabled: false,
-        productOptions: null,
-        setAlert: {
-          product: false,
-          customerId: false,
-          price: false,
-          otherExpenses: false
-        },
-        showCustomers: false
-      });
     }
     setLoading(false);
   };
@@ -312,7 +319,8 @@ const AddSales = ({
 
 const mapStateToProps = state => ({
   purchase: state.transaction.purchase,
-  sales: state.transaction.sales
+  sales: state.transaction.sales,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
@@ -321,5 +329,6 @@ export default connect(mapStateToProps, {
   filterAddSales,
   clearFilterAddSales,
   clearSalesErrors,
-  Alert
+  Alert,
+  clearMsg
 })(AddSales);

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
-import { addCustomer } from "../../actions/salesAction";
+import { addCustomer, clearMsg } from "../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
-const AddCustomer = ({ addCustomer }) => {
+const AddCustomer = ({ addCustomer, clearMsg, Alert, msg }) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -17,6 +18,21 @@ const AddCustomer = ({ addCustomer }) => {
   const [loading, setLoading] = useState(false);
 
   const { name, mobile, setAlert } = formData;
+
+  useEffect(() => {
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        name: "",
+        mobile: "",
+        setAlert: { name: false, mobile: false }
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,13 +49,6 @@ const AddCustomer = ({ addCustomer }) => {
     });
 
     setLoading(false);
-
-    setFormData({
-      ...formData,
-      name: "",
-      mobile: "",
-      setAlert: { name: false, mobile: false }
-    });
   };
 
   return (
@@ -72,9 +81,12 @@ const AddCustomer = ({ addCustomer }) => {
   );
 };
 const mapStateToProps = state => ({
-  sales: state.transaction.sales
+  sales: state.transaction.sales,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
-  addCustomer
+  addCustomer,
+  clearMsg,
+  Alert
 })(AddCustomer);

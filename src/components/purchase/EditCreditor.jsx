@@ -4,9 +4,14 @@ import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import { getCreditor, editCreditor } from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "../../actions/alertAction";
 
 const EditCreditor = ({
   purchase: { creditors },
+  msg,
+  clearMsg,
+  Alert,
   getCreditor,
   editCreditor
 }) => {
@@ -34,8 +39,20 @@ const EditCreditor = ({
       );
     }
 
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        creditorId: "",
+        name: "",
+        contact: "",
+        setAlert: { name: false, contact: false }
+      });
+    }
+
     //eslint-disable-next-line
-  }, [creditorId]);
+  }, [creditorId, msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,13 +66,7 @@ const EditCreditor = ({
     } else {
       setLoading(true);
       await editCreditor({ name, contact }, creditorId);
-      setFormData({
-        ...formData,
-        creditorId: "",
-        name: "",
-        contact: "",
-        setAlert: { name: false, contact: false }
-      });
+
       setLoading(false);
     }
   };
@@ -118,10 +129,13 @@ const EditCreditor = ({
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   getCreditor,
-  editCreditor
+  editCreditor,
+  Alert,
+  clearMsg
 })(EditCreditor);

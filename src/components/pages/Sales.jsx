@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Heading } from "./../common/Heading";
 import { RouteSideNav } from "../common/RouteSideNav";
 import { MobileAccordian } from "../common/MobileAccordian";
@@ -7,11 +7,17 @@ import EditCustomer from "../sales/EditCustomer";
 import DeleteCustomer from "../sales/DeleteCustomer";
 import AddSales from "../sales/AddSales";
 import SalesReturn from "../sales/SalesReturn";
+import { connect } from "react-redux";
+import { loadUser } from "./../../actions/authAction";
 
-export const Sales = () => {
+const Sales = ({ auth: { user }, loadUser }) => {
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="offset-lg-2 col-lg-10 offset-md-2 col-md-10 offset-sm-2 col-sm-10 content">
-      <Heading heading="Sales" />
+      <Heading heading="Sales" icon={user ? user.icon : ""} />
       <div className="sales">
         <div className="row nav-row">
           <div className="col-lg-4 col-md-4 col-sm-12 side-nav-col">
@@ -146,3 +152,11 @@ export const Sales = () => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  loadUser
+})(Sales);

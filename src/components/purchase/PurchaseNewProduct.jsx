@@ -8,9 +8,14 @@ import {
   addNewProduct
 } from "../../actions/purchaseAction";
 import { SaveButton } from "../common/SaveButton";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
 const PurchaseNewProduct = ({
   purchase: { creditors },
+  msg,
+  clearMsg,
+  Alert,
   addNewPurchase,
   getCreditors
 }) => {
@@ -58,9 +63,31 @@ const PurchaseNewProduct = ({
     if (payment === "cash") {
       setFormData({ ...formData, showCreditors: false, creditorId: "" });
     }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        productName: "",
+        payment: "cash",
+        quantity: "",
+        perPieceCost: "",
+        perPieceSellingPrice: "",
+        otherExpenses: "0",
+        creditorId: "",
+        setAlert: {
+          productName: false,
+          creditorId: false,
+          perPieceCost: false,
+          perPieceSellingPrice: false,
+          otherExpenses: false
+        },
+        showCreditors: false
+      });
+    }
 
     // eslint-disable-next-line
-  }, [payment]);
+  }, [payment, msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -96,25 +123,6 @@ const PurchaseNewProduct = ({
           otherExpenses: parseInt(otherExpenses)
         });
       }
-
-      setFormData({
-        ...formData,
-        productName: "",
-        payment: "cash",
-        quantity: "",
-        perPieceCost: "",
-        perPieceSellingPrice: "",
-        otherExpenses: "0",
-        creditorId: "",
-        setAlert: {
-          productName: false,
-          creditorId: false,
-          perPieceCost: false,
-          perPieceSellingPrice: false,
-          otherExpenses: false
-        },
-        showCreditors: false
-      });
     }
 
     setLoading(false);
@@ -210,11 +218,14 @@ const PurchaseNewProduct = ({
 };
 
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   addNewPurchase,
   getCreditors,
-  addNewProduct
+  addNewProduct,
+  Alert,
+  clearMsg
 })(PurchaseNewProduct);

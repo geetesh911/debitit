@@ -28,7 +28,11 @@ import {
   FILTER_SALES_RETURN,
   CLEAR_FILTER_SALES_RETURN,
   FILTER_CUSTOMER,
-  CLEAR_FILTER_CUSTOMER
+  CLEAR_FILTER_CUSTOMER,
+
+  // msg
+  CLEAR_MSG,
+  CLEAR_TRANSACTION_STATE
 } from "./types";
 import axios from "axios";
 
@@ -231,5 +235,19 @@ export const clearFilterCustomer = text => dispatch => {
 export const clearSalesErrors = () => {
   return {
     type: CLEAR_SALES_ERRORS
+  };
+};
+
+// Clear msg
+export const clearMsg = () => {
+  return {
+    type: CLEAR_MSG
+  };
+};
+
+// Clear transaction state
+export const clearTransactionState = () => {
+  return {
+    type: CLEAR_TRANSACTION_STATE
   };
 };

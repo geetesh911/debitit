@@ -2,10 +2,21 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
-import { getCustomers, editCustomer } from "../../actions/salesAction";
+import {
+  getCustomers,
+  editCustomer,
+  clearMsg
+} from "../../actions/salesAction";
 import { Select } from "../common/Select";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
-const EditCustomer = ({ sales: { customers }, getCustomers, editCustomer }) => {
+const EditCustomer = ({
+  sales: { customers },
+  msg,
+  getCustomers,
+  clearMsg,
+  editCustomer
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -29,9 +40,20 @@ const EditCustomer = ({ sales: { customers }, getCustomers, editCustomer }) => {
           setFormData({ ...formData, name: c.name, mobile: c.mobile })
       );
     }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        customerId: "",
+        name: "",
+        mobile: "",
+        setAlert: { name: false, mobile: false }
+      });
+    }
 
     //eslint-disable-next-line
-  }, [customerId]);
+  }, [customerId, msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,13 +67,7 @@ const EditCustomer = ({ sales: { customers }, getCustomers, editCustomer }) => {
     } else {
       setLoading(true);
       await editCustomer({ name, mobile }, customerId);
-      setFormData({
-        ...formData,
-        customerId: "",
-        name: "",
-        mobile: "",
-        setAlert: { name: false, mobile: false }
-      });
+
       setLoading(false);
     }
   };
@@ -114,10 +130,13 @@ const EditCustomer = ({ sales: { customers }, getCustomers, editCustomer }) => {
   );
 };
 const mapStateToProps = state => ({
-  sales: state.transaction.sales
+  sales: state.transaction.sales,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   getCustomers,
-  editCustomer
+  editCustomer,
+  clearMsg,
+  Alert
 })(EditCustomer);

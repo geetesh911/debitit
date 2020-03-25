@@ -8,6 +8,8 @@ import {
   filterEditProduct,
   clearEditProductFilter
 } from "../../actions/purchaseAction";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "../../actions/alertAction";
 import { Select } from "../common/Select";
 
 const EditProduct = ({
@@ -15,6 +17,9 @@ const EditProduct = ({
     products,
     filtered: { editProducts }
   },
+  msg,
+  Alert,
+  clearMsg,
   getProduct,
   editProduct,
   filterEditProduct,
@@ -64,8 +69,23 @@ const EditProduct = ({
       setFormData({ ...formData, productOptions: null });
     }
 
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        productId: "",
+        productName: "",
+        perPieceCost: "",
+        perPieceSellingPrice: "",
+        disabled: false,
+        search: "",
+        setAlert: { name: false, contact: false }
+      });
+    }
+
     //eslint-disable-next-line
-  }, [editProducts]);
+  }, [editProducts, msg]);
 
   useEffect(() => {
     if (productId) {
@@ -111,16 +131,7 @@ const EditProduct = ({
         },
         productId
       );
-      setFormData({
-        ...formData,
-        productId: "",
-        productName: "",
-        perPieceCost: "",
-        perPieceSellingPrice: "",
-        disabled: false,
-        search: "",
-        setAlert: { name: false, contact: false }
-      });
+
       setLoading(false);
     }
   };
@@ -207,12 +218,15 @@ const EditProduct = ({
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   getProduct,
   editProduct,
   filterEditProduct,
-  clearEditProductFilter
+  clearEditProductFilter,
+  Alert,
+  clearMsg
 })(EditProduct);

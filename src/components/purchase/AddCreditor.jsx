@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import { addCreditor } from "../../actions/purchaseAction";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
-const AddCreditor = ({ addCreditor }) => {
+const AddCreditor = ({ msg, Alert, addCreditor, clearMsg }) => {
   const [formData, setFormData] = useState({
     name: "",
     contact: "",
@@ -17,6 +19,21 @@ const AddCreditor = ({ addCreditor }) => {
   const [loading, setLoading] = useState(false);
 
   const { name, contact, setAlert } = formData;
+
+  useEffect(() => {
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        name: "",
+        contact: "",
+        setAlert: { name: false, contact: false }
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,13 +50,6 @@ const AddCreditor = ({ addCreditor }) => {
     });
 
     setLoading(false);
-
-    setFormData({
-      ...formData,
-      name: "",
-      contact: "",
-      setAlert: { name: false, contact: false }
-    });
   };
 
   return (
@@ -72,9 +82,12 @@ const AddCreditor = ({ addCreditor }) => {
   );
 };
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
-  addCreditor
+  addCreditor,
+  clearMsg,
+  Alert
 })(AddCreditor);

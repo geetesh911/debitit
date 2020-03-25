@@ -9,6 +9,8 @@ import {
 import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
+import { clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
 const PurchaseExistingProduct = ({
   purchase: {
@@ -16,6 +18,9 @@ const PurchaseExistingProduct = ({
     creditors,
     filtered: { purchaseExistingProduct }
   },
+  msg,
+  clearMsg,
+  Alert,
   getProducts,
   addExistingPurchase,
   filterExistingPurchase,
@@ -103,8 +108,33 @@ const PurchaseExistingProduct = ({
     else {
       setFormData({ ...formData, disabled: false });
     }
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        payment: "cash",
+        quantity: "",
+        perPieceCost: "",
+        perPieceSellingPrice: "",
+        otherExpenses: "0",
+        creditorId: "",
+        product: "",
+        search: "",
+        disabled: false,
+        productOptions: null,
+        setAlert: {
+          product: false,
+          creditorId: false,
+          perPieceCost: false,
+          perPieceSellingPrice: false,
+          otherExpenses: false
+        },
+        showCreditors: false
+      });
+    }
     // eslint-disable-next-line
-  }, [product]);
+  }, [product, msg]);
 
   const onChange = e => {
     if (
@@ -168,28 +198,6 @@ const PurchaseExistingProduct = ({
           perPieceSellingPrice: parseInt(perPieceSellingPrice)
         });
       }
-
-      setFormData({
-        ...formData,
-        payment: "cash",
-        quantity: "",
-        perPieceCost: "",
-        perPieceSellingPrice: "",
-        otherExpenses: "0",
-        creditorId: "",
-        product: "",
-        search: "",
-        disabled: false,
-        productOptions: null,
-        setAlert: {
-          product: false,
-          creditorId: false,
-          perPieceCost: false,
-          perPieceSellingPrice: false,
-          otherExpenses: false
-        },
-        showCreditors: false
-      });
     }
     setLoading(false);
   };
@@ -313,12 +321,15 @@ const PurchaseExistingProduct = ({
 };
 
 const mapStateToProps = state => ({
-  purchase: state.transaction.purchase
+  purchase: state.transaction.purchase,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
   addExistingPurchase,
   getProducts,
   filterExistingPurchase,
-  clearFilterExistingPurchase
+  clearFilterExistingPurchase,
+  clearMsg,
+  Alert
 })(PurchaseExistingProduct);

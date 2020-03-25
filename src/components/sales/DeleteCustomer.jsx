@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import { Select } from "../common/Select";
-import { deleteCustomer } from "./../../actions/salesAction";
+import { deleteCustomer, clearMsg } from "./../../actions/salesAction";
+import { setAlert as Alert } from "./../../actions/alertAction";
 
-const DeleteCustomer = ({ sales: { customers }, deleteCustomer }) => {
+const DeleteCustomer = ({
+  sales: { customers },
+  msg,
+  clearMsg,
+  deleteCustomer
+}) => {
   const [formData, setFormData] = useState({
     customerId: "",
     setAlert: {
@@ -14,6 +20,20 @@ const DeleteCustomer = ({ sales: { customers }, deleteCustomer }) => {
   const { customerId, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        customerId: "",
+        setAlert: { customerId: false }
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [msg]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,12 +50,6 @@ const DeleteCustomer = ({ sales: { customers }, deleteCustomer }) => {
       await deleteCustomer(customerId);
 
       setLoading(false);
-
-      setFormData({
-        ...formData,
-        customerId: "",
-        setAlert: { customerId: false }
-      });
     }
   };
 
@@ -75,9 +89,12 @@ const DeleteCustomer = ({ sales: { customers }, deleteCustomer }) => {
   );
 };
 const mapStateToProps = state => ({
-  sales: state.transaction.sales
+  sales: state.transaction.sales,
+  msg: state.transaction.msg
 });
 
 export default connect(mapStateToProps, {
-  deleteCustomer
+  deleteCustomer,
+  clearMsg,
+  Alert
 })(DeleteCustomer);

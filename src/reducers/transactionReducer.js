@@ -85,7 +85,11 @@ import {
   FILTER_SALES_RETURN,
   CLEAR_FILTER_SALES_RETURN,
   FILTER_CUSTOMER,
-  CLEAR_FILTER_CUSTOMER
+  CLEAR_FILTER_CUSTOMER,
+
+  // common
+  CLEAR_MSG,
+  CLEAR_TRANSACTION_STATE
 } from "../actions/types";
 
 const initialState = {
@@ -111,6 +115,7 @@ const initialState = {
     customers: [],
     customer: [],
     sales: [],
+    bill: null,
     filtered: {
       addSale: null,
       saleReturn: null,
@@ -119,7 +124,8 @@ const initialState = {
     salesUsingProduct: [],
     salesReturn: [],
     error: null
-  }
+  },
+  msg: null
 };
 
 export default (state = initialState, action) => {
@@ -149,7 +155,8 @@ export default (state = initialState, action) => {
         purchase: {
           ...state.purchase,
           creditors: [action.payload, ...state.purchase.creditors]
-        }
+        },
+        msg: "Creditor Added"
       };
     case EDIT_CREDITOR:
       return {
@@ -167,7 +174,8 @@ export default (state = initialState, action) => {
             state.purchase.creditor._id === action.payload._id
               ? action.payload
               : state.purchase.creditor
-        }
+        },
+        msg: "Creditor Updated"
       };
     case DELETE_CREDITOR:
       return {
@@ -177,7 +185,8 @@ export default (state = initialState, action) => {
           creditors: state.purchase.creditors.filter(
             creditor => creditor._id !== action.payload
           )
-        }
+        },
+        msg: "Creditor Deleted"
       };
 
     // products
@@ -203,7 +212,8 @@ export default (state = initialState, action) => {
         purchase: {
           ...state.purchase,
           products: [action.payload, ...state.purchase.products]
-        }
+        },
+        msg: "Product Added"
       };
     case EDIT_PRODUCT:
       return {
@@ -221,7 +231,8 @@ export default (state = initialState, action) => {
             state.purchase.product._id === action.payload._id
               ? action.payload
               : state.purchase.product
-        }
+        },
+        msg: "Product Updated"
       };
     case DELETE_PRODUCT:
       return {
@@ -231,7 +242,8 @@ export default (state = initialState, action) => {
           products: state.purchase.products.filter(
             product => product._id !== action.payload
           )
-        }
+        },
+        msg: "Product Deleted"
       };
     case FILTER_CARDS:
       return {
@@ -398,7 +410,8 @@ export default (state = initialState, action) => {
           ...state.purchase,
           purchases: [action.payload.newPurchase, ...state.purchase.purchases],
           products: [action.payload.newProduct, ...state.purchase.products]
-        }
+        },
+        msg: "Purchase and Product Added"
       };
     case SAVE_EXISTING_PURCHASE:
       return {
@@ -417,7 +430,8 @@ export default (state = initialState, action) => {
               return product;
             }
           })
-        }
+        },
+        msg: "Purchase Added"
       };
     case ADD_PURCHASE_RETURN:
       return {
@@ -434,7 +448,8 @@ export default (state = initialState, action) => {
               };
             else return product;
           })
-        }
+        },
+        msg: "Purchase Returned"
       };
 
     case CLEAR_ERRORS:
@@ -495,7 +510,8 @@ export default (state = initialState, action) => {
         sales: {
           ...state.sales,
           customers: [action.payload, ...state.sales.customers]
-        }
+        },
+        msg: "Customer Added"
       };
     case EDIT_CUSTOMER:
       return {
@@ -513,7 +529,8 @@ export default (state = initialState, action) => {
             state.customer._id === action.payload._id
               ? action.payload
               : state.customer
-        }
+        },
+        msg: "Customer Updated"
       };
     case DELETE_CUSTOMER:
       return {
@@ -523,7 +540,8 @@ export default (state = initialState, action) => {
           customers: state.customers.filter(
             customer => customer._id !== action.payload
           )
-        }
+        },
+        msg: "Customer Deleted"
       };
 
     // sales
@@ -540,7 +558,8 @@ export default (state = initialState, action) => {
         ...state,
         sales: {
           ...state.sales,
-          sales: [action.payload.res, ...state.sales.sales]
+          sales: [action.payload.res, ...state.sales.sales],
+          bill: action.payload.res
         },
         purchase: {
           ...state.purchase,
@@ -553,7 +572,8 @@ export default (state = initialState, action) => {
               };
             else return product;
           })
-        }
+        },
+        msg: "Sale Added"
       };
     case ADD_SALES_RETURN:
       return {
@@ -570,7 +590,8 @@ export default (state = initialState, action) => {
               };
             else return product;
           })
-        }
+        },
+        msg: "Sales Returned"
       };
     case GET_SALES_USING_PRODUCTNAME:
       return {
@@ -678,6 +699,47 @@ export default (state = initialState, action) => {
           ...state.sales,
           error: action.payload
         }
+      };
+
+    case CLEAR_MSG:
+      return {
+        ...state,
+        msg: null
+      };
+    case CLEAR_TRANSACTION_STATE:
+      return {
+        purchase: {
+          purchases: [],
+          products: [],
+          product: [],
+          filtered: {
+            productDetails: null,
+            purchaseExistingProduct: null,
+            editProducts: null,
+            deleteProducts: null,
+            purchaseReturn: null,
+            purchase: null
+          },
+          purchaseUsingProduct: [],
+          purchaseReturn: [],
+          error: null,
+          creditors: [],
+          creditor: []
+        },
+        sales: {
+          customers: [],
+          customer: [],
+          sales: [],
+          filtered: {
+            addSale: null,
+            saleReturn: null,
+            sale: null
+          },
+          salesUsingProduct: [],
+          salesReturn: [],
+          error: null
+        },
+        msg: null
       };
     default:
       return state;

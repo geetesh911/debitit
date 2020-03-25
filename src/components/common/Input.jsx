@@ -24,7 +24,7 @@ export const Input = ({
         <input
           type={type || "text"}
           name={name}
-          id={id || ""}
+          id={id || Math.random()}
           value={value || ""}
           onChange={onChange}
           autoComplete="off"
