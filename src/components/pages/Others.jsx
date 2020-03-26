@@ -46,7 +46,7 @@ const Others = ({
                 },
                 {
                   seperator: true,
-                  heading: "Expense Type",
+                  heading: "Expense Category",
                   arr: [
                     {
                       heading: "Add Expense Category",
@@ -88,7 +88,7 @@ const Others = ({
                   firstActive: true
                 },
                 {
-                  heading: "Expense Type",
+                  heading: "Expense Category",
                   seperator: true,
                   firstOption: {
                     name: "sidetab-add-expense-category",

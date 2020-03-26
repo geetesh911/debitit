@@ -1,56 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { SaveButton } from "../common/SaveButton";
-import { Input } from "./../common/Input";
 import { connect } from "react-redux";
 import { Select } from "../common/Select";
-import {
-  deleteProduct,
-  filterDeleteProduct,
-  clearDeleteProductFilter
-} from "./../../actions/purchaseAction";
+import { deleteProduct } from "./../../actions/purchaseAction";
 import { clearMsg } from "./../../actions/salesAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
 const DeleteProduct = ({
-  purchase: {
-    products,
-    filtered: { deleteProducts }
-  },
+  purchase: { products },
   msg,
   Alert,
   clearMsg,
-  deleteProduct,
-  filterDeleteProduct,
-  clearDeleteProductFilter
+  deleteProduct
 }) => {
   const [formData, setFormData] = useState({
     productId: "",
-    search: "",
-    disabled: false,
-    productOptions: null,
     setAlert: {
       productId: false
     }
   });
-  const { productId, search, productOptions, disabled, setAlert } = formData;
+  const { productId, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (deleteProducts) {
-      let options = [];
-      deleteProducts.forEach(product => {
-        let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
-        option.value = product._id;
-
-        options.push(option);
-      });
-      setFormData({ ...formData, productOptions: options });
-    }
-    if (!deleteProducts) {
-      setFormData({ ...formData, productOptions: null });
-    }
     if (msg) {
       Alert(msg, "info");
       clearMsg();
@@ -58,33 +31,18 @@ const DeleteProduct = ({
       setFormData({
         ...formData,
         productId: "",
-        search: "",
-        disabled: false,
         setAlert: { productId: false }
       });
     }
 
     //eslint-disable-next-line
-  }, [deleteProducts, msg]);
+  }, [msg]);
 
-  useEffect(() => {
-    if (productId)
-      setFormData({
-        ...formData,
-        disabled: true,
-        search: ""
-      });
-    else {
-      setFormData({ ...formData, disabled: false });
-    }
-    //eslint-disable-next-line
-  }, [productId]);
-
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === "search" && e.target.value !== "") {
-      filterDeleteProduct(e.target.value);
-    } else clearDeleteProductFilter();
+  const onProductChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      productId: value
+    });
   };
 
   const onSubmit = async e => {
@@ -105,8 +63,9 @@ const DeleteProduct = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
       option.value = product._id;
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -119,29 +78,15 @@ const DeleteProduct = ({
       <div className="purchase-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              label="Search Product"
-              value={search}
-              min="1"
-              disabled={disabled}
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
             <Select
               label="Product*"
-              options={
-                productOptions ? productOptions : inititalProductOptions()
-              }
+              options={inititalProductOptions()}
               id="productId"
               value={productId}
               first={true}
               alert={setAlert.productId}
               alertMsg="Choose a product"
-              onChange={onChange}
+              onChange={onProductChange}
             />
           )}
           <SaveButton label="Delete" loading={loading} />
@@ -157,8 +102,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   deleteProduct,
-  filterDeleteProduct,
-  clearDeleteProductFilter,
   Alert,
   clearMsg
 })(DeleteProduct);

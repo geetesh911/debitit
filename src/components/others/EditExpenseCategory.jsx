@@ -53,6 +53,10 @@ const EditCustomer = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onExpenseChange = (e, { value }) => {
+    setFormData({ ...formData, categoryId: value });
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
 
@@ -70,8 +74,9 @@ const EditCustomer = ({
     let options = [];
     categories.forEach(category => {
       let option = {};
-      option.name = category.name;
+      option.key = category.name;
       option.value = category._id;
+      option.text = category.name;
 
       options.push(option);
     });
@@ -80,7 +85,7 @@ const EditCustomer = ({
 
   return (
     <div className="others-new-content">
-      <div className="heading">Edit Expense Type</div>
+      <div className="heading">Edit Expense Category</div>
       <div className="others-form">
         <form onSubmit={onSubmit}>
           {categories && (
@@ -92,14 +97,14 @@ const EditCustomer = ({
               first={true}
               alert={setAlert.categoryId}
               alertMsg="Choose a category"
-              onChange={onChange}
+              onChange={onExpenseChange}
             />
           )}
           {categoryId && (
             <Fragment>
               <Input
                 name="name"
-                label="Customer Name"
+                label="Category Name"
                 value={name}
                 onChange={onChange}
                 alert={setAlert.name}

@@ -164,6 +164,7 @@
   color: #1da1f2;
 }
 
+.dr-select-multiple,
 .dr-select {
   position: relative;
   margin-top: 30px;
@@ -171,10 +172,99 @@
   background-color: #294056;
   height: 55px;
   border-radius: 5px;
-  padding: 25px 10px;
+  padding: 20px 10px;
   border-bottom: 1px solid #1da1f2;
 }
 
+.dr-select-multiple .ui.selection.dropdown,
+.dr-select .ui.selection.dropdown {
+  min-height: 2rem !important;
+  height: 2rem;
+  background-color: #294056;
+  color: #ffffff;
+  border-color: #294056;
+  padding-left: 0;
+  padding-top: 0;
+}
+
+.dr-select-multiple .ui.selection.active.dropdown:hover,
+.dr-select .ui.selection.active.dropdown:hover {
+  border-color: #294056;
+}
+
+.dr-select-multiple .ui.dropdown > .text,
+.dr-select .ui.dropdown > .text {
+  margin: 0 10px;
+  text-transform: capitalize;
+  color: #ffffff;
+}
+
+.dr-select-multiple .ui.selection.dropdown > .delete.icon,
+.dr-select-multiple .ui.selection.dropdown > .dropdown.icon,
+.dr-select-multiple .ui.selection.dropdown > .search.icon,
+.dr-select .ui.selection.dropdown > .delete.icon,
+.dr-select .ui.selection.dropdown > .dropdown.icon,
+.dr-select .ui.selection.dropdown > .search.icon {
+  padding: 0.5rem 0 0.9666667rem 0;
+}
+
+.dr-select-multiple .ui.multiple.search.dropdown > input.search,
+.dr-select .ui.multiple.search.dropdown > input.search {
+  margin: 0.4rem 0 0.2em;
+  color: #ffffff;
+}
+
+.dr-select-multiple .ui.selection.active.dropdown .menu,
+.dr-select .ui.selection.active.dropdown .menu {
+  margin-top: 0.2rem;
+  border-color: #192734;
+  -webkit-box-shadow: rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+          box-shadow: rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+}
+
+.dr-select-multiple .ui.multiple.dropdown > .label,
+.dr-select .ui.multiple.dropdown > .label {
+  background-color: #213445;
+  color: #ffffff;
+}
+
+.dr-select-multiple .ui.dropdown .menu,
+.dr-select .ui.dropdown .menu {
+  background-color: #1da1f2;
+}
+
+.dr-select-multiple .ui.dropdown .menu .item,
+.dr-select .ui.dropdown .menu .item {
+  background-color: #294056;
+  border-color: #294056;
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.dr-select-multiple .ui.dropdown .menu .item:hover,
+.dr-select .ui.dropdown .menu .item:hover {
+  background-color: #213445;
+}
+
+.dr-select-multiple .ui.selection.dropdown .menu > .message,
+.dr-select .ui.selection.dropdown .menu > .message {
+  background-color: #294056;
+  border-color: #294056;
+  color: #ffffff;
+}
+
+.dr-select-multiple .ui.dropdown:not(.button) > .default.text,
+.dr-select .ui.dropdown:not(.button) > .default.text {
+  margin: 0.5rem 0;
+  padding-left: 0;
+}
+
+.dr-select-multiple .ui.selection.visible.dropdown > .text:not(.default),
+.dr-select .ui.selection.visible.dropdown > .text:not(.default) {
+  color: #ffffff;
+}
+
+.dr-select-multiple .select-label,
 .dr-select .select-label {
   position: absolute;
   top: 3px;
@@ -184,6 +274,7 @@
   color: #1da1f2;
 }
 
+.dr-select-multiple .select-area select,
 .dr-select .select-area select {
   width: 100%;
   border-radius: 5px;
@@ -198,13 +289,15 @@
   text-transform: capitalize;
 }
 
-.dr-select .select-area::after {
-  content: "\f078";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 600;
-  position: absolute;
-  right: 15px;
-  pointer-events: none;
+.dr-select .ui.search.selection.dropdown > input.search {
+  padding-left: 0;
+  padding-top: 0.5rem;
+  color: #ffffff;
+}
+
+.dr-select .ui.dropdown > .text {
+  margin-left: 0rem;
+  margin-top: 0.5rem;
 }
 
 .select-alert {
@@ -587,6 +680,47 @@
   .home .links {
     height: 54vh !important;
   }
+}
+
+@media (max-width: 767px) {
+  .accounts {
+    margin-top: 50px;
+  }
+  .accounts .row {
+    padding: 15px 15px 60px;
+  }
+  .accounts .tab-content {
+    display: none;
+  }
+  .side-content {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .accounts {
+    margin-top: 50px;
+  }
+  .side-content .active {
+    padding: 10px 15px;
+  }
+}
+
+.accounts .side-nav-col .nav-heading {
+  font-size: 19px;
+  font-weight: 700;
+  padding: 10px 10px;
+}
+
+.accounts .side-content .accounts-new-content .heading,
+.accounts .card-body .accounts-new-content .heading {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.accounts .submit-button {
+  margin-top: 30px;
+  width: 100%;
 }
 
 @media (max-width: 767px) {

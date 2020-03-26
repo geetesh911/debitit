@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import {
   addSales,
   clearSalesErrors,
-  filterAddSales,
-  clearFilterAddSales,
   clearMsg
 } from "../../actions/salesAction";
 import { getProducts } from "../../actions/purchaseAction";
@@ -12,33 +10,25 @@ import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { setAlert as Alert } from "./../../actions/alertAction";
+import { SelectMultiple } from "./../common/SelectMultiple";
 
 const AddSales = ({
   purchase: { products },
-  sales: {
-    customers,
-    error,
-    filtered: { addSale }
-  },
+  sales: { customers, error },
   msg,
   getProducts,
   addSales,
-  filterAddSales,
-  clearFilterAddSales,
   clearSalesErrors,
   Alert,
   clearMsg
 }) => {
   const [formData, setFormData] = useState({
-    payment: "cash",
+    payment: "",
     quantity: "",
     price: "",
     otherExpenses: "0",
     customerId: "",
-    product: "",
-    search: "",
-    disabled: false,
-    productOptions: null,
+    product: [],
     setAlert: {
       product: false,
       customerId: false,
@@ -57,33 +47,15 @@ const AddSales = ({
     customerId,
     otherExpenses,
     product,
-    search,
-    disabled,
     setAlert,
-    productOptions,
     showCustomers
   } = formData;
 
   useEffect(() => {
     getProducts();
 
-    if (addSale) {
-      let options = [];
-      addSale.forEach(product => {
-        let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
-        option.value = JSON.stringify(product);
-
-        options.push(option);
-      });
-      setFormData({ ...formData, productOptions: options });
-    }
-    if (!addSale) {
-      setFormData({ ...formData, productOptions: null });
-    }
-
     // eslint-disable-next-line
-  }, [addSale]);
+  }, []);
 
   useEffect(() => {
     if (payment === "credit")
@@ -99,16 +71,6 @@ const AddSales = ({
   }, [payment]);
 
   useEffect(() => {
-    if (product)
-      setFormData({
-        ...formData,
-        disabled: true,
-        search: ""
-      });
-    else {
-      setFormData({ ...formData, disabled: false });
-    }
-
     if (error === "Enough stock is not available") {
       Alert(error, "danger");
       clearSalesErrors();
@@ -118,15 +80,12 @@ const AddSales = ({
       clearMsg();
       setFormData({
         ...formData,
-        payment: "cash",
+        payment: "",
         quantity: "",
         price: "",
         otherExpenses: "0",
         customerId: "",
         product: "",
-        search: "",
-        disabled: false,
-        productOptions: null,
         setAlert: {
           product: false,
           customerId: false,
@@ -138,7 +97,7 @@ const AddSales = ({
     }
 
     // eslint-disable-next-line
-  }, [product, error, msg]);
+  }, [error, msg]);
 
   const onChange = e => {
     if (e.target.name === "price") {
@@ -151,21 +110,25 @@ const AddSales = ({
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     if (e.target.name === "product") {
-      const productData = e.target.value
-        ? JSON.parse(e.target.value)
-        : { price: "" };
-      setFormData({
-        ...formData,
-        product: e.target.value,
+    }
+  };
 
-        price: productData.perPieceSellingPrice
-      });
-    }
-    if (e.target.name === "search" && e.target.value !== "") {
-      filterAddSales(e.target.value);
-    } else {
-      clearFilterAddSales();
-    }
+  const onProductChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      product: value
+    });
+  };
+
+  const onPaymentChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      payment: value
+    });
+  };
+
+  const onCustomerChange = (e, { value }) => {
+    setFormData({ ...formData, customerId: value });
   };
 
   const onSubmit = async e => {
@@ -173,34 +136,41 @@ const AddSales = ({
 
     setLoading(true);
 
+    const q = quantity.split(",");
+
     if (product.length <= 0) {
       setFormData({ ...formData, setAlert: { ...setAlert, product: true } });
     } else if (payment === "credit" && customerId === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, customerId: true } });
+    } else if (product.length !== q.length) {
+      Alert("Product and Quantity dont match", "danger");
     } else {
+      let soldProducts = [];
+      for (let i = 0; i < product.length; i++) {
+        let p = {};
+        p.productId = JSON.parse(product[i])._id;
+        p.productName = JSON.parse(product[i]).productName;
+        p.price = JSON.parse(product[i]).perPieceSellingPrice;
+        p.quantity = q[i].trim();
+        p.total = p.price * p.quantity;
+        soldProducts.push(p);
+      }
       if (customerId.length > 0) {
         await addSales(
           {
-            productName: JSON.parse(product).productName,
-            productId: JSON.parse(product)._id,
+            soldProducts,
             payment,
-            quantity: parseInt(quantity),
             otherExpenses: parseInt(otherExpenses),
-            customerId,
-            price: parseInt(price)
+            customerId
           },
           products
         );
       } else {
         await addSales(
           {
-            productName: JSON.parse(product).productName,
-            productId: JSON.parse(product)._id,
+            soldProducts,
             payment,
-            quantity: parseInt(quantity),
-
-            otherExpenses: parseInt(otherExpenses),
-            price: parseInt(price)
+            otherExpenses: parseInt(otherExpenses)
           },
           products
         );
@@ -214,8 +184,9 @@ const AddSales = ({
     customers.forEach(customer => {
       let option = {};
 
-      option.name = customer.name;
+      option.key = customer.name;
       option.value = customer._id;
+      option.text = customer.name;
 
       options.push(option);
     });
@@ -226,8 +197,11 @@ const AddSales = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${
+        product.perPieceSellingPrice
+      }${Math.random()}`;
       option.value = JSON.stringify(product);
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -240,67 +214,46 @@ const AddSales = ({
       <div className="sale-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              label="Search Product"
-              value={search}
-              min="1"
-              disabled={disabled}
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
-            <Select
+            <SelectMultiple
               label="Product*"
-              options={
-                productOptions ? productOptions : inititalProductOptions()
-              }
+              options={inititalProductOptions()}
               id="product"
               value={product}
               first={true}
               alert={setAlert.product}
               alertMsg="Choose a product"
-              onChange={onChange}
+              onChange={onProductChange}
             />
           )}
           <Select
             label="Payment Method"
-            options={["cash", "credit"]}
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "credit", value: "credit", text: "credit" }
+            ]}
             id="payment"
             value={payment}
-            onChange={onChange}
+            onChange={onPaymentChange}
           />
           {showCustomers && customers && (
             <Select
-              label="Creditor*"
+              label="Customer*"
               options={customersOptions()}
               id="customerId"
               value={customerId}
               first={true}
               alert={setAlert.customerId}
-              alertMsg="Choose a creditor"
-              onChange={onChange}
+              alertMsg="Choose a customer"
+              onChange={onCustomerChange}
             />
           )}
           <Input
             name="quantity"
             label="Quantity*"
-            type="number"
             value={quantity}
             min="1"
             onChange={onChange}
-          />
-          <Input
-            name="price"
-            label="Price"
-            type="number"
-            value={price}
-            min="1"
-            onChange={onChange}
-            alert={setAlert.price}
-            alertMsg="Price is required"
+            helperText="Seperate each product quantity by comma"
           />
           <Input
             name="otherExpenses"
@@ -326,8 +279,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addSales,
   getProducts,
-  filterAddSales,
-  clearFilterAddSales,
   clearSalesErrors,
   Alert,
   clearMsg

@@ -7,10 +7,6 @@ import {
   getSales,
   getSalesUsingProduct,
   addSalesReturn,
-  filterSalesReturn,
-  clearFilterSalesReturn,
-  filterCustomer,
-  clearFilterCustomer,
   clearSalesErrors,
   clearMsg
 } from "../../actions/salesAction";
@@ -28,10 +24,6 @@ const SalesReturn = ({
   getSales,
   getSalesUsingProduct,
   addSalesReturn,
-  filterSalesReturn,
-  filterCustomer,
-  clearFilterSalesReturn,
-  clearFilterCustomer,
   Alert,
   clearMsg,
   clearSalesErrors
@@ -41,12 +33,6 @@ const SalesReturn = ({
     productId: "",
     salesId: "",
     quantity: "",
-    search: "",
-    searchCustomer: "",
-    productOptions: null,
-    salesOptions: null,
-    disabled: false,
-    disabledSearchCustomer: false,
     setAlert: {
       productId: { alert: false, msg: "" },
       salesId: false,
@@ -54,19 +40,7 @@ const SalesReturn = ({
       price: false
     }
   });
-  const {
-    price,
-    productId,
-    salesId,
-    quantity,
-    search,
-    searchCustomer,
-    productOptions,
-    salesOptions,
-    disabled,
-    disabledSearchCustomer,
-    setAlert
-  } = formData;
+  const { price, productId, salesId, quantity, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
 
@@ -83,9 +57,6 @@ const SalesReturn = ({
             productName: p.productName,
             price: p.perPieceSellingPrice,
             quantity: "",
-            // purchaseId: "",
-            disabled: true,
-            search: "",
             setAlert: { ...setAlert, productId: { alert: false, msg: "" } }
           });
           if (productId && salesId) {
@@ -95,9 +66,7 @@ const SalesReturn = ({
                 p._id === salesId &&
                 setFormData({
                   ...formData,
-                  quantity: p.quantity,
-                  searchCustomer: "",
-                  disabledSearchCustomer: true
+                  quantity: p.quantity
                 })
             );
           }
@@ -111,8 +80,6 @@ const SalesReturn = ({
         productId: "",
         salesId: "",
         quantity: "",
-        disabled: false,
-        disabledSearchCustomer: false,
         setAlert: {
           productId: { alert: false, msg: "" },
           salesId: false,
@@ -134,10 +101,6 @@ const SalesReturn = ({
         price: "",
         productId: "",
         salesId: "",
-        search: "",
-        searchCustomer: "",
-        disabled: false,
-        disabledSearchCustomer: false,
         setAlert: {
           productId: { alert: false, msg: "" },
           salesId: false,
@@ -155,8 +118,9 @@ const SalesReturn = ({
       let options = [];
       saleReturn.forEach(product => {
         let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+        option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
         option.value = product._id;
+        option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
         options.push(option);
       });
@@ -199,13 +163,15 @@ const SalesReturn = ({
       if (e.target.name === "productId") {
         setFormData({ ...formData, productId: e.target.value, salesId: "" });
       }
-      if (e.target.name === "search" && e.target.value !== "") {
-        filterSalesReturn(e.target.value);
-      } else clearFilterSalesReturn();
-      if (e.target.name === "searchCustomer" && e.target.value !== "") {
-        filterCustomer(e.target.value);
-      } else clearFilterCustomer();
     }
+  };
+
+  const onProductChange = (e, { value }) => {
+    setFormData({ ...formData, productId: value });
+  };
+
+  const onSaleChange = (e, { value }) => {
+    setFormData({ ...formData, salesId: value });
   };
 
   const onSubmit = async e => {
@@ -249,8 +215,9 @@ const SalesReturn = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
       option.value = product._id;
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -259,11 +226,14 @@ const SalesReturn = ({
 
   const initialSalesOptions = () => {
     let options = [];
-    // setFormData({ ...setFormData, salesId: "" });
+
     salesUsingProduct.forEach(sales => {
       let option = {};
-      option.name = `${sales.customer.name} - ${convertDate(sales.date)}`;
+      option.key = `${sales.customer.name} - ${convertDate(
+        sales.date
+      )}${Math.random()}`;
       option.value = sales._id;
+      option.text = `${sales.customer.name} - ${convertDate(sales.date)}`;
 
       options.push(option);
     });
@@ -276,54 +246,28 @@ const SalesReturn = ({
       <div className="sales-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              id="salesReturnSearch"
-              label="Search Product"
-              value={search}
-              min="1"
-              disabled={disabled}
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
             <Select
               label="Product*"
-              options={
-                productOptions ? productOptions : inititalProductOptions()
-              }
+              options={inititalProductOptions()}
               id="productId"
               value={productId}
               first={true}
               alert={setAlert.productId.alert}
               alertMsg={setAlert.productId.msg}
-              onChange={onChange}
+              onChange={onProductChange}
             />
           )}
           {productId && salesUsingProduct.length > 0 && (
             <Fragment>
-              <Input
-                name="searchCustomer"
-                id="customerSearch"
-                label="Search Customer"
-                value={searchCustomer}
-                min="1"
-                disabled={disabledSearchCustomer}
-                onChange={onChange}
-                helperText="Filter customer by name or mobile"
-                required={false}
-              />
               <Select
                 label="Sales*"
-                options={salesOptions ? salesOptions : initialSalesOptions()}
+                options={initialSalesOptions()}
                 id="salesId"
                 value={salesId}
                 first={true}
                 alert={setAlert.salesId}
                 alertMsg="Choose a sale"
-                onChange={onChange}
+                onChange={onSaleChange}
               />
               {salesId && (
                 <Input
@@ -367,10 +311,6 @@ export default connect(mapStateToProps, {
   getSales,
   getSalesUsingProduct,
   addSalesReturn,
-  filterSalesReturn,
-  clearFilterSalesReturn,
-  filterCustomer,
-  clearFilterCustomer,
   Alert,
   clearMsg,
   clearSalesErrors

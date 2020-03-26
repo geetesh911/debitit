@@ -1,32 +1,24 @@
 import React from "react";
+import { Dropdown } from "semantic-ui-react";
 
-export const Select = ({
-  label,
-  options,
-  id,
-  onChange,
-  value,
-  first,
-  alert,
-  alertMsg
-}) => {
+export const Select = ({ label, options, id, onChange, alert, alertMsg }) => {
+  options = [{ key: "", text: "Select...", value: "" }, ...options];
   return (
     <div className={`dr-select ${alert ? "select-alert" : ""}`}>
       <label htmlFor="select" className="select-label">
         {label}
       </label>
       <div className="select-area">
-        <select id={id} value={value} name={id} onChange={onChange}>
-          {first && <option value="">Select....</option>}
-          {options.map(option => (
-            <option
-              value={option.value || option}
-              key={`option.value${Math.random()}` || option}
-            >
-              {option.name || option}
-            </option>
-          ))}
-        </select>
+        {options && (
+          <Dropdown
+            placeholder="Select..."
+            fluid
+            search
+            selection
+            options={options}
+            onChange={onChange}
+          />
+        )}
       </div>
       {alert && (
         <label htmlFor={id} className="select-alert-msg">

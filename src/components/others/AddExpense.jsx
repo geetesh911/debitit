@@ -73,6 +73,10 @@ const AddExpense = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onExpenseChange = (e, { value }) => {
+    setFormData({ ...formData, expenseId: value });
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
 
@@ -96,8 +100,9 @@ const AddExpense = ({
     let options = [];
     categories.forEach(category => {
       let option = {};
-      option.name = `${category.name}`;
+      option.key = `${category.name}`;
       option.value = category._id;
+      option.text = `${category.name}`;
 
       options.push(option);
     });
@@ -118,7 +123,7 @@ const AddExpense = ({
               first={true}
               alert={setAlert.expenseId}
               alertMsg="Choose an Expense"
-              onChange={onChange}
+              onChange={onExpenseChange}
             />
           )}
           {expenseId && (

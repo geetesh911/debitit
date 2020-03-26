@@ -2,12 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
-import {
-  getProduct,
-  editProduct,
-  filterEditProduct,
-  clearEditProductFilter
-} from "../../actions/purchaseAction";
+import { getProduct, editProduct } from "../../actions/purchaseAction";
 import { clearMsg } from "./../../actions/salesAction";
 import { setAlert as Alert } from "../../actions/alertAction";
 import { Select } from "../common/Select";
@@ -21,18 +16,13 @@ const EditProduct = ({
   Alert,
   clearMsg,
   getProduct,
-  editProduct,
-  filterEditProduct,
-  clearEditProductFilter
+  editProduct
 }) => {
   const [formData, setFormData] = useState({
     productName: "",
     perPieceCost: "",
     perPieceSellingPrice: "",
     productId: "",
-    search: "",
-    disabled: false,
-    productOptions: null,
     setAlert: {
       productId: false,
       productName: false,
@@ -45,30 +35,12 @@ const EditProduct = ({
     perPieceCost,
     perPieceSellingPrice,
     productId,
-    productOptions,
-    search,
-    disabled,
     setAlert
   } = formData;
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (editProducts) {
-      let options = [];
-      editProducts.forEach(product => {
-        let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
-        option.value = product._id;
-
-        options.push(option);
-      });
-      setFormData({ ...formData, productOptions: options });
-    }
-    if (!editProducts) {
-      setFormData({ ...formData, productOptions: null });
-    }
-
     if (msg) {
       Alert(msg, "info");
       clearMsg();
@@ -78,14 +50,12 @@ const EditProduct = ({
         productName: "",
         perPieceCost: "",
         perPieceSellingPrice: "",
-        disabled: false,
-        search: "",
         setAlert: { name: false, contact: false }
       });
     }
 
     //eslint-disable-next-line
-  }, [editProducts, msg]);
+  }, [msg]);
 
   useEffect(() => {
     if (productId) {
@@ -97,23 +67,22 @@ const EditProduct = ({
             ...formData,
             productName: p.productName,
             perPieceCost: p.perPieceCost,
-            perPieceSellingPrice: p.perPieceSellingPrice,
-            disabled: true,
-            search: ""
+            perPieceSellingPrice: p.perPieceSellingPrice
           })
       );
-    } else {
-      setFormData({ ...formData, disabled: false });
     }
-
     //eslint-disable-next-line
   }, [productId]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === "search" && e.target.value !== "") {
-      filterEditProduct(e.target.value);
-    } else clearEditProductFilter();
+  };
+
+  const onProductChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      productId: value
+    });
   };
 
   const onSubmit = async e => {
@@ -140,8 +109,9 @@ const EditProduct = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
       option.value = product._id;
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -154,29 +124,15 @@ const EditProduct = ({
       <div className="purchase-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              label="Search Product"
-              value={search}
-              disabled={disabled}
-              min="1"
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
             <Select
               label="Product*"
-              options={
-                productOptions ? productOptions : inititalProductOptions()
-              }
+              options={inititalProductOptions()}
               id="productId"
               value={productId}
               first={true}
               alert={setAlert.productId}
               alertMsg="Choose a product"
-              onChange={onChange}
+              onChange={onProductChange}
             />
           )}
           {productId && (
@@ -225,8 +181,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getProduct,
   editProduct,
-  filterEditProduct,
-  clearEditProductFilter,
   Alert,
   clearMsg
 })(EditProduct);

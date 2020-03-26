@@ -57,7 +57,7 @@ const AddCustomer = ({
 
   return (
     <div className="sales-new-content">
-      <div className="heading">Add Expense Type</div>
+      <div className="heading">Add Expense Category</div>
       <div className="sales-form">
         <form onSubmit={onSubmit}>
           <Input

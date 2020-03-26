@@ -37,8 +37,8 @@ const DeleteCustomer = ({
     // eslint-disable-next-line
   }, [msg]);
 
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onExpenseChange = (e, { value }) => {
+    setFormData({ ...formData, categoryId: value });
   };
 
   const onSubmit = async e => {
@@ -59,8 +59,9 @@ const DeleteCustomer = ({
     let options = [];
     categories.forEach(category => {
       let option = {};
-      option.name = category.name;
+      option.key = category.name;
       option.value = category._id;
+      option.text = category.name;
 
       options.push(option);
     });
@@ -69,7 +70,7 @@ const DeleteCustomer = ({
 
   return (
     <div className="sales-new-content">
-      <div className="heading">Delete Expense Type</div>
+      <div className="heading">Delete Expense Category</div>
       <div className="sales-form">
         <form onSubmit={onSubmit}>
           {categories && (
@@ -81,7 +82,7 @@ const DeleteCustomer = ({
               first={true}
               alert={setAlert.categoryId}
               alertMsg="Choose a category"
-              onChange={onChange}
+              onChange={onExpenseChange}
             />
           )}
           <SaveButton label="Delete" loading={loading} />

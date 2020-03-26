@@ -1,0 +1,49 @@
+@media (max-width: 767px) {
+  .accounts {
+    margin-top: 50px;
+    .row {
+      padding: 15px 15px 60px;
+    }
+    .tab-content {
+      display: none;
+    }
+  }
+
+  .side-content {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .accounts {
+    margin-top: 50px;
+  }
+  .side-content {
+    .active {
+      padding: 10px 15px;
+    }
+  }
+}
+
+.accounts {
+  .side-nav-col {
+    .nav-heading {
+      font-size: 19px;
+      font-weight: 700;
+      padding: 10px 10px;
+    }
+  }
+  .side-content,
+  .card-body {
+    .accounts-new-content {
+      .heading {
+        font-size: 25px;
+        font-weight: 700;
+      }
+    }
+  }
+  .submit-button {
+    margin-top: 30px;
+    width: 100%;
+  }
+}

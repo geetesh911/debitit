@@ -35,8 +35,8 @@ const DeleteCustomer = ({
     // eslint-disable-next-line
   }, [msg]);
 
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onCustomerChange = (e, { value }) => {
+    setFormData({ ...formData, customerId: value });
   };
 
   const onSubmit = async e => {
@@ -57,8 +57,9 @@ const DeleteCustomer = ({
     let options = [];
     customers.forEach(customer => {
       let option = {};
-      option.name = customer.name;
+      option.key = customer.name;
       option.value = customer._id;
+      option.text = customer.name;
 
       options.push(option);
     });
@@ -79,7 +80,7 @@ const DeleteCustomer = ({
               first={true}
               alert={setAlert.customerId}
               alertMsg="Choose a customer"
-              onChange={onChange}
+              onChange={onCustomerChange}
             />
           )}
           <SaveButton label="Delete" loading={loading} />

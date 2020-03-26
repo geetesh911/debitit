@@ -6,11 +6,7 @@ import { connect } from "react-redux";
 import {
   getPurchases,
   getPurchaseUsingProduct,
-  addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter,
-  filterPurchase,
-  clearPurchaseFilter
+  addPurchaseReturn
 } from "../../actions/purchaseAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 import { clearErrors } from "./../../actions/purchaseAction";
@@ -18,21 +14,12 @@ import convertDate from "./../../utils/convertDate";
 import { clearMsg } from "./../../actions/salesAction";
 
 const PurchaseReturn = ({
-  purchase: {
-    products,
-    purchaseUsingProduct,
-    error,
-    filtered: { purchaseReturn, purchase }
-  },
+  purchase: { products, purchaseUsingProduct, error },
   msg,
   clearMsg,
   getPurchases,
   getPurchaseUsingProduct,
   addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter,
-  filterPurchase,
-  clearPurchaseFilter,
   Alert,
   clearErrors
 }) => {
@@ -41,12 +28,6 @@ const PurchaseReturn = ({
     productId: "",
     purchaseId: "",
     quantity: "",
-    search: "",
-    productOptions: null,
-    disabled: false,
-    searchPurchase: "",
-    purchaseOptions: null,
-    disabledPurchase: false,
     setAlert: {
       productId: { alert: false, msg: "" },
       purchaseId: false,
@@ -54,19 +35,7 @@ const PurchaseReturn = ({
       perPieceCost: false
     }
   });
-  const {
-    perPieceCost,
-    productId,
-    purchaseId,
-    quantity,
-    search,
-    productOptions,
-    disabled,
-    searchPurchase,
-    disabledPurchase,
-    purchaseOptions,
-    setAlert
-  } = formData;
+  const { perPieceCost, productId, purchaseId, quantity, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
 
@@ -83,8 +52,6 @@ const PurchaseReturn = ({
             productName: p.productName,
             perPieceCost: p.perPieceCost,
             quantity: "",
-            search: "",
-            disabled: true,
             setAlert: { ...setAlert, productId: { alert: false, msg: "" } }
           });
           if (productId && purchaseId) {
@@ -94,9 +61,7 @@ const PurchaseReturn = ({
                 p._id === purchaseId &&
                 setFormData({
                   ...formData,
-                  quantity: p.quantity,
-                  searchPurchase: "",
-                  disabledPurchase: true
+                  quantity: p.quantity
                 })
             );
           }
@@ -111,7 +76,6 @@ const PurchaseReturn = ({
         productId: "",
         purchaseId: "",
         quantity: "",
-        disabled: false,
         setAlert: {
           productId: { alert: false, msg: "" },
           purchaseId: false,
@@ -130,10 +94,6 @@ const PurchaseReturn = ({
         perPieceSellingPrice: "",
         productId: "",
         purchaseId: "",
-        search: "",
-        disabled: false,
-        searchPurchase: "",
-        disabledPurchase: "",
         setAlert: {
           productId: { alert: false, msg: "" },
           purchaseId: false,
@@ -146,44 +106,6 @@ const PurchaseReturn = ({
     //eslint-disable-next-line
   }, [productId, purchaseId, error]);
 
-  useEffect(() => {
-    if (purchaseReturn) {
-      let options = [];
-      purchaseReturn.forEach(product => {
-        let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
-        option.value = product._id;
-
-        options.push(option);
-      });
-      setFormData({ ...formData, productOptions: options });
-    }
-    if (!purchaseReturn) {
-      setFormData({ ...formData, productOptions: null });
-    }
-
-    // eslint-disable-next-line
-  }, [purchaseReturn]);
-
-  useEffect(() => {
-    if (purchase) {
-      let options = [];
-      purchase.forEach(p => {
-        let option = {};
-        option.name = `${p.creditor.name} - ${convertDate(p.date)}`;
-        option.value = p._id;
-
-        options.push(option);
-      });
-      setFormData({ ...formData, purchaseOptions: options });
-    }
-    if (!purchase) {
-      setFormData({ ...formData, purchaseOptions: null });
-    }
-
-    // eslint-disable-next-line
-  }, [purchase]);
-
   const onChange = e => {
     if (e.target.name === "perPieceCost") {
       setFormData({
@@ -192,16 +114,21 @@ const PurchaseReturn = ({
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-      if (e.target.name === "productId") {
-        setFormData({ ...formData, productId: e.target.value, purchaseId: "" });
-      }
-      if (e.target.name === "search" && e.target.value !== "") {
-        filterPurcahseReturn(e.target.value);
-      } else clearPurchaseReturnFilter();
-      if (e.target.name === "searchPurchase" && e.target.value !== "") {
-        filterPurchase(e.target.value);
-      } else clearPurchaseFilter();
     }
+  };
+
+  const onProductChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      productId: value
+    });
+  };
+
+  const onPurchaseChange = (e, { value }) => {
+    setFormData({
+      ...formData,
+      purchaseId: value
+    });
   };
 
   const onSubmit = async e => {
@@ -245,8 +172,9 @@ const PurchaseReturn = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
       option.value = product._id;
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -258,8 +186,11 @@ const PurchaseReturn = ({
     // setFormData({ ...setFormData, purchaseId: "" });
     purchaseUsingProduct.forEach(purchase => {
       let option = {};
-      option.name = `${purchase.creditor.name} - ${convertDate(purchase.date)}`;
+      option.key = `${purchase.creditor.name} - ${convertDate(
+        purchase.date
+      )}${Math.random()}`;
       option.value = purchase._id;
+      option.text = `${purchase.creditor.name} - ${convertDate(purchase.date)}`;
 
       options.push(option);
     });
@@ -272,56 +203,30 @@ const PurchaseReturn = ({
       <div className="purchase-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              id="purchaseReturnSearch"
-              label="Search Product"
-              value={search}
-              disabled={disabled}
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
             <Fragment>
               <Select
                 label="Product*"
-                options={
-                  productOptions ? productOptions : inititalProductOptions()
-                }
+                options={inititalProductOptions()}
                 id="productId"
                 value={productId}
                 first={true}
                 alert={setAlert.productId.alert}
                 alertMsg={setAlert.productId.msg}
-                onChange={onChange}
+                onChange={onProductChange}
               />
             </Fragment>
           )}
           {productId && purchaseUsingProduct.length > 0 && (
             <Fragment>
-              <Input
-                name="searchPurchase"
-                id="purchaseSearch"
-                label="Search Purchase"
-                value={searchPurchase}
-                disabled={disabledPurchase}
-                onChange={onChange}
-                helperText="Filter purchase by creditor name or mobile"
-                required={false}
-              />
               <Select
                 label="Purchase*"
-                options={
-                  purchaseOptions ? purchaseOptions : initialPurchaseOptions()
-                }
+                options={initialPurchaseOptions()}
                 id="purchaseId"
                 value={purchaseId}
                 first={true}
                 alert={setAlert.purchaseId}
                 alertMsg="Choose a purchase"
-                onChange={onChange}
+                onChange={onPurchaseChange}
               />
               {purchaseId && (
                 <Input
@@ -364,10 +269,6 @@ export default connect(mapStateToProps, {
   getPurchases,
   getPurchaseUsingProduct,
   addPurchaseReturn,
-  filterPurcahseReturn,
-  clearPurchaseReturnFilter,
-  filterPurchase,
-  clearPurchaseFilter,
   Alert,
   clearMsg,
   clearErrors

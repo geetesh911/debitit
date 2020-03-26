@@ -21,7 +21,7 @@ const PurchaseNewProduct = ({
 }) => {
   const [formData, setFormData] = useState({
     productName: "",
-    payment: "cash",
+    payment: "",
     quantity: "",
     perPieceCost: "",
     perPieceSellingPrice: "",
@@ -29,6 +29,7 @@ const PurchaseNewProduct = ({
     creditorId: "",
     setAlert: {
       productName: false,
+      payment: false,
       creditorId: false,
       perPieceCost: false,
       perPieceSellingPrice: false,
@@ -69,7 +70,7 @@ const PurchaseNewProduct = ({
       setFormData({
         ...formData,
         productName: "",
-        payment: "cash",
+        payment: "",
         quantity: "",
         perPieceCost: "",
         perPieceSellingPrice: "",
@@ -77,6 +78,7 @@ const PurchaseNewProduct = ({
         creditorId: "",
         setAlert: {
           productName: false,
+          payment: false,
           creditorId: false,
           perPieceCost: false,
           perPieceSellingPrice: false,
@@ -93,6 +95,14 @@ const PurchaseNewProduct = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onPaymentChange = (e, { value }) => {
+    setFormData({ ...formData, payment: value });
+  };
+
+  const onCreditorChange = (e, { value }) => {
+    setFormData({ ...formData, creditorId: value });
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
 
@@ -100,6 +110,8 @@ const PurchaseNewProduct = ({
 
     if (payment === "credit" && creditorId === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, creditorId: true } });
+    } else if (payment === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, payment: true } });
     } else {
       if (creditorId.length > 0) {
         await addNewPurchase({
@@ -132,8 +144,9 @@ const PurchaseNewProduct = ({
     let options = [];
     creditors.forEach(creditor => {
       let option = {};
-      option.name = creditor.name;
+      option.key = creditor.name;
       option.value = creditor._id;
+      option.text = creditor.name;
 
       options.push(option);
     });
@@ -155,10 +168,15 @@ const PurchaseNewProduct = ({
           />
           <Select
             label="Payment Method"
-            options={["cash", "credit"]}
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "credit", value: "credit", text: "credit" }
+            ]}
             id="payment"
             value={payment}
-            onChange={onChange}
+            alert={setAlert.payment}
+            alertMsg="Choose a payment method"
+            onChange={onPaymentChange}
           />
           {showCreditors && creditors && (
             <Select
@@ -169,7 +187,7 @@ const PurchaseNewProduct = ({
               first={true}
               alert={setAlert.creditorId}
               alertMsg="Choose a creditor"
-              onChange={onChange}
+              onChange={onCreditorChange}
             />
           )}
           <Input

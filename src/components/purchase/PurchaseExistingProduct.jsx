@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import {
-  getProducts,
-  addExistingPurchase,
-  filterExistingPurchase,
-  clearFilterExistingPurchase
-} from "../../actions/purchaseAction";
+import { getProducts, addExistingPurchase } from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
@@ -22,24 +17,20 @@ const PurchaseExistingProduct = ({
   clearMsg,
   Alert,
   getProducts,
-  addExistingPurchase,
-  filterExistingPurchase,
-  clearFilterExistingPurchase
+  addExistingPurchase
 }) => {
   const [formData, setFormData] = useState({
-    payment: "cash",
+    payment: "",
     quantity: "",
     perPieceCost: "",
     perPieceSellingPrice: "",
     otherExpenses: "0",
     creditorId: "",
     product: "",
-    search: "",
-    disabled: false,
-    productOptions: null,
     setAlert: {
       product: false,
       creditorId: false,
+      payment: false,
       perPieceCost: false,
       perPieceSellingPrice: false,
       otherExpenses: false
@@ -57,30 +48,12 @@ const PurchaseExistingProduct = ({
     creditorId,
     otherExpenses,
     product,
-    search,
-    disabled,
     setAlert,
-    productOptions,
     showCreditors
   } = formData;
 
   useEffect(() => {
     getProducts();
-
-    if (purchaseExistingProduct) {
-      let options = [];
-      purchaseExistingProduct.forEach(product => {
-        let option = {};
-        option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
-        option.value = JSON.stringify(product);
-
-        options.push(option);
-      });
-      setFormData({ ...formData, productOptions: options });
-    }
-    if (!purchaseExistingProduct) {
-      setFormData({ ...formData, productOptions: null });
-    }
 
     // eslint-disable-next-line
   }, [purchaseExistingProduct]);
@@ -99,33 +72,22 @@ const PurchaseExistingProduct = ({
   }, [payment]);
 
   useEffect(() => {
-    if (product)
-      setFormData({
-        ...formData,
-        disabled: true,
-        search: ""
-      });
-    else {
-      setFormData({ ...formData, disabled: false });
-    }
     if (msg) {
       Alert(msg, "info");
       clearMsg();
       setFormData({
         ...formData,
-        payment: "cash",
+        payment: "",
         quantity: "",
         perPieceCost: "",
         perPieceSellingPrice: "",
         otherExpenses: "0",
         creditorId: "",
         product: "",
-        search: "",
-        disabled: false,
-        productOptions: null,
         setAlert: {
           product: false,
           creditorId: false,
+          payment: false,
           perPieceCost: false,
           perPieceSellingPrice: false,
           otherExpenses: false
@@ -134,7 +96,7 @@ const PurchaseExistingProduct = ({
       });
     }
     // eslint-disable-next-line
-  }, [product, msg]);
+  }, [msg]);
 
   const onChange = e => {
     if (
@@ -149,30 +111,35 @@ const PurchaseExistingProduct = ({
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-    if (e.target.name === "product") {
-      const productData = e.target.value
-        ? JSON.parse(e.target.value)
-        : { perPieceCost: "", perPieceSellingPrice: "" };
-      setFormData({
-        ...formData,
-        product: e.target.value,
-        perPieceCost: productData.perPieceCost,
-        perPieceSellingPrice: productData.perPieceSellingPrice
-      });
-    }
-    if (e.target.name === "search" && e.target.value !== "") {
-      filterExistingPurchase(e.target.value);
-    } else {
-      clearFilterExistingPurchase();
-    }
   };
 
+  const onPaymentChange = (e, { value }) => {
+    setFormData({ ...formData, payment: value });
+  };
+
+  const onCreditorChange = (e, { value }) => {
+    setFormData({ ...formData, creditorId: value });
+  };
+
+  const onProductChange = (e, { value }) => {
+    const productData = value
+      ? JSON.parse(value)
+      : { perPieceCost: "", perPieceSellingPrice: "" };
+    setFormData({
+      ...formData,
+      product: value,
+      perPieceCost: productData.perPieceCost,
+      perPieceSellingPrice: productData.perPieceSellingPrice
+    });
+  };
   const onSubmit = async e => {
     e.preventDefault();
 
     setLoading(true);
     if (product.length <= 0) {
       setFormData({ ...formData, setAlert: { ...setAlert, product: true } });
+    } else if (payment === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, payment: true } });
     } else if (payment === "credit" && creditorId === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, creditorId: true } });
     } else {
@@ -209,6 +176,7 @@ const PurchaseExistingProduct = ({
 
       option.name = creditor.name;
       option.value = creditor._id;
+      option.text = creditor.name;
 
       options.push(option);
     });
@@ -219,8 +187,9 @@ const PurchaseExistingProduct = ({
     let options = [];
     products.forEach(product => {
       let option = {};
-      option.name = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
+      option.key = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
       option.value = JSON.stringify(product);
+      option.text = `${product.productName} - \u20B9 ${product.perPieceSellingPrice}`;
 
       options.push(option);
     });
@@ -233,37 +202,30 @@ const PurchaseExistingProduct = ({
       <div className="purchase-form">
         <form onSubmit={onSubmit}>
           {products && (
-            <Input
-              name="search"
-              label="Search Product"
-              value={search}
-              min="1"
-              disabled={disabled}
-              onChange={onChange}
-              helperText="Filter products by name"
-              required={false}
-            />
-          )}
-          {products && (
             <Select
               label="Product*"
-              options={
-                productOptions ? productOptions : inititalProductOptions()
-              }
+              options={inititalProductOptions()}
               id="product"
               value={product}
+              placeholder="Select..."
               first={true}
               alert={setAlert.product}
               alertMsg="Choose a product"
-              onChange={onChange}
+              onChange={onProductChange}
             />
           )}
           <Select
             label="Payment Method"
-            options={["cash", "credit"]}
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "credit", value: "credit", text: "credit" }
+            ]}
             id="payment"
+            placeholder="Select..."
             value={payment}
-            onChange={onChange}
+            alert={setAlert.payment}
+            alertMsg="Choose a payment method"
+            onChange={onPaymentChange}
           />
           {showCreditors && creditors && (
             <Select
@@ -272,9 +234,10 @@ const PurchaseExistingProduct = ({
               id="creditorId"
               value={creditorId}
               first={true}
+              placeholder="Select..."
               alert={setAlert.creditorId}
               alertMsg="Choose a creditor"
-              onChange={onChange}
+              onChange={onCreditorChange}
             />
           )}
           <Input
@@ -328,8 +291,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addExistingPurchase,
   getProducts,
-  filterExistingPurchase,
-  clearFilterExistingPurchase,
   clearMsg,
   Alert
 })(PurchaseExistingProduct);

@@ -155,8 +155,6 @@ export const getSalesUsingProduct = productName => async dispatch => {
 
 // add sales
 export const addSales = formData => async dispatch => {
-  formData.productName = formData.productName.trim();
-
   const config = {
     headers: {
       "Content-Type": "application/json"

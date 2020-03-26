@@ -143,6 +143,7 @@
   }
 }
 
+.dr-select-multiple,
 .dr-select {
   position: relative;
   margin-top: 30px;
@@ -150,8 +151,74 @@
   background-color: $input-background-color;
   height: 55px;
   border-radius: 5px;
-  padding: 25px 10px;
+  padding: 20px 10px;
   border-bottom: 1px solid $hover-color;
+
+  .ui.selection.dropdown {
+    min-height: 2rem !important;
+    height: 2rem;
+    background-color: $input-background-color;
+    color: $text-color-dark;
+    border-color: $input-background-color;
+    padding-left: 0;
+    padding-top: 0;
+  }
+  .ui.selection.active.dropdown:hover {
+    border-color: $input-background-color;
+  }
+
+  .ui.dropdown > .text {
+    margin: 0 10px;
+    text-transform: capitalize;
+    color: $text-color-dark;
+  }
+  .ui.selection.dropdown > .delete.icon,
+  .ui.selection.dropdown > .dropdown.icon,
+  .ui.selection.dropdown > .search.icon {
+    padding: 0.5rem 0 0.9666667rem 0;
+  }
+
+  .ui.multiple.search.dropdown > input.search {
+    margin: 0.4rem 0 0.2em;
+    color: $text-color-dark;
+  }
+
+  .ui.selection.active.dropdown .menu {
+    margin-top: 0.2rem;
+    border-color: $div-background-color;
+    box-shadow: rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+  }
+
+  .ui.multiple.dropdown > .label {
+    background-color: $input-hover-color;
+    color: $text-color-dark;
+  }
+
+  .ui.dropdown .menu {
+    background-color: $hover-color;
+  }
+  .ui.dropdown .menu .item {
+    background-color: $input-background-color;
+    border-color: $input-background-color;
+    color: $text-color-dark;
+    text-transform: capitalize;
+    &:hover {
+      background-color: $input-hover-color;
+    }
+  }
+  .ui.selection.dropdown .menu > .message {
+    background-color: $input-background-color;
+    border-color: $input-background-color;
+    color: $text-color-dark;
+  }
+
+  .ui.dropdown:not(.button) > .default.text {
+    margin: 0.5rem 0;
+    padding-left: 0;
+  }
+  .ui.selection.visible.dropdown > .text:not(.default) {
+    color: $text-color-dark;
+  }
 
   .select-label {
     position: absolute;
@@ -174,16 +241,60 @@
       cursor: pointer;
       text-transform: capitalize;
     }
-    &::after {
-      content: "\f078";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 600;
-      position: absolute;
-      right: 15px;
-      pointer-events: none;
-    }
   }
 }
+.dr-select {
+  .ui.search.selection.dropdown > input.search {
+    padding-left: 0;
+    padding-top: 0.5rem;
+    color: $text-color-dark;
+  }
+  .ui.dropdown > .text {
+    margin-left: 0rem;
+    margin-top: 0.5rem;
+  }
+}
+// .dr-select {
+//   position: relative;
+//   margin-top: 30px;
+//   width: 100%;
+//   background-color: $input-background-color;
+//   height: 55px;
+//   border-radius: 5px;
+//   padding: 25px 10px;
+//   border-bottom: 1px solid $hover-color;
+
+//   .select-label {
+//     position: absolute;
+//     top: 3px;
+//     left: 10px;
+//     font-size: 12px;
+//     font-weight: 500;
+//     color: $hover-color;
+//   }
+//   .select-area {
+//     // padding: 0 15px 0 0;
+//     select {
+//       width: 100%;
+//       border-radius: 5px;
+//       background-color: $input-background-color;
+//       border: none;
+//       color: $text-color-dark;
+//       outline: none;
+//       appearance: none;
+//       cursor: pointer;
+//       text-transform: capitalize;
+//     }
+//     &::after {
+//       content: "\f078";
+//       font-family: "Font Awesome 5 Free";
+//       font-weight: 600;
+//       position: absolute;
+//       right: 15px;
+//       pointer-events: none;
+//     }
+//   }
+// }
 .select-alert {
   border-bottom: 1px solid $alert-color;
   transition: all 0.2s ease;

@@ -518,17 +518,17 @@ export default (state = initialState, action) => {
         ...state,
         sales: {
           ...state.sales,
-          customers: state.customers.map(customer => {
+          customers: state.sales.customers.map(customer => {
             if (customer._id === action.payload._id) {
               return (customer = action.payload);
             } else {
               return customer;
             }
-          }),
-          customer:
-            state.customer._id === action.payload._id
-              ? action.payload
-              : state.customer
+          })
+          // customer:
+          //   state.customer._id === action.payload._id
+          //     ? action.payload
+          //     : state.customer
         },
         msg: "Customer Updated"
       };
@@ -537,7 +537,7 @@ export default (state = initialState, action) => {
         ...state,
         sales: {
           ...state.sales,
-          customers: state.customers.filter(
+          customers: state.sales.customers.filter(
             customer => customer._id !== action.payload
           )
         },
