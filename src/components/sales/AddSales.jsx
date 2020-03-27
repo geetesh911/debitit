@@ -11,10 +11,12 @@ import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { setAlert as Alert } from "./../../actions/alertAction";
 import { SelectMultiple } from "./../common/SelectMultiple";
+import { Bill } from "./Bill";
 
 const AddSales = ({
   purchase: { products },
-  sales: { customers, error },
+  auth: { user },
+  sales: { customers, error, bill },
   msg,
   getProducts,
   addSales,
@@ -39,6 +41,11 @@ const AddSales = ({
   });
 
   const [loading, setLoading] = useState(false);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const {
     payment,
@@ -67,8 +74,11 @@ const AddSales = ({
     if (payment === "cash") {
       setFormData({ ...formData, showCustomers: false, customerId: "" });
     }
+    if (bill) {
+      handleShow();
+    }
     // eslint-disable-next-line
-  }, [payment]);
+  }, [payment, bill]);
 
   useEffect(() => {
     if (error === "Enough stock is not available") {
@@ -175,6 +185,7 @@ const AddSales = ({
           products
         );
       }
+      handleShow();
     }
     setLoading(false);
   };
@@ -265,12 +276,16 @@ const AddSales = ({
           />
           <SaveButton label="Add" loading={loading} />
         </form>
+        {bill && user && (
+          <Bill show={show} handleClose={handleClose} bill={bill} user={user} />
+        )}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   purchase: state.transaction.purchase,
   sales: state.transaction.sales,
   msg: state.transaction.msg

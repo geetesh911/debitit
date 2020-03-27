@@ -50,18 +50,18 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 2px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(211, 211, 211, 1);
-  border-left: transparent;
-  border-right: transparent;
-  border-top: transparent;
-  border-bottom: transparent;
+  background-color: rgba(211, 211, 211, 1) !important;
+  border-left: transparent !important;
+  border-right: transparent !important;
+  border-top: transparent !important;
+  border-bottom: transparent !important;
 }
 
 .main {
   height: 100vh;
-  // overflow: hidden;
+  overflow-x: hidden;
 }

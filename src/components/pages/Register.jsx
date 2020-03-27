@@ -16,16 +16,29 @@ const Register = ({
     password: "",
     password2: "",
     gender: "",
+    address: "",
+    mobile: "",
     setAlert: {
       email: false,
       password: false,
-      gender: false
+      gender: false,
+      address: false,
+      mobile: false
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  const { name, email, password, password2, gender, setAlert } = formData;
+  const {
+    name,
+    email,
+    password,
+    password2,
+    gender,
+    address,
+    mobile,
+    setAlert
+  } = formData;
 
   useEffect(() => {
     if (isAuthenticated) window.location = "/accounts";
@@ -38,6 +51,9 @@ const Register = ({
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const onGenderChange = (e, { value }) => {
+    setFormData({ ...formData, gender: value });
   };
 
   const onSubmit = async e => {
@@ -52,6 +68,10 @@ const Register = ({
         ...formData,
         setAlert: { ...setAlert, password: true }
       });
+    } else if (address === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, address: true } });
+    } else if (mobile === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, mobile: true } });
     } else if (error === "User already exist") {
       setFormData({ ...formData, setAlert: { ...setAlert, email: true } });
       clearErrors();
@@ -63,7 +83,9 @@ const Register = ({
         name,
         email,
         password,
-        gender
+        gender,
+        address,
+        mobile
       });
       setLoading(false);
     }
@@ -80,7 +102,7 @@ const Register = ({
           />
         </div>
         <div className="form">
-          <div className="text">Create your account</div>
+          <div className="form-text">Create your account</div>
           <form onSubmit={onSubmit}>
             <Input
               name="name"
@@ -98,13 +120,37 @@ const Register = ({
             />
             <Select
               label="Proprieter's Gender*"
-              options={["male", "female", "other"]}
+              options={[
+                { key: "male", value: "male", text: "male" },
+                { key: "female", value: "female", text: "female" },
+                { key: "other", value: "other", text: "other" }
+              ]}
               id="gender"
               value={gender}
               first={true}
-              onChange={onChange}
+              onChange={onGenderChange}
               alert={setAlert.gender}
               alertMsg="Specify your gender"
+            />
+
+            <Input
+              name="address"
+              label="address*"
+              type="address"
+              alert={setAlert.address}
+              onChange={onChange}
+              value={address}
+              minLength="6"
+            />
+            <Input
+              name="mobile"
+              label="mobile*"
+              type="mobile"
+              alert={setAlert.mobile}
+              onChange={onChange}
+              value={mobile}
+              minLength="10"
+              maxLength="10"
             />
             <Input
               name="password"

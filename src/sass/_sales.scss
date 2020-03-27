@@ -47,3 +47,101 @@
     width: 100%;
   }
 }
+
+.modal-content {
+  background-color: $div-background-color !important;
+  .modal-header,
+  .modal-footer {
+    border-color: $hover-color;
+  }
+  .close {
+    color: $text-color-dark;
+  }
+}
+.modal-dialog {
+  max-width: 650px;
+}
+.modal-body {
+  .brand {
+    font-size: 30px;
+    text-transform: capitalize;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+  .bill-header {
+    display: flex;
+    .brand-name {
+      font-size: 25px;
+      width: 100%;
+      font-weight: 800;
+      text-transform: capitalize;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu,
+        "Helvetica Neue", sans-serif;
+    }
+    .name-side {
+      width: 90%;
+      // padding-left: 10px;
+      .address {
+        text-transform: capitalize;
+        margin-top: 15px;
+      }
+      .phone {
+        margin-top: 5px;
+      }
+      .bill-to {
+        margin-top: 15px;
+        .bill-to-heading {
+          background-color: $input-background-color;
+          padding: 7px 10px 7px 10px;
+          margin-left: -10px;
+          font-size: 20px;
+          font-weight: 600;
+        }
+        .customer {
+          margin-top: 5px;
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .invoice-side {
+      text-align: right;
+      // width: 90%;
+      .date {
+        margin-top: 15px;
+      }
+      .head {
+        text-align: right;
+        font-size: 25px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .bill-area {
+    margin-top: 15px;
+    .table-dark td,
+    .table-dark th,
+    .table-dark thead th {
+      border-color: $input-hover-color;
+    }
+    table {
+      text-align: center;
+      text-transform: capitalize;
+      background-color: $input-background-color;
+      border-radius: 10px;
+    }
+    .des {
+      width: 60%;
+      // text-align: center;
+    }
+    .des-content {
+      text-align: left;
+    }
+    .extra-opt {
+      border-top: 2px solid $hover-color !important;
+      border-bottom: 2px solid $hover-color !important;
+    }
+  }
+}

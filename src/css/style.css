@@ -805,6 +805,120 @@
   width: 100%;
 }
 
+.modal-content {
+  background-color: #192734 !important;
+}
+
+.modal-content .modal-header,
+.modal-content .modal-footer {
+  border-color: #1da1f2;
+}
+
+.modal-content .close {
+  color: #ffffff;
+}
+
+.modal-dialog {
+  max-width: 650px;
+}
+
+.modal-body .brand {
+  font-size: 30px;
+  text-transform: capitalize;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.modal-body .bill-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.modal-body .bill-header .brand-name {
+  font-size: 25px;
+  width: 100%;
+  font-weight: 800;
+  text-transform: capitalize;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+
+.modal-body .bill-header .name-side {
+  width: 90%;
+}
+
+.modal-body .bill-header .name-side .address {
+  text-transform: capitalize;
+  margin-top: 15px;
+}
+
+.modal-body .bill-header .name-side .phone {
+  margin-top: 5px;
+}
+
+.modal-body .bill-header .name-side .bill-to {
+  margin-top: 15px;
+}
+
+.modal-body .bill-header .name-side .bill-to .bill-to-heading {
+  background-color: #294056;
+  padding: 7px 10px 7px 10px;
+  margin-left: -10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-body .bill-header .name-side .bill-to .customer {
+  margin-top: 5px;
+  text-transform: capitalize;
+}
+
+.modal-body .bill-header .invoice-side {
+  text-align: right;
+}
+
+.modal-body .bill-header .invoice-side .date {
+  margin-top: 15px;
+}
+
+.modal-body .bill-header .invoice-side .head {
+  text-align: right;
+  font-size: 25px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.modal-body .bill-area {
+  margin-top: 15px;
+}
+
+.modal-body .bill-area .table-dark td,
+.modal-body .bill-area .table-dark th,
+.modal-body .bill-area .table-dark thead th {
+  border-color: #213445;
+}
+
+.modal-body .bill-area table {
+  text-align: center;
+  text-transform: capitalize;
+  background-color: #294056;
+  border-radius: 10px;
+}
+
+.modal-body .bill-area .des {
+  width: 60%;
+}
+
+.modal-body .bill-area .des-content {
+  text-align: left;
+}
+
+.modal-body .bill-area .extra-opt {
+  border-top: 2px solid #1da1f2 !important;
+  border-bottom: 2px solid #1da1f2 !important;
+}
+
 @media (max-width: 767px) {
   .others {
     margin-top: 50px;
@@ -890,8 +1004,8 @@
   padding: 0 20px;
 }
 
-.register .form-area .form .text,
-.login .form-area .form .text {
+.register .form-area .form .form-text,
+.login .form-area .form .form-text {
   font-size: 23px;
   font-weight: 700;
   text-align: center;
@@ -923,7 +1037,7 @@
   height: 60%;
 }
 
-.login .form-area .form .text {
+.login .form-area .form .form-text {
   text-align: center;
 }
 
@@ -1521,18 +1635,19 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 2px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: lightgray;
-  border-left: transparent;
-  border-right: transparent;
-  border-top: transparent;
-  border-bottom: transparent;
+  background-color: lightgray !important;
+  border-left: transparent !important;
+  border-right: transparent !important;
+  border-top: transparent !important;
+  border-bottom: transparent !important;
 }
 
 .main {
   height: 100vh;
+  overflow-x: hidden;
 }
 /*# sourceMappingURL=style.css.map */

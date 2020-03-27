@@ -50,7 +50,7 @@ const Login = ({ auth: { isAuthenticated, error }, login, clearErrors }) => {
           />
         </div>
         <div className="form">
-          <div className="text">Log in to Debitit </div>
+          <div className="form-text">Log in to Debitit </div>
           <form onSubmit={onSubmit}>
             <Input
               name="email"
