@@ -4,38 +4,6 @@ import { printStyle } from "./../../utils/print";
 import convertDate from "./../../utils/convertDate";
 
 export const Bill = ({ show, handleClose, bill, user }) => {
-  bill = {
-    otherExpenses: 10,
-    _id: "5e7dfc0661c79022208624fb",
-    soldProducts: [
-      {
-        _id: "5e7dfc0661c79022208624fc",
-        productId: "5e7c8e9bbe621e43a0fe48ac",
-        productName: "kurkure",
-        quantity: 1,
-        price: 10,
-        total: 10
-      },
-      {
-        _id: "5e7dfc0661c79022208624fd",
-        productId: "5e7cbe5fd541281b28e87a65",
-        productName: "condom",
-        quantity: 1,
-        price: 50,
-        total: 50
-      }
-    ],
-    payment: "credit",
-    totalAmount: 70,
-    date: "2020-03-27T13:13:42.641Z",
-    customer: {
-      _id: "5e7b60459d012e198c619485",
-      name: "mini mini",
-      mobile: "9660766912"
-    },
-    user: "5e7b4d739d012e198c61947f"
-  };
-  console.log("modal", bill);
   const print = () => {
     const content = document.querySelector(".bill").innerHTML;
 
