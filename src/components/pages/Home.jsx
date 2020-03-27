@@ -65,6 +65,7 @@ export const Home = () => {
                 <div className="tagline">
                   Struggling with finance,
                   <br />
+                  <br />
                   Just debitit
                 </div>
                 <div className="msg">Join Debitit today</div>
