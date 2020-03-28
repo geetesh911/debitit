@@ -9,6 +9,7 @@ import AddExpenseCategory from "../others/AddExpenseCategory";
 import EditExpenseCategory from "../others/EditExpenseCategory";
 import DeleteExpenseCategory from "../others/DeleteExpenseCategory";
 import AddExpense from "../others/AddExpense";
+import Drawings from "../others/Drawings";
 
 const Others = ({
   auth: { user },
@@ -35,23 +36,17 @@ const Others = ({
             <MobileAccordian
               options={[
                 {
-                  heading: "Other Expenses",
+                  heading: "Expenses",
                   arr: [
                     {
-                      heading: "Add Expenses",
+                      heading: "Add Existing Expense",
                       body: <AddExpense />,
                       name: "add_expenses"
-                    }
-                  ]
-                },
-                {
-                  seperator: true,
-                  heading: "Expense Category",
-                  arr: [
+                    },
                     {
-                      heading: "Add Expense Category",
+                      heading: "Add New Expense",
                       body: <AddExpenseCategory />,
-                      name: "add_expense_category"
+                      name: "add_new_expense"
                     },
                     {
                       heading: "Edit Expense Category",
@@ -62,6 +57,17 @@ const Others = ({
                       heading: "Delete Expense Category",
                       body: <DeleteExpenseCategory />,
                       name: "delete_expense_category"
+                    }
+                  ]
+                },
+                {
+                  heading: "Others",
+                  seperator: true,
+                  arr: [
+                    {
+                      heading: "Drawings",
+                      body: <Drawings />,
+                      name: "drawings"
                     }
                   ]
                 },
@@ -80,21 +86,16 @@ const Others = ({
             <RouteSideNav
               options={[
                 {
-                  heading: "Other Expenses",
+                  heading: "Expenses",
                   firstOption: {
                     name: "sidetab-add-expenses",
-                    label: "Add Expenses"
-                  },
-                  firstActive: true
-                },
-                {
-                  heading: "Expense Category",
-                  seperator: true,
-                  firstOption: {
-                    name: "sidetab-add-expense-category",
-                    label: "Add Expense Category"
+                    label: "Add Existing Expenses"
                   },
                   otherOptions: [
+                    {
+                      name: "sidetab-add-new-expense",
+                      label: "Add New Expense"
+                    },
                     {
                       name: "sidetab-edit-expense-category",
                       label: "Edit Expense Category"
@@ -103,7 +104,16 @@ const Others = ({
                       name: "sidetab-delete-expense-category",
                       label: "Delete Expense Category"
                     }
-                  ]
+                  ],
+                  firstActive: true
+                },
+                {
+                  heading: "Others",
+                  seperator: true,
+                  firstOption: {
+                    name: "sidetab-drawings",
+                    label: "Drawings"
+                  }
                 },
                 {
                   seperator: true,
@@ -129,9 +139,9 @@ const Others = ({
                 </div>
                 <div
                   className="tab-pane fade"
-                  id="sidetab-add-expense-category"
+                  id="sidetab-add-new-expense"
                   role="tabpanel"
-                  aria-labelledby="add-expense-category-tab"
+                  aria-labelledby="add-new-expense-tab"
                 >
                   <AddExpenseCategory />
                 </div>
@@ -150,6 +160,14 @@ const Others = ({
                   aria-labelledby="delete-expense-category-tab"
                 >
                   <DeleteExpenseCategory />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-drawings"
+                  role="tabpanel"
+                  aria-labelledby="drawings-tab"
+                >
+                  <Drawings />
                 </div>
               </div>
             </div>

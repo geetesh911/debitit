@@ -8,7 +8,7 @@ import {
 } from "./../../actions/othersAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
-const DeleteCustomer = ({
+const DeleteExpenseCategory = ({
   others: { categories, msg },
   clearOthersMsg,
   deleteExpenseCategory
@@ -99,4 +99,4 @@ export default connect(mapStateToProps, {
   deleteExpenseCategory,
   clearOthersMsg,
   Alert
-})(DeleteCustomer);
+})(DeleteExpenseCategory);

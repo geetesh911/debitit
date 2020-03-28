@@ -31,14 +31,14 @@ const Purchase = ({ auth: { user }, loadUser }) => {
                   heading: "Add Purchase",
                   arr: [
                     {
-                      heading: "New Product",
-                      body: <PurchaseNewProduct />,
-                      name: "new"
-                    },
-                    {
                       heading: "Existing Product",
                       body: <PurchaseExistingProduct />,
                       name: "existing"
+                    },
+                    {
+                      heading: "New Product",
+                      body: <PurchaseNewProduct />,
+                      name: "new"
                     }
                   ]
                 },
@@ -102,10 +102,11 @@ const Purchase = ({ auth: { user }, loadUser }) => {
               options={[
                 {
                   heading: "Add Purchase",
-                  firstOption: { name: "sidetab-new", label: "New Product" },
-                  otherOptions: [
-                    { name: "sidetab-existing", label: "Existing Product" }
-                  ],
+                  firstOption: {
+                    name: "sidetab-existing",
+                    label: "Existing Product"
+                  },
+                  otherOptions: [{ name: "sidetab-new", label: "New Product" }],
                   firstActive: true
                 },
 
@@ -158,19 +159,19 @@ const Purchase = ({ auth: { user }, loadUser }) => {
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className="tab-pane fade show active"
-                  id="sidetab-new"
-                  role="tabpanel"
-                  aria-labelledby="new-tab"
-                >
-                  <PurchaseNewProduct />
-                </div>
-                <div
-                  className="tab-pane fade"
                   id="sidetab-existing"
                   role="tabpanel"
                   aria-labelledby="existing-tab"
                 >
                   <PurchaseExistingProduct />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-new"
+                  role="tabpanel"
+                  aria-labelledby="new-tab"
+                >
+                  <PurchaseNewProduct />
                 </div>
                 <div
                   className="tab-pane fade show"

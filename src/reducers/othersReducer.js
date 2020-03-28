@@ -13,13 +13,17 @@ import {
   GET_EXPENSES_FAILED,
   ADD_EXPENSE,
   ADD_EXPENSE_FAILED,
-  CLEAR_OTHERS_MSG
+  ADD_DRAWINGS,
+  ADD_DRAWINGS_FAILED,
+  CLEAR_OTHERS_MSG,
+  CLEAR_OTHERS_ERROR
 } from "../actions/types";
 
 const initialState = {
   category: null,
   categories: [],
   expenses: [],
+  drawings: [],
   msg: null,
   error: null
 };
@@ -39,8 +43,9 @@ export default (state = initialState, action) => {
     case ADD_CATEGORY:
       return {
         ...state,
-        categories: [action.payload, ...state.categories],
-        msg: "Category Added"
+        categories: [action.payload.newCategory, ...state.categories],
+        expenses: [action.payload.newExpense, ...state.expenses],
+        msg: "Category and Expense Added"
       };
     case EDIT_CATEGORY:
       return {
@@ -79,6 +84,18 @@ export default (state = initialState, action) => {
         expenses: [action.payload, ...state.expenses],
         msg: "Expense Added"
       };
+    case ADD_DRAWINGS:
+      return {
+        ...state,
+        drawings: [action.payload, ...state.expenses],
+        msg: "Drawings Added"
+      };
+
+    case CLEAR_OTHERS_ERROR:
+      return {
+        ...state,
+        error: null
+      };
 
     case GET_CATEGORY_FAILED:
     case GET_CATEGORIES_FAILED:
@@ -87,6 +104,7 @@ export default (state = initialState, action) => {
     case DELETE_CATEGORY_FAILED:
     case GET_EXPENSES_FAILED:
     case ADD_EXPENSE_FAILED:
+    case ADD_DRAWINGS_FAILED:
       return {
         ...state,
         error: action.payload

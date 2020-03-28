@@ -111,7 +111,7 @@ const AddExpense = ({
 
   return (
     <div className="others-new-content">
-      <div className="heading">Add Expense</div>
+      <div className="heading">Add an Expense</div>
       <div className="others-form">
         <form onSubmit={onSubmit}>
           {categories && (

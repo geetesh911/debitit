@@ -7,7 +7,7 @@ export const Bill = ({ show, handleClose, bill, user }) => {
   const print = () => {
     const content = document.querySelector(".bill").innerHTML;
 
-    const print = window.open("", "");
+    const print = window.open("", "", "height=500,width=500");
     print.document.write(
       `<html>
         <head>

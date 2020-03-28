@@ -95,7 +95,7 @@ const AddSales = ({
         price: "",
         otherExpenses: "0",
         customerId: "",
-        product: "",
+        product: [],
         setAlert: {
           product: false,
           customerId: false,
@@ -118,8 +118,6 @@ const AddSales = ({
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-    if (e.target.name === "product") {
     }
   };
 
@@ -185,7 +183,6 @@ const AddSales = ({
           products
         );
       }
-      handleShow();
     }
     setLoading(false);
   };

@@ -14,7 +14,10 @@ import {
   GET_EXPENSES_FAILED,
   ADD_EXPENSE,
   ADD_EXPENSE_FAILED,
-  CLEAR_OTHERS_MSG
+  ADD_DRAWINGS,
+  ADD_DRAWINGS_FAILED,
+  CLEAR_OTHERS_MSG,
+  CLEAR_OTHERS_ERROR
 } from "../actions/types";
 
 let url = "";
@@ -144,6 +147,33 @@ export const addExpense = formData => async dispatch => {
       payload: err.response.data.msg
     });
   }
+};
+
+// add expense
+export const addDrawings = formData => async dispatch => {
+  formData.name = formData.name.trim();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/drawing`, formData, config);
+    dispatch({ type: ADD_DRAWINGS, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: ADD_DRAWINGS_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// clear error
+export const clearOthersError = () => {
+  return {
+    type: CLEAR_OTHERS_ERROR
+  };
 };
 
 // Clear msg

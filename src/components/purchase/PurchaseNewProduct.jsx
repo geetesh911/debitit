@@ -5,14 +5,15 @@ import { connect } from "react-redux";
 import {
   addNewPurchase,
   getCreditors,
-  addNewProduct
+  addNewProduct,
+  clearErrors
 } from "../../actions/purchaseAction";
 import { SaveButton } from "../common/SaveButton";
 import { clearMsg } from "./../../actions/salesAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
 const PurchaseNewProduct = ({
-  purchase: { creditors },
+  purchase: { creditors, error },
   msg,
   clearMsg,
   Alert,
@@ -54,6 +55,10 @@ const PurchaseNewProduct = ({
 
   useEffect(() => {
     getCreditors();
+    if (error === "Enough Cash is not available") {
+      Alert(error, "danger");
+      clearErrors();
+    }
 
     if (payment === "credit")
       setFormData({
@@ -89,7 +94,7 @@ const PurchaseNewProduct = ({
     }
 
     // eslint-disable-next-line
-  }, [payment, msg]);
+  }, [payment, msg, error]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -244,6 +249,7 @@ export default connect(mapStateToProps, {
   addNewPurchase,
   getCreditors,
   addNewProduct,
+  clearErrors,
   Alert,
   clearMsg
 })(PurchaseNewProduct);

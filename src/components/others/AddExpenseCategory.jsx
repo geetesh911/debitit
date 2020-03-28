@@ -8,7 +8,7 @@ import {
 } from "../../actions/othersAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
-const AddCustomer = ({
+const AddExpenseCategory = ({
   addExpenseCategories,
   clearOthersMsg,
   Alert,
@@ -16,14 +16,16 @@ const AddCustomer = ({
 }) => {
   const [formData, setFormData] = useState({
     name: "",
+    amount: "",
     setAlert: {
-      name: false
+      name: false,
+      amount: false
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  const { name, setAlert } = formData;
+  const { name, amount, setAlert } = formData;
 
   useEffect(() => {
     if (msg) {
@@ -32,7 +34,8 @@ const AddCustomer = ({
       setFormData({
         ...formData,
         name: "",
-        setAlert: { name: false }
+        amount: "",
+        setAlert: { name: false, amount: false }
       });
     }
 
@@ -49,7 +52,8 @@ const AddCustomer = ({
     setLoading(true);
 
     await addExpenseCategories({
-      name
+      name,
+      amount
     });
 
     setLoading(false);
@@ -57,16 +61,24 @@ const AddCustomer = ({
 
   return (
     <div className="sales-new-content">
-      <div className="heading">Add Expense Category</div>
+      <div className="heading">Add New Expense</div>
       <div className="sales-form">
         <form onSubmit={onSubmit}>
           <Input
             name="name"
-            label="Category Name*"
+            label="Expense Name*"
             value={name}
             onChange={onChange}
             alert={setAlert.name}
-            alertMsg="Category name is required"
+            alertMsg="Expense name is required"
+          />
+          <Input
+            name="amount"
+            label="Amount*"
+            value={amount}
+            onChange={onChange}
+            alert={setAlert.amount}
+            alertMsg="Amount is required"
           />
           <SaveButton label="Add" loading={loading} />
         </form>
@@ -83,4 +95,4 @@ export default connect(mapStateToProps, {
   addExpenseCategories,
   clearOthersMsg,
   Alert
-})(AddCustomer);
+})(AddExpenseCategory);

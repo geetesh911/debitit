@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getProducts, addExistingPurchase } from "../../actions/purchaseAction";
+import {
+  getProducts,
+  addExistingPurchase,
+  clearErrors
+} from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
@@ -11,6 +15,7 @@ const PurchaseExistingProduct = ({
   purchase: {
     products,
     creditors,
+    error,
     filtered: { purchaseExistingProduct }
   },
   msg,
@@ -54,9 +59,13 @@ const PurchaseExistingProduct = ({
 
   useEffect(() => {
     getProducts();
+    if (error === "Enough Cash is not available") {
+      Alert(error, "danger");
+      clearErrors();
+    }
 
     // eslint-disable-next-line
-  }, [purchaseExistingProduct]);
+  }, [purchaseExistingProduct, error]);
 
   useEffect(() => {
     if (payment === "credit")
@@ -292,5 +301,6 @@ export default connect(mapStateToProps, {
   addExistingPurchase,
   getProducts,
   clearMsg,
+  clearErrors,
   Alert
 })(PurchaseExistingProduct);

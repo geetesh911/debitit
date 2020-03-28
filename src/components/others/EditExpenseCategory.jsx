@@ -10,7 +10,7 @@ import {
 import { Select } from "../common/Select";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
-const EditCustomer = ({
+const EditExpenseCategory = ({
   others: { categories, msg },
   getExpenseCategories,
   editExpenseCategory,
@@ -127,4 +127,4 @@ export default connect(mapStateToProps, {
   editExpenseCategory,
   clearOthersMsg,
   Alert
-})(EditCustomer);
+})(EditExpenseCategory);
