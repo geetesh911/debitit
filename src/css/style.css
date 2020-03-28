@@ -1396,6 +1396,9 @@
     display: inline;
     color: white;
   }
+  .accordion .card .card-body {
+    padding-bottom: 4.5rem;
+  }
   .accordion .card .nav-icon {
     position: absolute;
     display: inline-block !important;
