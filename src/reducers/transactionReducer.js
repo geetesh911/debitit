@@ -18,6 +18,8 @@ import {
   GET_PURCHASE_USING_PRODUCTNAME_FAILED,
   ADD_PURCHASE_RETURN,
   ADD_PURCHASE_RETURN_FAILED,
+  GAVE_PAYMENT,
+  GAVE_PAYMENT_FAILED,
 
   // products
   GET_PRODUCTS,
@@ -75,6 +77,8 @@ import {
   ADD_SALES_RETURN_FAILED,
   GET_SALES_USING_PRODUCTNAME,
   GET_SALES_USING_PRODUCTNAME_FAILED,
+  RECEIVED_PAYMENT,
+  RECEIVED_PAYMENT_FAILED,
 
   // sales error
   CLEAR_SALES_ERRORS,
@@ -452,6 +456,12 @@ export default (state = initialState, action) => {
         msg: "Purchase Returned"
       };
 
+    case GAVE_PAYMENT:
+      return {
+        ...state,
+        msg: "Payment Given"
+      };
+
     case CLEAR_ERRORS:
       return {
         ...state,
@@ -673,6 +683,12 @@ export default (state = initialState, action) => {
         }
       };
 
+    case RECEIVED_PAYMENT:
+      return {
+        ...state,
+        msg: "Payment Received"
+      };
+
     // error
     case CLEAR_SALES_ERRORS:
       return {
@@ -693,6 +709,8 @@ export default (state = initialState, action) => {
     case ADD_SALES_RETURN_FAILED:
     case GET_SALES_USING_PRODUCTNAME_FAILED:
     case GET_SALES_FAILED:
+    case RECEIVED_PAYMENT_FAILED:
+    case GAVE_PAYMENT_FAILED:
       return {
         ...state,
         sales: {

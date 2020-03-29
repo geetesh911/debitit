@@ -106,6 +106,29 @@ const PurchaseReturn = ({
     //eslint-disable-next-line
   }, [productId, purchaseId, error]);
 
+  useEffect(() => {
+    if (msg) {
+      Alert(msg, "info");
+      clearMsg();
+      setFormData({
+        ...formData,
+        perPieceCost: "",
+        perPieceSellingPrice: "",
+        productId: "",
+        purchaseId: "",
+        quantity: "",
+        setAlert: {
+          productId: { alert: false, msg: "" },
+          purchaseId: false,
+          productName: false,
+          perPieceCost: false
+        }
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [msg]);
+
   const onChange = e => {
     if (e.target.name === "perPieceCost") {
       setFormData({

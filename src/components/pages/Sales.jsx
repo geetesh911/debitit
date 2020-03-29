@@ -9,6 +9,7 @@ import AddSales from "../sales/AddSales";
 import SalesReturn from "../sales/SalesReturn";
 import { connect } from "react-redux";
 import { loadUser } from "./../../actions/authAction";
+import ReceivedPayment from "../sales/ReceivedPayment";
 
 const Sales = ({ auth: { user }, loadUser }) => {
   useEffect(() => {
@@ -41,6 +42,11 @@ const Sales = ({ auth: { user }, loadUser }) => {
                       heading: "Add a Customer",
                       body: <AddCustomer />,
                       name: "new_customer"
+                    },
+                    {
+                      heading: "Received Payment",
+                      body: <ReceivedPayment />,
+                      name: "received_payment"
                     },
                     {
                       heading: "Edit Customer",
@@ -83,6 +89,10 @@ const Sales = ({ auth: { user }, loadUser }) => {
                     label: "Add New Customer"
                   },
                   otherOptions: [
+                    {
+                      name: "sidetab-received-payment",
+                      label: "Received Payment"
+                    },
                     { name: "sidetab-edit-customer", label: "Edit Customer" },
                     {
                       name: "sidetab-delete-customer",
@@ -119,6 +129,14 @@ const Sales = ({ auth: { user }, loadUser }) => {
                   aria-labelledby="new-customer-tab"
                 >
                   <AddCustomer />
+                </div>
+                <div
+                  className="tab-pane fade show"
+                  id="sidetab-received-payment"
+                  role="tabpanel"
+                  aria-labelledby="received-payment-tab"
+                >
+                  <ReceivedPayment />
                 </div>
                 <div
                   className="tab-pane fade show"

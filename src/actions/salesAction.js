@@ -21,6 +21,8 @@ import {
   GET_SALES_USING_PRODUCTNAME,
   GET_SALES_USING_PRODUCTNAME_FAILED,
   CLEAR_SALES_ERRORS,
+  RECEIVED_PAYMENT,
+  RECEIVED_PAYMENT_FAILED,
 
   // filter
   FILTER_ADD_SALES,
@@ -194,6 +196,24 @@ export const addSalesReturn = formData => async dispatch => {
     console.log(err.response.data.msg);
     dispatch({
       type: ADD_SALES_RETURN_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// received payment
+export const receivedPayment = formData => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/receivedpayment`, formData, config);
+    dispatch({ type: RECEIVED_PAYMENT, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: RECEIVED_PAYMENT_FAILED,
       payload: err.response.data.msg
     });
   }

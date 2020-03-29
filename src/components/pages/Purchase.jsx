@@ -11,6 +11,7 @@ import EditProduct from "../purchase/EditProduct";
 import DeleteProduct from "../purchase/DeleteProduct";
 import PurchaseReturn from "./../purchase/PurchaseReturn";
 import ProductDetails from "../purchase/ProductDetails";
+import GavePayment from "../purchase/GavePayment";
 import { connect } from "react-redux";
 import { loadUser } from "./../../actions/authAction";
 
@@ -67,6 +68,11 @@ const Purchase = ({ auth: { user }, loadUser }) => {
                   heading: "Creditors",
                   seperator: true,
                   arr: [
+                    {
+                      heading: "Gave Payment",
+                      body: <GavePayment />,
+                      name: "gave_payment"
+                    },
                     {
                       heading: "Add a Creditor",
                       body: <AddCreditor />,
@@ -132,10 +138,14 @@ const Purchase = ({ auth: { user }, loadUser }) => {
                   heading: "Creditors",
                   seperator: true,
                   firstOption: {
-                    name: "sidetab-new-creditor",
-                    label: "Add New Creditor"
+                    name: "sidetab-gave-payment",
+                    label: "Gave Payment"
                   },
                   otherOptions: [
+                    {
+                      name: "sidetab-new-creditor",
+                      label: "Add New Creditor"
+                    },
                     { name: "sidetab-edit-creditor", label: "Edit Creditor" },
                     {
                       name: "sidetab-delete-creditor",
@@ -180,6 +190,14 @@ const Purchase = ({ auth: { user }, loadUser }) => {
                   aria-labelledby="new-creditor-tab"
                 >
                   <AddCreditor />
+                </div>
+                <div
+                  className="tab-pane fade show"
+                  id="sidetab-gave-payment"
+                  role="tabpanel"
+                  aria-labelledby="gave-payment-tab"
+                >
+                  <GavePayment />
                 </div>
                 <div
                   className="tab-pane fade show"

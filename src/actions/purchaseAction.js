@@ -41,7 +41,9 @@ import {
   FILTER_PURCHASE_RETURN,
   CLEAR_FILTER_PURCHASE_RETURN,
   FILTER_PURCHASE,
-  CLEAR_FILTER_PURCHASE
+  CLEAR_FILTER_PURCHASE,
+  GAVE_PAYMENT,
+  GAVE_PAYMENT_FAILED
 } from "../actions/types";
 import axios from "axios";
 
@@ -304,6 +306,24 @@ export const editProduct = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: EDIT_PRODUCT_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// gave payment
+export const gavePayment = formData => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/gavepayment`, formData, config);
+    dispatch({ type: GAVE_PAYMENT, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GAVE_PAYMENT_FAILED,
       payload: err.response.data.msg
     });
   }
