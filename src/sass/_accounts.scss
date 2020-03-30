@@ -1,6 +1,73 @@
 @media (max-width: 767px) {
   .accounts {
-    margin-top: 50px;
+    margin-top: 70px;
+    .stats-accordian {
+      padding: 0 15px;
+      display: block;
+
+      .card,
+      .card-header {
+        background-color: $div-background-color !important;
+      }
+      .card-body {
+        padding: 0.5rem 1.25rem 1.25rem !important;
+      }
+      .card {
+        border: 1px solid $input-background-color !important;
+        border-radius: 7px !important;
+      }
+      button {
+        background-color: $div-background-color !important;
+        color: $text-color-dark;
+        padding: 8px 12px;
+        text-align: left;
+        position: relative;
+        border: none !important;
+        &:hover {
+          text-decoration: none;
+        }
+        &:focus {
+          text-decoration: none;
+        }
+      }
+      .card-header {
+        border: none;
+        padding: 0;
+        h2 {
+          font-size: 20px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Ubuntu, "Helvetica Neue", sans-serif;
+        }
+        .nav-icon {
+          fill: $text-color-dark;
+          height: 2rem;
+          position: absolute;
+          right: 10px;
+          top: 28% !important;
+        }
+      }
+    }
+    .stats {
+      display: block;
+      margin: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .customers-stats,
+    .creditors-stats {
+      background-color: $input-background-color;
+      height: 5rem;
+      border-radius: 10px;
+      // width: 100%;
+      margin: 0 2rem;
+      .head {
+        padding-top: 0.5rem;
+        margin-top: 0 !important;
+      }
+    }
+    .stats-seperator {
+      height: 1rem;
+    }
     .row {
       padding: 15px 15px 60px;
     }
@@ -16,7 +83,24 @@
 
 @media (min-width: 768px) {
   .accounts {
-    margin-top: 50px;
+    margin-top: 70px;
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .customers-stats,
+    .creditors-stats,
+    .customer,
+    .creditor {
+      // background-color: $input-background-color;
+      height: 5rem;
+      border-radius: 10px;
+      width: 40%;
+    }
+    .stats-seperator {
+      width: 10%;
+    }
   }
   .side-content {
     .active {
@@ -35,6 +119,13 @@
   }
   .side-content,
   .card-body {
+    .msg {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu,
+        "Helvetica Neue", sans-serif !important;
+      font-size: 16px;
+      color: $text-dim-color-dark;
+    }
+
     .accounts-new-content {
       .heading {
         font-size: 25px;
@@ -45,5 +136,113 @@
   .submit-button {
     margin-top: 30px;
     width: 100%;
+  }
+}
+
+.accounts {
+  .stats-accordian {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu,
+      "Helvetica Neue", sans-serif !important;
+    .body {
+      max-height: 200px;
+      overflow-y: auto;
+      .card-body {
+        padding-top: 0.5rem;
+        .data {
+          display: flex;
+          margin-bottom: 15px;
+          &:last-of-type {
+            margin-bottom: 0px;
+          }
+          .user-icon {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            margin-right: 20px;
+          }
+          .user-stats {
+            .name {
+              text-transform: capitalize;
+              display: block;
+              font-size: 16px;
+              color: $text-dim-color-dark;
+              font-weight: 600;
+            }
+            .due {
+              margin-top: 3px;
+              .badge {
+                font-size: 100%;
+              }
+              .badge-dark {
+                background-color: $input-background-color;
+              }
+            }
+          }
+        }
+      }
+    }
+    .card,
+    .card-header {
+      background-color: $div-background-color;
+    }
+    .card {
+      border: 1px solid $input-background-color;
+      border-radius: 7px;
+    }
+    button {
+      color: $text-color-dark;
+      padding: 8px 12px;
+      text-align: left;
+      // border-bottom: 1px solid $input-background-color;
+      &:hover {
+        text-decoration: none;
+      }
+      &:focus {
+        text-decoration: none;
+      }
+    }
+    .card-header {
+      border: none;
+      padding: 0;
+      h2 {
+        font-size: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Ubuntu, "Helvetica Neue", sans-serif;
+      }
+      .nav-icon {
+        fill: $text-color-dark;
+        height: 1.5rem;
+        position: absolute;
+        right: 10px;
+        top: 0.8rem;
+      }
+    }
+  }
+
+  .customers-stats,
+  .creditors-stats {
+    text-align: center;
+    position: relative;
+    a {
+      color: $text-color-dark;
+    }
+
+    .head {
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .amount {
+      margin-top: 0.8rem;
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+  }
+  .customers-stats {
+    background-color: $collection;
+  }
+  .creditors-stats {
+    background-color: $payment;
   }
 }

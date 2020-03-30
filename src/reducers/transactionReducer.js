@@ -45,6 +45,8 @@ import {
   SAVE_NEW_PURCHASE_FAILED,
   SAVE_EXISTING_PURCHASE,
   SAVE_EXISTING_PURCHASE_FAILED,
+  FILTER_CREDITORS,
+  CLEAR_FILTER_CREDITORS,
 
   // filter products
   FILTER_EDIT_PRODUCT,
@@ -107,7 +109,8 @@ const initialState = {
       editProducts: null,
       deleteProducts: null,
       purchaseReturn: null,
-      purchase: null
+      purchase: null,
+      creditor: null
     },
     purchaseUsingProduct: [],
     purchaseReturn: [],
@@ -123,7 +126,8 @@ const initialState = {
     filtered: {
       addSale: null,
       saleReturn: null,
-      sale: null
+      sale: null,
+      customer: null
     },
     salesUsingProduct: [],
     salesReturn: [],
@@ -387,6 +391,31 @@ export default (state = initialState, action) => {
         purchase: {
           ...state.purchase,
           filtered: { ...state.purchase.filtered, purchase: null }
+        }
+      };
+
+    case FILTER_CREDITORS:
+      return {
+        ...state,
+        purchase: {
+          ...state.purchase,
+          filtered: {
+            ...state.purchase.filtered,
+            creditor: state.purchase.creditors.filter(creditor => {
+              const regex = new RegExp(`${action.payload}`, "gi");
+              return (
+                creditor.name.match(regex) || creditor.contact.match(regex)
+              );
+            })
+          }
+        }
+      };
+    case CLEAR_FILTER_CREDITORS:
+      return {
+        ...state,
+        purchase: {
+          ...state.purchase,
+          filtered: { ...state.purchase.filtered, creditor: null }
         }
       };
 
@@ -664,12 +693,9 @@ export default (state = initialState, action) => {
           ...state.sales,
           filtered: {
             ...state.sales.filtered,
-            sale: state.sales.salesUsingProduct.filter(sale => {
+            customer: state.sales.customers.filter(customer => {
               const regex = new RegExp(`${action.payload}`, "gi");
-              return (
-                sale.customer.name.match(regex) ||
-                sale.customer.mobile.match(regex)
-              );
+              return customer.name.match(regex) || customer.mobile.match(regex);
             })
           }
         }
@@ -679,7 +705,7 @@ export default (state = initialState, action) => {
         ...state,
         sales: {
           ...state.sales,
-          filtered: { ...state.sales.filtered, sale: null }
+          filtered: { ...state.sales.filtered, customer: null }
         }
       };
 

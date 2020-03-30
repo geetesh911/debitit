@@ -236,6 +236,7 @@ export const filterSalesReturn = text => dispatch => {
 
 // filter customer
 export const filterCustomer = text => dispatch => {
+  console.log("called");
   dispatch({ type: FILTER_CUSTOMER, payload: text });
 };
 

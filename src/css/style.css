@@ -164,6 +164,114 @@
   color: #1da1f2;
 }
 
+.dr-search {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.dr-search .form-input {
+  position: relative;
+  height: 35px;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.dr-search .form-input:first-of-type {
+  margin-top: 10px;
+}
+
+.dr-search .form-input input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-left: 50px;
+  border: none;
+  outline: none;
+  background-color: #253341;
+  border-radius: 25px;
+  color: #ffffff;
+}
+
+.dr-search .form-input input::-webkit-input-placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  color: #a6a6a6;
+}
+
+.dr-search .form-input input:-ms-input-placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  color: #a6a6a6;
+}
+
+.dr-search .form-input input::-ms-input-placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  color: #a6a6a6;
+}
+
+.dr-search .form-input input::placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  color: #a6a6a6;
+}
+
+.dr-search .form-input input:focus {
+  background-color: #192734;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.dr-search .form-input input:focus + .label .label-content,
+.dr-search .form-input input:focus + .label .label-content {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1da1f2;
+  fill: #1da1f2;
+}
+
+.dr-search .form-input input:focus + .label::after {
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+  border: 1px solid #1da1f2;
+}
+
+.dr-search .form-input .label {
+  position: absolute;
+  margin-bottom: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.dr-search .form-input .label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  height: 100%;
+  width: 100%;
+  border: 1px solid rgba(29, 161, 242, 0);
+  border-radius: 25px;
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.dr-search .form-input .label .label-content {
+  color: #ffffff;
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  -webkit-transition: all 0.05s ease;
+  transition: all 0.05s ease;
+  fill: #a6a6a6;
+  height: 18px;
+}
+
 .dr-select-multiple,
 .dr-select {
   position: relative;
@@ -684,7 +792,76 @@
 
 @media (max-width: 767px) {
   .accounts {
-    margin-top: 50px;
+    margin-top: 70px;
+  }
+  .accounts .stats-accordian {
+    padding: 0 15px;
+    display: block;
+  }
+  .accounts .stats-accordian .card,
+  .accounts .stats-accordian .card-header {
+    background-color: #192734 !important;
+  }
+  .accounts .stats-accordian .card-body {
+    padding: 0.5rem 1.25rem 1.25rem !important;
+  }
+  .accounts .stats-accordian .card {
+    border: 1px solid #294056 !important;
+    border-radius: 7px !important;
+  }
+  .accounts .stats-accordian button {
+    background-color: #192734 !important;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    position: relative;
+    border: none !important;
+  }
+  .accounts .stats-accordian button:hover {
+    text-decoration: none;
+  }
+  .accounts .stats-accordian button:focus {
+    text-decoration: none;
+  }
+  .accounts .stats-accordian .card-header {
+    border: none;
+    padding: 0;
+  }
+  .accounts .stats-accordian .card-header h2 {
+    font-size: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  }
+  .accounts .stats-accordian .card-header .nav-icon {
+    fill: #ffffff;
+    height: 2rem;
+    position: absolute;
+    right: 10px;
+    top: 28% !important;
+  }
+  .accounts .stats {
+    display: block;
+    margin: auto;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .accounts .customers-stats,
+  .accounts .creditors-stats {
+    background-color: #294056;
+    height: 5rem;
+    border-radius: 10px;
+    margin: 0 2rem;
+  }
+  .accounts .customers-stats .head,
+  .accounts .creditors-stats .head {
+    padding-top: 0.5rem;
+    margin-top: 0 !important;
+  }
+  .accounts .stats-seperator {
+    height: 1rem;
   }
   .accounts .row {
     padding: 15px 15px 60px;
@@ -699,7 +876,29 @@
 
 @media (min-width: 768px) {
   .accounts {
-    margin-top: 50px;
+    margin-top: 70px;
+  }
+  .accounts .stats {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .accounts .customers-stats,
+  .accounts .creditors-stats,
+  .accounts .customer,
+  .accounts .creditor {
+    height: 5rem;
+    border-radius: 10px;
+    width: 40%;
+  }
+  .accounts .stats-seperator {
+    width: 10%;
   }
   .side-content .active {
     padding: 10px 15px;
@@ -712,6 +911,13 @@
   padding: 10px 10px;
 }
 
+.accounts .side-content .msg,
+.accounts .card-body .msg {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif !important;
+  font-size: 16px;
+  color: #a6a6a6;
+}
+
 .accounts .side-content .accounts-new-content .heading,
 .accounts .card-body .accounts-new-content .heading {
   font-size: 25px;
@@ -721,6 +927,133 @@
 .accounts .submit-button {
   margin-top: 30px;
   width: 100%;
+}
+
+.accounts .stats-accordian {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif !important;
+}
+
+.accounts .stats-accordian .body {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.accounts .stats-accordian .body .card-body {
+  padding-top: 0.5rem;
+}
+
+.accounts .stats-accordian .body .card-body .data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.accounts .stats-accordian .body .card-body .data:last-of-type {
+  margin-bottom: 0px;
+}
+
+.accounts .stats-accordian .body .card-body .data .user-icon {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.accounts .stats-accordian .body .card-body .data .user-stats .name {
+  text-transform: capitalize;
+  display: block;
+  font-size: 16px;
+  color: #a6a6a6;
+  font-weight: 600;
+}
+
+.accounts .stats-accordian .body .card-body .data .user-stats .due {
+  margin-top: 3px;
+}
+
+.accounts .stats-accordian .body .card-body .data .user-stats .due .badge {
+  font-size: 100%;
+}
+
+.accounts .stats-accordian .body .card-body .data .user-stats .due .badge-dark {
+  background-color: #294056;
+}
+
+.accounts .stats-accordian .card,
+.accounts .stats-accordian .card-header {
+  background-color: #192734;
+}
+
+.accounts .stats-accordian .card {
+  border: 1px solid #294056;
+  border-radius: 7px;
+}
+
+.accounts .stats-accordian button {
+  color: #ffffff;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.accounts .stats-accordian button:hover {
+  text-decoration: none;
+}
+
+.accounts .stats-accordian button:focus {
+  text-decoration: none;
+}
+
+.accounts .stats-accordian .card-header {
+  border: none;
+  padding: 0;
+}
+
+.accounts .stats-accordian .card-header h2 {
+  font-size: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+
+.accounts .stats-accordian .card-header .nav-icon {
+  fill: #ffffff;
+  height: 1.5rem;
+  position: absolute;
+  right: 10px;
+  top: 0.8rem;
+}
+
+.accounts .customers-stats,
+.accounts .creditors-stats {
+  text-align: center;
+  position: relative;
+}
+
+.accounts .customers-stats a,
+.accounts .creditors-stats a {
+  color: #ffffff;
+}
+
+.accounts .customers-stats .head,
+.accounts .creditors-stats .head {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.accounts .customers-stats .amount,
+.accounts .creditors-stats .amount {
+  margin-top: 0.8rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.accounts .customers-stats {
+  background-color: #23903c;
+}
+
+.accounts .creditors-stats {
+  background-color: #dc3545;
 }
 
 @media (max-width: 767px) {
@@ -1618,6 +1951,27 @@
   text-transform: uppercase;
   background: #eee;
   padding: 8px 16px;
+}
+
+.receive {
+  margin-top: 70px;
+  padding: 0 20px;
+}
+
+.receive .stats-card {
+  padding: 10px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 25%;
+  background-color: #192734;
+  -webkit-box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 15px, rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+          box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 15px, rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+}
+
+.receive .stats-card .name {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 * {

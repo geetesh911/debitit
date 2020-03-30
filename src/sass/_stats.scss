@@ -1,0 +1,17 @@
+.receive {
+  margin-top: 70px;
+  padding: 0 20px;
+  .stats-card {
+    padding: 10px;
+    height: fit-content;
+    width: 25%;
+    background-color: $div-background-color;
+    box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 15px,
+      rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+
+    .name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+}

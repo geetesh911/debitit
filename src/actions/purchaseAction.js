@@ -42,6 +42,8 @@ import {
   CLEAR_FILTER_PURCHASE_RETURN,
   FILTER_PURCHASE,
   CLEAR_FILTER_PURCHASE,
+  FILTER_CREDITORS,
+  CLEAR_FILTER_CREDITORS,
   GAVE_PAYMENT,
   GAVE_PAYMENT_FAILED
 } from "../actions/types";
@@ -327,6 +329,16 @@ export const gavePayment = formData => async dispatch => {
       payload: err.response.data.msg
     });
   }
+};
+
+// Filter product
+export const filterCreditors = text => dispatch => {
+  dispatch({ type: FILTER_CREDITORS, payload: text });
+};
+
+// clear filter creditors
+export const clearFilterCreditors = text => dispatch => {
+  dispatch({ type: CLEAR_FILTER_CREDITORS, payload: text });
 };
 
 // Filter product
