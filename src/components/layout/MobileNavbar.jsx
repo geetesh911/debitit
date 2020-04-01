@@ -43,14 +43,6 @@ const MobileNavbar = ({
   return (
     <Fragment>
       <div className="dr-mobile-nav">
-        {/* <div className="mobile-nav-items">
-          <NavLink
-            Icon={HomeIcon}
-            activeIcons={activeIcons}
-            onClick={onClick}
-            id="mobile-home"
-          />
-        </div> */}
         <div className="mobile-nav-items">
           <NavLink
             Icon={AccountsIcon}
@@ -96,7 +88,8 @@ const MobileNavbar = ({
   );
 };
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  nav: state.nav
 });
 
 export default connect(mapStateToProps, { loadUser })(MobileNavbar);

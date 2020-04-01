@@ -12,8 +12,9 @@ import {
   clearFilterCustomer
 } from "../../actions/salesAction";
 import { loadUser } from "./../../actions/authAction";
-// import { Link } from "react-router-dom";
 import { StatsAccordian } from "../common/StatsAccordian";
+import { getCashData } from "./../../actions/accountsAction";
+import { CashBook } from "../Accounts/CashBook";
 
 const Accounts = ({
   auth: { user },
@@ -25,13 +26,15 @@ const Accounts = ({
     creditors,
     filtered: { creditor }
   },
+  accounts: { cash },
   loadUser,
   getCreditors,
   filterCreditors,
   clearFilterCreditors,
   filterCustomer,
   clearFilterCustomer,
-  getCustomers
+  getCustomers,
+  getCashData
 }) => {
   const [customerSearch, setCustomerSearch] = useState("");
   const [creditorSearch, setCreditorSearch] = useState("");
@@ -40,6 +43,7 @@ const Accounts = ({
     loadUser();
     getCustomers();
     getCreditors();
+    getCashData();
 
     // eslint-disable-next-line
   }, []);
@@ -86,7 +90,8 @@ const Accounts = ({
             <div className="customer">
               <StatsAccordian
                 name="customer"
-                label={`You'll Receive \u20B9${receive}`}
+                label={`You'll Receive`}
+                netAmount={`\u20B9${receive}`}
                 data={customer ? customer : customers}
                 search={customerSearch}
                 filterFunction={filterCustomer}
@@ -100,7 +105,8 @@ const Accounts = ({
             <div className="creditor">
               <StatsAccordian
                 name="creditor"
-                label={`You'll Pay \u20B9${pay}`}
+                label={`You'll Pay`}
+                netAmount={`\u20B9${pay}`}
                 data={creditor ? creditor : creditors}
                 filterFunction={filterCreditors}
                 clearFilterFunction={clearFilterCreditors}
@@ -110,6 +116,7 @@ const Accounts = ({
               />
             </div>
           </div>
+          <CashBook cash={cash} />
         </div>
       </div>
     </Fragment>
@@ -119,7 +126,8 @@ const Accounts = ({
 const mapStateToProps = state => ({
   auth: state.auth,
   purchase: state.transaction.purchase,
-  sales: state.transaction.sales
+  sales: state.transaction.sales,
+  accounts: state.accounts
 });
 
 export default connect(mapStateToProps, {
@@ -129,5 +137,6 @@ export default connect(mapStateToProps, {
   filterCreditors,
   clearFilterCreditors,
   getCreditors,
-  getCustomers
+  getCustomers,
+  getCashData
 })(Accounts);

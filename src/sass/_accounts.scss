@@ -1,6 +1,8 @@
 @media (max-width: 767px) {
   .accounts {
     margin-top: 70px;
+    margin-bottom: 70px;
+
     .stats-accordian {
       padding: 0 15px;
       display: block;
@@ -86,8 +88,9 @@
     margin-top: 70px;
     .stats {
       display: flex;
-      align-items: center;
+      // align-items: center;
       justify-content: center;
+      min-height: 250px;
     }
     .customers-stats,
     .creditors-stats,
@@ -105,6 +108,72 @@
   .side-content {
     .active {
       padding: 10px 15px;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .ledger {
+    display: block !important;
+    .cr,
+    .dr {
+      width: 100% !important;
+    }
+    .dr {
+      border-bottom: 1px solid $input-background-color;
+    }
+  }
+  .cash-book {
+    .caption {
+      font-size: 18px;
+      font-weight: 800;
+      text-align: left !important;
+      padding: 0 0 0 10px;
+      position: relative;
+      .net {
+        right: 5px;
+        top: 0;
+        font-size: 100%;
+        position: absolute;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .ledger {
+    .t-date {
+      width: 35%;
+      text-transform: capitalize;
+    }
+    .t-par {
+      width: 40%;
+      text-transform: capitalize;
+      font-weight: 600;
+      span {
+        font-weight: 400;
+        text-transform: none;
+      }
+    }
+    .t-amt {
+      width: 25%;
+      text-transform: capitalize;
+    }
+    tbody {
+      display: block !important;
+      height: 200px !important;
+      overflow: auto !important;
+      width: 100% !important;
+    }
+    thead,
+    tbody tr {
+      display: table !important;
+      width: 100% !important;
+      table-layout: fixed !important;
+    }
+    thead {
+      width: calc(100%) !important;
+    }
+    table {
+      width: 100% !important;
     }
   }
 }
@@ -171,12 +240,6 @@
             }
             .due {
               margin-top: 3px;
-              .badge {
-                font-size: 100%;
-              }
-              .badge-dark {
-                background-color: $input-background-color;
-              }
             }
           }
         }
@@ -244,5 +307,76 @@
   }
   .creditors-stats {
     background-color: $payment;
+  }
+
+  .cash-book {
+    margin: 0 15px;
+    // border-radius: 7px;
+
+    .caption {
+      font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 5px;
+      position: relative;
+      .net {
+        right: 5px;
+        top: 0;
+        font-size: 100%;
+        position: absolute;
+      }
+    }
+
+    .ledger {
+      // padding: 5px;
+      display: flex;
+      border: 1px solid $input-background-color;
+    }
+    margin-top: 2rem;
+    .cr,
+    .dr {
+      width: 50%;
+    }
+    .table-content {
+      max-height: 300px;
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    table {
+      // border-radius: 7px;
+      // table-layout: fixed;
+      margin-top: 0;
+      margin-bottom: 0;
+      background-color: $body-background-color;
+      // .t-head {
+
+      // }
+      tr {
+        background-color: $body-background-color;
+      }
+      .t-header {
+        background-color: $div-background-color;
+        font-size: 16px;
+      }
+      .t-date {
+        text-align: left;
+        text-transform: capitalize;
+      }
+      .t-par {
+        text-align: left;
+        text-transform: capitalize;
+        font-weight: 600;
+        span {
+          font-weight: 400;
+          text-transform: none;
+        }
+      }
+      .t-amt {
+        text-align: left;
+        text-transform: capitalize;
+      }
+    }
   }
 }

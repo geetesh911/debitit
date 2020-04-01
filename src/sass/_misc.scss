@@ -231,6 +231,15 @@
   }
 }
 
+.badge {
+  font-size: 90%;
+  line-height: 0.9;
+  // padding-top: 0em;
+}
+.badge-dark {
+  background-color: $input-background-color;
+}
+
 .dr-select-multiple,
 .dr-select {
   position: relative;

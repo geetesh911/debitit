@@ -34,6 +34,7 @@ $payment: #dc3545;
 @import "bootstrapOverwrite";
 @import "selectSearch";
 @import "stats";
+@import "materialcss";
 
 * {
   box-sizing: border-box;
@@ -54,6 +55,7 @@ html {
 
 ::-webkit-scrollbar {
   width: 2px !important;
+  height: 2px !important ;
 }
 
 ::-webkit-scrollbar-thumb {

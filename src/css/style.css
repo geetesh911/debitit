@@ -272,6 +272,15 @@
   height: 18px;
 }
 
+.badge {
+  font-size: 90%;
+  line-height: 0.9;
+}
+
+.badge-dark {
+  background-color: #294056;
+}
+
 .dr-select-multiple,
 .dr-select {
   position: relative;
@@ -793,6 +802,7 @@
 @media (max-width: 767px) {
   .accounts {
     margin-top: 70px;
+    margin-bottom: 70px;
   }
   .accounts .stats-accordian {
     padding: 0 15px;
@@ -882,12 +892,10 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+    min-height: 250px;
   }
   .accounts .customers-stats,
   .accounts .creditors-stats,
@@ -902,6 +910,70 @@
   }
   .side-content .active {
     padding: 10px 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ledger {
+    display: block !important;
+  }
+  .ledger .cr,
+  .ledger .dr {
+    width: 100% !important;
+  }
+  .ledger .dr {
+    border-bottom: 1px solid #294056;
+  }
+  .cash-book .caption {
+    font-size: 18px;
+    font-weight: 800;
+    text-align: left !important;
+    padding: 0 0 0 10px;
+    position: relative;
+  }
+  .cash-book .caption .net {
+    right: 5px;
+    top: 0;
+    font-size: 100%;
+    position: absolute;
+  }
+}
+
+@media (min-width: 768px) {
+  .ledger .t-date {
+    width: 35%;
+    text-transform: capitalize;
+  }
+  .ledger .t-par {
+    width: 40%;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  .ledger .t-par span {
+    font-weight: 400;
+    text-transform: none;
+  }
+  .ledger .t-amt {
+    width: 25%;
+    text-transform: capitalize;
+  }
+  .ledger tbody {
+    display: block !important;
+    height: 200px !important;
+    overflow: auto !important;
+    width: 100% !important;
+  }
+  .ledger thead,
+  .ledger tbody tr {
+    display: table !important;
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+  .ledger thead {
+    width: calc(100%) !important;
+  }
+  .ledger table {
+    width: 100% !important;
   }
 }
 
@@ -971,14 +1043,6 @@
 
 .accounts .stats-accordian .body .card-body .data .user-stats .due {
   margin-top: 3px;
-}
-
-.accounts .stats-accordian .body .card-body .data .user-stats .due .badge {
-  font-size: 100%;
-}
-
-.accounts .stats-accordian .body .card-body .data .user-stats .due .badge-dark {
-  background-color: #294056;
 }
 
 .accounts .stats-accordian .card,
@@ -1054,6 +1118,83 @@
 
 .accounts .creditors-stats {
   background-color: #dc3545;
+}
+
+.accounts .cash-book {
+  margin: 0 15px;
+  margin-top: 2rem;
+}
+
+.accounts .cash-book .caption {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.accounts .cash-book .caption .net {
+  right: 5px;
+  top: 0;
+  font-size: 100%;
+  position: absolute;
+}
+
+.accounts .cash-book .ledger {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #294056;
+}
+
+.accounts .cash-book .cr,
+.accounts .cash-book .dr {
+  width: 50%;
+}
+
+.accounts .cash-book .table-content {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.accounts .cash-book .table-content ::-webkit-scrollbar {
+  display: none;
+}
+
+.accounts .cash-book table {
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: #15202b;
+}
+
+.accounts .cash-book table tr {
+  background-color: #15202b;
+}
+
+.accounts .cash-book table .t-header {
+  background-color: #192734;
+  font-size: 16px;
+}
+
+.accounts .cash-book table .t-date {
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.accounts .cash-book table .t-par {
+  text-align: left;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.accounts .cash-book table .t-par span {
+  font-weight: 400;
+  text-transform: none;
+}
+
+.accounts .cash-book table .t-amt {
+  text-align: left;
+  text-transform: capitalize;
 }
 
 @media (max-width: 767px) {
@@ -1974,6 +2115,119 @@
   font-weight: 700;
 }
 
+.material-css table,
+.material-css th,
+.material-css td {
+  border: none;
+}
+
+.material-css table {
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.material-css table.striped tr {
+  border-bottom: none;
+}
+
+.material-css table.striped > tbody > tr:nth-child(odd) {
+  background-color: rgba(242, 242, 242, 0.5);
+}
+
+.material-css table.striped > tbody > tr > td {
+  border-radius: 0;
+}
+
+.material-css table.highlight > tbody > tr {
+  -webkit-transition: background-color 0.25s ease;
+  transition: background-color 0.25s ease;
+}
+
+.material-css table.highlight > tbody > tr:hover {
+  background-color: rgba(242, 242, 242, 0.5);
+}
+
+.material-css table.centered thead tr th,
+.material-css table.centered tbody tr td {
+  text-align: center;
+}
+
+.material-css tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.material-css td,
+.material-css th {
+  padding: 15px 8px;
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+@media only screen and (max-width: 767px) {
+  .material-css table.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: block;
+    position: relative;
+    /* sort out borders */
+  }
+  .material-css table.responsive-table td:empty:before {
+    content: "\00a0";
+  }
+  .material-css table.responsive-table th,
+  .material-css table.responsive-table td {
+    margin: 0;
+    vertical-align: top;
+  }
+  .material-css table.responsive-table th {
+    text-align: left;
+  }
+  .material-css table.responsive-table thead {
+    display: block;
+    float: left;
+  }
+  .material-css table.responsive-table thead tr {
+    display: block;
+    padding: 0 10px 0 0;
+  }
+  .material-css table.responsive-table thead tr th::before {
+    content: "\00a0";
+  }
+  .material-css table.responsive-table tbody {
+    display: block;
+    width: auto;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .material-css table.responsive-table tbody tr {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .material-css table.responsive-table th {
+    display: block;
+    text-align: right;
+  }
+  .material-css table.responsive-table td {
+    display: block;
+    min-height: 1.25em;
+    text-align: left;
+  }
+  .material-css table.responsive-table tr {
+    border-bottom: none;
+    padding: 0 10px;
+  }
+  .material-css table.responsive-table thead {
+    border: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -1993,6 +2247,7 @@ html {
 
 ::-webkit-scrollbar {
   width: 2px !important;
+  height: 2px !important;
 }
 
 ::-webkit-scrollbar-thumb {
