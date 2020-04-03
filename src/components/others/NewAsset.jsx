@@ -2,39 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { connect } from "react-redux";
+import { getCreditors } from "../../actions/purchaseAction";
 import {
-  addNewPurchase,
-  getCreditors,
-  addNewProduct,
-  clearErrors
-} from "../../actions/purchaseAction";
+  addNewAsset,
+  clearOthersMsg,
+  clearOthersError
+} from "../../actions/othersAction";
 import { SaveButton } from "../common/SaveButton";
-import { clearMsg } from "./../../actions/salesAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
-const PurchaseNewProduct = ({
-  purchase: { creditors, error },
-  msg,
-  clearMsg,
-  clearErrors,
+const NewAsset = ({
+  purchase: { creditors },
+  others: { msg, error },
+  clearOthersMsg,
+  clearOthersError,
   Alert,
-  addNewPurchase,
+  addNewAsset,
   getCreditors
 }) => {
   const [formData, setFormData] = useState({
-    productName: "",
+    name: "",
     payment: "",
-    quantity: "",
-    perPieceCost: "",
-    perPieceSellingPrice: "",
+    amount: "",
     otherExpenses: "0",
     creditorId: "",
     setAlert: {
-      productName: false,
+      name: false,
       payment: false,
       creditorId: false,
-      perPieceCost: false,
-      perPieceSellingPrice: false,
+      amount: false,
       otherExpenses: false
     },
     showCreditors: false
@@ -43,11 +39,9 @@ const PurchaseNewProduct = ({
   const [loading, setLoading] = useState(false);
 
   const {
-    productName,
+    name,
     payment,
-    quantity,
-    perPieceCost,
-    perPieceSellingPrice,
+    amount,
     otherExpenses,
     creditorId,
     setAlert,
@@ -58,7 +52,7 @@ const PurchaseNewProduct = ({
     getCreditors();
     if (error === "Enough Cash is not available") {
       Alert(error, "danger");
-      clearErrors();
+      clearOthersError();
     }
 
     if (payment === "credit")
@@ -72,22 +66,19 @@ const PurchaseNewProduct = ({
     }
     if (msg) {
       Alert(msg, "info");
-      clearMsg();
+      clearOthersMsg();
       setFormData({
         ...formData,
-        productName: "",
+        name: "",
         payment: "",
-        quantity: "",
-        perPieceCost: "",
-        perPieceSellingPrice: "",
+        amount: "",
         otherExpenses: "0",
         creditorId: "",
         setAlert: {
-          productName: false,
+          name: false,
           payment: false,
           creditorId: false,
-          perPieceCost: false,
-          perPieceSellingPrice: false,
+          amount: false,
           otherExpenses: false
         },
         showCreditors: false
@@ -120,24 +111,18 @@ const PurchaseNewProduct = ({
       setFormData({ ...formData, setAlert: { ...setAlert, payment: true } });
     } else {
       if (creditorId.length > 0) {
-        await addNewPurchase({
-          productName,
+        await addNewAsset({
+          name,
           payment,
-          quantity: parseInt(quantity),
-          perPieceCost: parseInt(perPieceCost),
           otherExpenses: parseInt(otherExpenses),
           creditorId,
-          newPur: true,
-          perPieceSellingPrice: parseInt(perPieceSellingPrice)
+          amount: parseInt(amount)
         });
       } else {
-        await addNewPurchase({
-          productName,
+        await addNewAsset({
+          name,
           payment,
-          quantity: parseInt(quantity),
-          perPieceCost: parseInt(perPieceCost),
-          newPur: true,
-          perPieceSellingPrice: parseInt(perPieceSellingPrice),
+          amount: parseInt(amount),
           otherExpenses: parseInt(otherExpenses)
         });
       }
@@ -160,17 +145,17 @@ const PurchaseNewProduct = ({
   };
 
   return (
-    <div className="purchase-new-content">
-      <div className="heading">Add new purchase</div>
-      <div className="purchase-form">
+    <div className="others-new-content">
+      <div className="heading">Add new asset</div>
+      <div className="others-form">
         <form onSubmit={onSubmit}>
           <Input
-            name="productName"
-            label="Product Name*"
-            value={productName}
+            name="name"
+            label="Asset Name*"
+            value={name}
             onChange={onChange}
-            alert={setAlert.productName}
-            alertMsg="Product name is required"
+            alert={setAlert.name}
+            alertMsg="Asset name is required"
           />
           <Select
             label="Payment Method"
@@ -197,34 +182,14 @@ const PurchaseNewProduct = ({
             />
           )}
           <Input
-            name="quantity"
-            label="Quantity*"
+            name="amount"
+            label="Amount*"
             type="number"
-            value={quantity}
+            value={amount}
             min="1"
             onChange={onChange}
-            alert={setAlert.quantity}
-            alertMsg="Quantity is required"
-          />
-          <Input
-            name="perPieceCost"
-            label="Per Piece Cost*"
-            type="number"
-            value={perPieceCost}
-            min="1"
-            onChange={onChange}
-            alert={setAlert.perPieceCost}
-            alertMsg="Cost Price is required"
-          />
-          <Input
-            name="perPieceSellingPrice"
-            label="Per Piece Selling Price*"
-            type="number"
-            value={perPieceSellingPrice}
-            min="1"
-            onChange={onChange}
-            alert={setAlert.perPieceSellingPrice}
-            alertMsg="Selling Price is required"
+            alert={setAlert.amount}
+            alertMsg="Amount is required"
           />
           <Input
             name="otherExpenses"
@@ -243,14 +208,13 @@ const PurchaseNewProduct = ({
 
 const mapStateToProps = state => ({
   purchase: state.transaction.purchase,
-  msg: state.transaction.msg
+  others: state.others
 });
 
 export default connect(mapStateToProps, {
-  addNewPurchase,
   getCreditors,
-  addNewProduct,
-  clearErrors,
+  addNewAsset,
   Alert,
-  clearMsg
-})(PurchaseNewProduct);
+  clearOthersMsg,
+  clearOthersError
+})(NewAsset);

@@ -2,10 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../common/Input";
 import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
-import { addCustomer, clearMsg } from "../../actions/salesAction";
+import {
+  addCustomer,
+  clearMsg,
+  clearSalesErrors
+} from "../../actions/salesAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
 
-const AddCustomer = ({ addCustomer, clearMsg, Alert, msg }) => {
+const AddCustomer = ({
+  sales: { error },
+  addCustomer,
+  clearMsg,
+  clearSalesErrors,
+  Alert,
+  msg
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -20,6 +31,11 @@ const AddCustomer = ({ addCustomer, clearMsg, Alert, msg }) => {
   const { name, mobile, setAlert } = formData;
 
   useEffect(() => {
+    if (error === "Customer already exist") {
+      Alert(error, "danger");
+      clearSalesErrors();
+    }
+
     if (msg) {
       Alert(msg, "info");
       clearMsg();
@@ -32,7 +48,7 @@ const AddCustomer = ({ addCustomer, clearMsg, Alert, msg }) => {
     }
 
     // eslint-disable-next-line
-  }, [msg]);
+  }, [msg, error]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -88,5 +104,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addCustomer,
   clearMsg,
+  clearSalesErrors,
   Alert
 })(AddCustomer);

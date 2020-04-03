@@ -1,8 +1,17 @@
-import { GET_CASH_DATA, GET_CASH_DATA_FAILED } from "../actions/types";
+import {
+  GET_CASH_DATA,
+  GET_CASH_DATA_FAILED,
+  GET_RANGE_CASH_DATA,
+  GET_RANGE_CASH_DATA_FAILED,
+  SET_ACCOUNTS_MSG,
+  CLEAR_ACCOUNTS_MSG
+} from "../actions/types";
 
 const initialState = {
   cash: [],
-  error: null
+  rangeCash: [],
+  error: null,
+  msg: null
 };
 
 export default (state = initialState, action) => {
@@ -12,7 +21,23 @@ export default (state = initialState, action) => {
         ...state,
         cash: action.payload
       };
+    case GET_RANGE_CASH_DATA:
+      return {
+        ...state,
+        rangeCash: action.payload
+      };
+    case SET_ACCOUNTS_MSG:
+      return {
+        ...state,
+        msg: action.payload
+      };
+    case CLEAR_ACCOUNTS_MSG:
+      return {
+        ...state,
+        msg: null
+      };
     case GET_CASH_DATA_FAILED:
+    case GET_RANGE_CASH_DATA_FAILED:
       return {
         ...state,
         error: action.payload

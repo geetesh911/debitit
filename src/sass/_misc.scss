@@ -80,6 +80,7 @@
         transform: translateX(0%);
       }
     }
+
     .label {
       position: absolute;
       margin-bottom: 0;
@@ -111,6 +112,16 @@
         left: 10px;
         transition: all 0.3s ease;
       }
+    }
+    input[type="date"] + .label .label-content {
+      transform: translateY(-90%);
+      font-size: 12px;
+      font-weight: 500;
+      color: $hover-color;
+    }
+    input[type="date"] + .label::after,
+    input[type="date"] + .label {
+      transform: translateX(0%);
     }
   }
   .setAlert {

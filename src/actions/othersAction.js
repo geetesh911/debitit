@@ -14,8 +14,16 @@ import {
   GET_EXPENSES_FAILED,
   ADD_EXPENSE,
   ADD_EXPENSE_FAILED,
+  GET_DRAWINGS,
+  GET_DRAWINGS_FAILED,
   ADD_DRAWINGS,
   ADD_DRAWINGS_FAILED,
+  GET_ASSETS,
+  GET_ASSETS_FAILED,
+  ADD_NEW_ASSET,
+  ADD_NEW_ASSET_FAILED,
+  ADD_EXISTING_ASSET,
+  ADD_EXISTING_ASSET_FAILED,
   CLEAR_OTHERS_MSG,
   CLEAR_OTHERS_ERROR
 } from "../actions/types";
@@ -149,6 +157,22 @@ export const addExpense = formData => async dispatch => {
   }
 };
 
+// get assets
+export const getDrawings = () => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/drawing`);
+    dispatch({
+      type: GET_DRAWINGS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_DRAWINGS_FAILED,
+      payload: err.response.msg
+    });
+  }
+};
+
 // add expense
 export const addDrawings = formData => async dispatch => {
   formData.name = formData.name.trim();
@@ -164,6 +188,60 @@ export const addDrawings = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_DRAWINGS_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// get assets
+export const getAssets = () => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/assets`);
+    dispatch({
+      type: GET_ASSETS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ASSETS_FAILED,
+      payload: err.response.msg
+    });
+  }
+};
+
+// add new asset
+export const addNewAsset = formData => async dispatch => {
+  formData.name = formData.name.trim();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/assets`, formData, config);
+    dispatch({ type: ADD_NEW_ASSET, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: ADD_NEW_ASSET_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// add existig asset
+export const addExistingAsset = (formData, id) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/assets/${id}`, formData, config);
+    dispatch({ type: ADD_EXISTING_ASSET, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: ADD_EXISTING_ASSET_FAILED,
       payload: err.response.data.msg
     });
   }

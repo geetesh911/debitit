@@ -12,9 +12,13 @@ import {
   clearFilterCustomer
 } from "../../actions/salesAction";
 import { loadUser } from "./../../actions/authAction";
+import { getAssets, getDrawings } from "./../../actions/othersAction";
+import { getCashData, getRangeCashData } from "./../../actions/accountsAction";
 import { StatsAccordian } from "../common/StatsAccordian";
-import { getCashData } from "./../../actions/accountsAction";
 import { CashBook } from "../Accounts/CashBook";
+import Account from "./../common/Account";
+import { TrialBalance } from "./../Accounts/TrialBalance";
+import { convertDateFormat } from "../../utils/convertDateFormat";
 
 const Accounts = ({
   auth: { user },
@@ -26,7 +30,8 @@ const Accounts = ({
     creditors,
     filtered: { creditor }
   },
-  accounts: { cash },
+  accounts: { cash, rangeCash },
+  others: { assets, drawings },
   loadUser,
   getCreditors,
   filterCreditors,
@@ -34,7 +39,10 @@ const Accounts = ({
   filterCustomer,
   clearFilterCustomer,
   getCustomers,
-  getCashData
+  getCashData,
+  getAssets,
+  getRangeCashData,
+  getDrawings
 }) => {
   const [customerSearch, setCustomerSearch] = useState("");
   const [creditorSearch, setCreditorSearch] = useState("");
@@ -44,6 +52,8 @@ const Accounts = ({
     getCustomers();
     getCreditors();
     getCashData();
+    getAssets();
+    getDrawings();
 
     // eslint-disable-next-line
   }, []);
@@ -81,6 +91,44 @@ const Accounts = ({
     creditors.length > 0 &&
     creditors.forEach(creditor => (pay += creditor.due));
 
+  let drCash = 0;
+  let crCash = 0;
+  rangeCash.length > 0 &&
+    rangeCash.forEach(c => {
+      if (c.type === "dr") drCash += c.amount;
+      if (c.type === "cr") crCash += c.amount;
+    });
+
+  const netCash = drCash - crCash;
+
+  let asset = [];
+  assets.length > 0 &&
+    assets.map(a => {
+      let arr = {};
+      arr.name = a.name;
+      arr.type = "dr";
+      arr.amount = a.amount;
+
+      return asset.push(arr);
+    });
+
+  let drawingsAmount = 0;
+  drawings.length > 0 && drawings.forEach(d => (drawingsAmount += d.amount));
+
+  const trialBalanceData = [
+    { name: "Cash", type: "dr", amount: netCash },
+    { name: "Debtors", type: "dr", amount: receive },
+    { name: "Creditors", type: "cr", amount: pay },
+    { name: "Drawings", type: "dr", amount: drawingsAmount }
+  ];
+
+  assets.length > 0 && asset.forEach(a => trialBalanceData.push(a));
+
+  const date = e => {
+    let d = document.getElementById("date").value;
+    console.log(convertDateFormat(d));
+  };
+
   return (
     <Fragment>
       <div className="offset-lg-2 col-lg-10 offset-md-2 col-md-10 offset-sm-2 col-sm-10 content">
@@ -116,7 +164,25 @@ const Accounts = ({
               />
             </div>
           </div>
-          <CashBook cash={cash} />
+
+          <Account
+            heading="Cash A/c"
+            seperator={true}
+            netBalance={netCash}
+            range={true}
+            func={getRangeCashData}
+            netHeading="Net Balance"
+            component={<CashBook cash={rangeCash} />}
+          />
+          <Account
+            heading="Trial Balance"
+            asAt={`31/03/${new Date().getFullYear()}`}
+            netBalance={netCash}
+            netHeading="Total"
+            component={<TrialBalance data={trialBalanceData} />}
+          />
+          <input type="date" id="date" />
+          <button onClick={date}>date</button>
         </div>
       </div>
     </Fragment>
@@ -127,7 +193,8 @@ const mapStateToProps = state => ({
   auth: state.auth,
   purchase: state.transaction.purchase,
   sales: state.transaction.sales,
-  accounts: state.accounts
+  accounts: state.accounts,
+  others: state.others
 });
 
 export default connect(mapStateToProps, {
@@ -138,5 +205,8 @@ export default connect(mapStateToProps, {
   clearFilterCreditors,
   getCreditors,
   getCustomers,
-  getCashData
+  getCashData,
+  getRangeCashData,
+  getAssets,
+  getDrawings
 })(Accounts);

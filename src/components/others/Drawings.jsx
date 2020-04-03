@@ -50,7 +50,6 @@ const Drawings = ({
     if (msg) {
       Alert(msg, "info");
       clearMsg();
-      console.log("called");
       setFormData({
         ...formData,
         quantity: "",

@@ -1,0 +1,67 @@
+.account {
+  //   margin-top: 30px;
+  padding: 15px 15px 20px;
+  // border-top: 1px solid $input-background-color;
+  border-bottom: 1px solid $input-background-color;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba($div-background-color, 0.5);
+    transition: all 0.4s ease;
+  }
+  .account-header {
+    display: flex;
+    align-items: center;
+    .icon-div {
+      background-color: $menu-hover-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      .icon {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .heading-div {
+      .heading {
+        font-size: 19px;
+        font-weight: 700;
+        .asAt {
+          font-size: 14px;
+          font-weight: 500;
+          color: $text-dim-color-dark;
+        }
+      }
+      .net-balance {
+        margin-top: 3px;
+        font-size: 16px;
+      }
+    }
+  }
+  .date-range {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    .date-seperator {
+      width: 5%;
+      input {
+        text-transform: uppercase;
+      }
+    }
+    .l-range,
+    .u-range {
+      width: 35%;
+      .dr-input,
+      .form-input {
+        margin-top: 0 !important;
+      }
+    }
+    .submit-button {
+      margin-top: 0 !important;
+    }
+  }
+}

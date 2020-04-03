@@ -10,6 +10,8 @@ import EditExpenseCategory from "../others/EditExpenseCategory";
 import DeleteExpenseCategory from "../others/DeleteExpenseCategory";
 import AddExpense from "../others/AddExpense";
 import Drawings from "../others/Drawings";
+import NewAsset from "../others/NewAsset";
+import ExistingAsset from "../others/ExistingAsset";
 
 const Others = ({
   auth: { user },
@@ -61,6 +63,22 @@ const Others = ({
                   ]
                 },
                 {
+                  heading: "Assets",
+                  seperator: true,
+                  arr: [
+                    {
+                      heading: "Add New Fixed Asset",
+                      body: <NewAsset />,
+                      name: "new_asset"
+                    },
+                    {
+                      heading: "Add Existing Fixed Asset",
+                      body: <ExistingAsset />,
+                      name: "existing_asset"
+                    }
+                  ]
+                },
+                {
                   heading: "Others",
                   seperator: true,
                   arr: [
@@ -106,6 +124,20 @@ const Others = ({
                     }
                   ],
                   firstActive: true
+                },
+                {
+                  heading: "Assets",
+                  seperator: true,
+                  firstOption: {
+                    name: "sidetab-new-asset",
+                    label: "Add New Fixed Asset"
+                  },
+                  otherOptions: [
+                    {
+                      name: "sidetab-existing-asset",
+                      label: "Add Existing Fixed Asset"
+                    }
+                  ]
                 },
                 {
                   heading: "Others",
@@ -160,6 +192,22 @@ const Others = ({
                   aria-labelledby="delete-expense-category-tab"
                 >
                   <DeleteExpenseCategory />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-new-asset"
+                  role="tabpanel"
+                  aria-labelledby="new-asset-tab"
+                >
+                  <NewAsset />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-existing-asset"
+                  role="tabpanel"
+                  aria-labelledby="existing-asset-tab"
+                >
+                  <ExistingAsset />
                 </div>
                 <div
                   className="tab-pane fade"

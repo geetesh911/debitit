@@ -1,0 +1,40 @@
+@media (min-width: 768px) {
+  .ledger {
+    .tb-sno {
+      width: 10%;
+      text-transform: capitalize;
+    }
+    .tb-par {
+      width: 50%;
+      text-transform: capitalize;
+      font-weight: 600;
+      span {
+        font-weight: 400;
+        text-transform: none;
+      }
+    }
+    .tb-dr,
+    .tb-cr {
+      width: 20%;
+      text-transform: capitalize;
+    }
+    tbody {
+      display: block !important;
+      height: 200px !important;
+      overflow: auto !important;
+      width: 100% !important;
+    }
+    thead,
+    tbody tr {
+      display: table !important;
+      width: 100% !important;
+      table-layout: fixed !important;
+    }
+    thead {
+      width: calc(100%) !important;
+    }
+    table {
+      width: 100% !important;
+    }
+  }
+}

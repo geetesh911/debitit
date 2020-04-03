@@ -13,8 +13,16 @@ import {
   GET_EXPENSES_FAILED,
   ADD_EXPENSE,
   ADD_EXPENSE_FAILED,
+  GET_DRAWINGS,
+  GET_DRAWINGS_FAILED,
   ADD_DRAWINGS,
   ADD_DRAWINGS_FAILED,
+  GET_ASSETS,
+  GET_ASSETS_FAILED,
+  ADD_NEW_ASSET,
+  ADD_NEW_ASSET_FAILED,
+  ADD_EXISTING_ASSET,
+  ADD_EXISTING_ASSET_FAILED,
   CLEAR_OTHERS_MSG,
   CLEAR_OTHERS_ERROR
 } from "../actions/types";
@@ -24,6 +32,7 @@ const initialState = {
   categories: [],
   expenses: [],
   drawings: [],
+  assets: [],
   msg: null,
   error: null
 };
@@ -84,11 +93,39 @@ export default (state = initialState, action) => {
         expenses: [action.payload, ...state.expenses],
         msg: "Expense Added"
       };
+    case GET_DRAWINGS:
+      return {
+        ...state,
+        drawings: action.payload
+      };
     case ADD_DRAWINGS:
       return {
         ...state,
         drawings: [action.payload, ...state.expenses],
         msg: "Drawings Added"
+      };
+    case GET_ASSETS:
+      return {
+        ...state,
+        assets: action.payload
+      };
+    case ADD_NEW_ASSET:
+      return {
+        ...state,
+        assets: [...state.assets, action.payload],
+        msg: "Asset Added"
+      };
+    case ADD_EXISTING_ASSET:
+      return {
+        ...state,
+        assets: state.assets.map(asset => {
+          if (asset._id === action.payload.id) {
+            return (asset = action.payload);
+          } else {
+            return asset;
+          }
+        }),
+        msg: "Asset Added"
       };
 
     case CLEAR_OTHERS_ERROR:
@@ -104,7 +141,11 @@ export default (state = initialState, action) => {
     case DELETE_CATEGORY_FAILED:
     case GET_EXPENSES_FAILED:
     case ADD_EXPENSE_FAILED:
+    case GET_DRAWINGS_FAILED:
     case ADD_DRAWINGS_FAILED:
+    case GET_ASSETS_FAILED:
+    case ADD_NEW_ASSET_FAILED:
+    case ADD_EXISTING_ASSET_FAILED:
       return {
         ...state,
         error: action.payload

@@ -20,6 +20,7 @@ const PurchaseExistingProduct = ({
   },
   msg,
   clearMsg,
+  clearErrors,
   Alert,
   getProducts,
   addExistingPurchase

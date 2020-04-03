@@ -122,7 +122,8 @@
       border-bottom: 1px solid $input-background-color;
     }
   }
-  .cash-book {
+  .cash-book,
+  .trial-balance {
     .caption {
       font-size: 18px;
       font-weight: 800;
@@ -309,7 +310,8 @@
     background-color: $payment;
   }
 
-  .cash-book {
+  .cash-book,
+  .trial-balance {
     margin: 0 15px;
     // border-radius: 7px;
 
@@ -332,7 +334,7 @@
       display: flex;
       border: 1px solid $input-background-color;
     }
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     .cr,
     .dr {
       width: 50%;
