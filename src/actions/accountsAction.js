@@ -37,9 +37,12 @@ export const getRangeCashData = (lRange, uRange) => async dispatch => {
     const res = await axios.get(
       `${url}/cash/range?lRange=${lRange}&uRange=${uRange}`
     );
+    let dataNotFound = false;
+    if (res.data.length === 0) dataNotFound = true;
+
     dispatch({
       type: GET_RANGE_CASH_DATA,
-      payload: res.data
+      payload: { res: res.data, dataNotFound }
     });
   } catch (err) {
     dispatch({

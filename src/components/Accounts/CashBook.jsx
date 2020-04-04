@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import convertDate from "./../../utils/convertDate";
 
-export const CashBook = ({ cash }) => {
+export const CashBook = ({ cash, balance }) => {
   return (
     <div className="cash-book material-css">
       <div className="ledger">
@@ -30,13 +30,22 @@ export const CashBook = ({ cash }) => {
                           <tr>
                             <td className="t-date">{convertDate(c.date)}</td>
                             <td className="t-par">
-                              {c.source} <span>A/c</span>
+                              To {c.source} <span>A/c</span>
                             </td>
                             <td className="t-amt">{c.amount}</td>
                           </tr>
                         )}
                       </Fragment>
                     ))}
+                  {balance < 0 && (
+                    <tr>
+                      <td className="t-date">{}</td>
+                      <td className="t-par">
+                        To Balance <span>c/d</span>
+                      </td>
+                      <td className="t-amt">{balance}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -67,12 +76,23 @@ export const CashBook = ({ cash }) => {
                         {c.type === "cr" && (
                           <tr>
                             <td className="t-date">{convertDate(c.date)}</td>
-                            <td className="t-par">{c.source} A/c</td>
+                            <td className="t-par">
+                              By {c.source} <span>A/c</span>
+                            </td>
                             <td className="t-amt">{c.amount}</td>
                           </tr>
                         )}
                       </Fragment>
                     ))}
+                  {balance > 0 && (
+                    <tr>
+                      <td className="t-date">{}</td>
+                      <td className="t-par">
+                        By Balance <span>c/d</span>
+                      </td>
+                      <td className="t-amt">{balance}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

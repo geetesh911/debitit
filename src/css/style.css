@@ -975,7 +975,7 @@
   }
   .ledger tbody {
     display: block !important;
-    height: 200px !important;
+    height: 220px !important;
     overflow: auto !important;
     width: 100% !important;
   }
@@ -2146,102 +2146,6 @@
   font-weight: 700;
 }
 
-.account {
-  padding: 15px 15px 20px;
-  border-bottom: 1px solid #294056;
-  cursor: pointer;
-}
-
-.account:hover {
-  background-color: rgba(25, 39, 52, 0.5);
-  -webkit-transition: all 0.4s ease;
-  transition: all 0.4s ease;
-}
-
-.account .account-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.account .account-header .icon-div {
-  background-color: rgba(29, 161, 242, 0.1);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-right: 20px;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
-
-.account .account-header .icon-div .icon {
-  height: 30px;
-  width: 30px;
-}
-
-.account .account-header .heading-div .heading {
-  font-size: 19px;
-  font-weight: 700;
-}
-
-.account .account-header .heading-div .heading .asAt {
-  font-size: 14px;
-  font-weight: 500;
-  color: #a6a6a6;
-}
-
-.account .account-header .heading-div .net-balance {
-  margin-top: 3px;
-  font-size: 16px;
-}
-
-.account .date-range {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-top: 20px;
-}
-
-.account .date-range .date-seperator {
-  width: 5%;
-}
-
-.account .date-range .date-seperator input {
-  text-transform: uppercase;
-}
-
-.account .date-range .l-range,
-.account .date-range .u-range {
-  width: 35%;
-}
-
-.account .date-range .l-range .dr-input,
-.account .date-range .l-range .form-input,
-.account .date-range .u-range .dr-input,
-.account .date-range .u-range .form-input {
-  margin-top: 0 !important;
-}
-
-.account .date-range .submit-button {
-  margin-top: 0 !important;
-}
-
 .material-css table,
 .material-css th,
 .material-css td {
@@ -2331,6 +2235,7 @@
     position: relative;
     overflow-x: auto;
     white-space: nowrap;
+    text-align: left;
   }
   .material-css table.responsive-table tbody tr {
     display: inline-block;
@@ -2376,7 +2281,7 @@
   }
   .ledger tbody {
     display: block !important;
-    height: 200px !important;
+    height: 220px !important;
     overflow: auto !important;
     width: 100% !important;
   }
@@ -2391,6 +2296,166 @@
   }
   .ledger table {
     width: 100% !important;
+  }
+}
+
+.account {
+  padding: 15px 15px 20px;
+  border-bottom: 1px solid #294056;
+  cursor: pointer;
+}
+
+.account:hover {
+  background-color: rgba(25, 39, 52, 0.5);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.account .account-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.account .account-header .icon-div {
+  background-color: rgba(29, 161, 242, 0.1);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 20px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.account .account-header .icon-div .icon {
+  height: 30px;
+  width: 30px;
+}
+
+.account .account-header .heading-div .heading {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.account .account-header .heading-div .heading .asAt {
+  font-size: 14px;
+  font-weight: 500;
+  color: #a6a6a6;
+}
+
+.account .account-header .heading-div .net-balance {
+  margin-top: 3px;
+  font-size: 16px;
+}
+
+.account .date-range {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+}
+
+.account .date-range .date-seperator {
+  width: 5%;
+}
+
+.account .date-range .date-seperator input {
+  text-transform: uppercase;
+}
+
+.account .date-range .inputFields {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.account .date-range .inputFields .l-range,
+.account .date-range .inputFields .u-range {
+  width: 45%;
+}
+
+.account .date-range .inputFields .l-range .dr-input,
+.account .date-range .inputFields .l-range .form-input,
+.account .date-range .inputFields .u-range .dr-input,
+.account .date-range .inputFields .u-range .form-input {
+  margin-top: 0 !important;
+}
+
+.account .date-range .submit-button {
+  margin-top: 0 !important;
+}
+
+.account .component-loading {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.account .component-loading .spinner-border-sm {
+  height: 2rem;
+  width: 2rem;
+}
+
+@media (max-width: 767px) {
+  .date-range {
+    display: block !important;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-top: 20px;
+  }
+  .date-range .date-seperator {
+    width: 5%;
+  }
+  .date-range .date-seperator input {
+    text-transform: uppercase;
+  }
+  .date-range .inputFields {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100% !important;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .date-range .inputFields .l-range,
+  .date-range .inputFields .u-range {
+    width: 45%;
+  }
+  .date-range .inputFields .l-range .dr-input,
+  .date-range .inputFields .l-range .form-input,
+  .date-range .inputFields .u-range .dr-input,
+  .date-range .inputFields .u-range .form-input {
+    margin-top: 0 !important;
+  }
+  .date-range .range-button {
+    margin-top: 10px;
+  }
+  .date-range .submit-button {
+    margin-top: 0 !important;
   }
 }
 
@@ -2409,6 +2474,8 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
   overflow-x: hidden;
   text-decoration: none;
+  scrollbar-width: thin;
+  scrollbar-color: lightgray;
 }
 
 ::-webkit-scrollbar {

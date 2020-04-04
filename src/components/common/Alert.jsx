@@ -24,7 +24,10 @@ const Alert = ({ alert }) => {
               <Toast.Body>{a.msg}</Toast.Body>
             </Toast>
           </div>
-          <div className="dr-mobile-toast">
+          <div
+            className={`dr-mobile-toast ${a.type === "info" &&
+              "toast-info"} ${a.type === "danger" && "toast-danger"}`}
+          >
             <Toast
               onClose={() => setShow(false)}
               show={show}

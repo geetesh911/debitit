@@ -11,7 +11,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: document.cookie.split("=")[1],
   isAuthenticated: null,
   loading: false,
   user: null,
@@ -29,7 +29,8 @@ export default (state = initialState, action) => {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      window.localStorage.setItem("token", action.payload.token);
+      // localStorage.setItem("token", action.payload.token);
+      document.cookie = `token=${action.payload.token}; expires=Thu, 18 Dec 9999 12:00:00 UTC;`;
 
       return {
         ...state,
@@ -41,7 +42,8 @@ export default (state = initialState, action) => {
     case AUTH_FAILED:
     case LOGIN_FAILED:
     case LOGOUT:
-      localStorage.removeItem("token");
+      document.cookie = `token=; expires=Thu, 18 Dec 9999 12:00:00 UTC;`;
+
       return {
         ...state,
         token: null,

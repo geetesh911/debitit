@@ -6,7 +6,7 @@ export const HideRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        localStorage.getItem("token") ? (
+        document.cookie && document.cookie.split("=")[1].length > 0 ? (
           <Redirect to="/accounts" />
         ) : (
           <Component {...props} />

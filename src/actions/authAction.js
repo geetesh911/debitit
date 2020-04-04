@@ -20,7 +20,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export const loadUser = () => async dispatch => {
-  if (localStorage.token) setAuthToken(localStorage.token);
+  // if (localStorage.token) setAuthToken(localStorage.token);
+  if (document.cookie && document.cookie.split("=")[1])
+    setAuthToken(document.cookie.split("=")[1]);
 
   try {
     const res = await axios.get(`${url}/auth`);
@@ -75,14 +77,15 @@ export const login = formData => async dispatch => {
     const res = await axios.post(`${url}/auth`, formData, config);
     dispatch({ type: LOGIN_SUCCESS, payload: res.data });
 
-    if (localStorage.token) setAuthToken(localStorage.token);
+    if (document.cookie && document.cookie.split("=")[1])
+      setAuthToken(document.cookie.split("=")[1]);
 
-    try {
-      const res = await axios.get(`${url}/auth`);
-      dispatch({ type: LOAD_USER, payload: res.data });
-    } catch (err) {
-      dispatch({ type: AUTH_FAILED });
-    }
+    // try {
+    //   const res = await axios.get(`${url}/auth`);
+    //   dispatch({ type: LOAD_USER, payload: res.data });
+    // } catch (err) {
+    //   dispatch({ type: AUTH_FAILED });
+    // }
   } catch (err) {
     dispatch({ type: LOGIN_FAILED, payload: err.response.data.msg });
   }

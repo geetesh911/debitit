@@ -11,7 +11,10 @@ const initialState = {
   cash: [],
   rangeCash: [],
   error: null,
-  msg: null
+  msg: null,
+  dataNotFound: {
+    rangeCashData: false
+  }
 };
 
 export default (state = initialState, action) => {
@@ -24,7 +27,11 @@ export default (state = initialState, action) => {
     case GET_RANGE_CASH_DATA:
       return {
         ...state,
-        rangeCash: action.payload
+        rangeCash: action.payload.res,
+        dataNotFound: {
+          ...state.dataNotFound,
+          rangeCashData: action.payload.dataNotFound
+        }
       };
     case SET_ACCOUNTS_MSG:
       return {

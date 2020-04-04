@@ -34,9 +34,9 @@ $payment: #dc3545;
 @import "bootstrapOverwrite";
 @import "selectSearch";
 @import "stats";
-@import "accountsPost";
 @import "materialcss";
 @import "trialBalance";
+@import "accountsPost";
 
 * {
   box-sizing: border-box;
@@ -53,6 +53,8 @@ html {
     "Helvetica Neue", sans-serif;
   overflow-x: hidden;
   text-decoration: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(211, 211, 211, 1);
 }
 
 ::-webkit-scrollbar {

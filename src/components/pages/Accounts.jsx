@@ -18,7 +18,7 @@ import { StatsAccordian } from "../common/StatsAccordian";
 import { CashBook } from "../Accounts/CashBook";
 import Account from "./../common/Account";
 import { TrialBalance } from "./../Accounts/TrialBalance";
-import { convertDateFormat } from "../../utils/convertDateFormat";
+import { getNetCash } from "./../../utils/getNetCash";
 
 const Accounts = ({
   auth: { user },
@@ -91,15 +91,8 @@ const Accounts = ({
     creditors.length > 0 &&
     creditors.forEach(creditor => (pay += creditor.due));
 
-  let drCash = 0;
-  let crCash = 0;
-  rangeCash.length > 0 &&
-    rangeCash.forEach(c => {
-      if (c.type === "dr") drCash += c.amount;
-      if (c.type === "cr") crCash += c.amount;
-    });
-
-  const netCash = drCash - crCash;
+  const netRangeCash = getNetCash(rangeCash);
+  const netCash = getNetCash(cash);
 
   let asset = [];
   assets.length > 0 &&
@@ -123,11 +116,6 @@ const Accounts = ({
   ];
 
   assets.length > 0 && asset.forEach(a => trialBalanceData.push(a));
-
-  const date = e => {
-    let d = document.getElementById("date").value;
-    console.log(convertDateFormat(d));
-  };
 
   return (
     <Fragment>
@@ -168,11 +156,12 @@ const Accounts = ({
           <Account
             heading="Cash A/c"
             seperator={true}
-            netBalance={netCash}
+            netBalance={netRangeCash}
             range={true}
             func={getRangeCashData}
             netHeading="Net Balance"
-            component={<CashBook cash={rangeCash} />}
+            data={rangeCash}
+            component={<CashBook cash={rangeCash} balance={netRangeCash} />}
           />
           <Account
             heading="Trial Balance"
@@ -181,8 +170,6 @@ const Accounts = ({
             netHeading="Total"
             component={<TrialBalance data={trialBalanceData} />}
           />
-          <input type="date" id="date" />
-          <button onClick={date}>date</button>
         </div>
       </div>
     </Fragment>

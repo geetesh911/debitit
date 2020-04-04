@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Input } from "./Input";
 import { convertDateFormat } from "../../utils/convertDateFormat";
 import { connect } from "react-redux";
@@ -16,10 +16,11 @@ const Account = ({
   seperator,
   func,
   range,
+  data,
   asAt,
-  accounts: { msg },
-  clearAccountsMsg,
-  setAccountsMsg,
+  accounts: {
+    dataNotFound: { rangeCashData }
+  },
   Alert
 }) => {
   const [date, setDate] = useState({
@@ -30,6 +31,14 @@ const Account = ({
       uRange: false
     }
   });
+
+  useEffect(() => {
+    if (rangeCashData) {
+      Alert("No data found for the given range", "info");
+    }
+
+    // eslint-disable-next-line
+  }, [rangeCashData]);
 
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +56,7 @@ const Account = ({
     } else {
       setLoading(true);
       await func(convertDateFormat(lRange), convertDateFormat(uRange));
+
       setLoading(false);
     }
   };
@@ -77,30 +87,32 @@ const Account = ({
         </div>
         {range && (
           <div className="date-range">
-            <div className="l-range">
-              <Input
-                name="lRange"
-                label="Lower Range"
-                type="date"
-                value={lRange}
-                min="0"
-                onChange={onChange}
-                alert={setAlert.lRange}
-                alertMsg="Specify Lower Range"
-              />
-            </div>
-            <div className="date-seperator"></div>
-            <div className="u-range">
-              <Input
-                name="uRange"
-                label="Upper Range"
-                type="date"
-                value={uRange}
-                min="0"
-                onChange={onChange}
-                alert={setAlert.uRange}
-                alertMsg="Specify Upper Range"
-              />
+            <div className="inputFields">
+              <div className="l-range">
+                <Input
+                  name="lRange"
+                  label="Lower Range"
+                  type="date"
+                  value={lRange}
+                  min="0"
+                  onChange={onChange}
+                  alert={setAlert.lRange}
+                  alertMsg="Specify Lower Range"
+                />
+              </div>
+              <div className="date-seperator"></div>
+              <div className="u-range">
+                <Input
+                  name="uRange"
+                  label="Upper Range"
+                  type="date"
+                  value={uRange}
+                  min="0"
+                  onChange={onChange}
+                  alert={setAlert.uRange}
+                  alertMsg="Specify Upper Range"
+                />
+              </div>
             </div>
             <div className="date-seperator"></div>
             <div className="range-button">
@@ -109,20 +121,30 @@ const Account = ({
                 className="button transparent-button submit-button"
                 onClick={onClick}
               >
-                {loading ? (
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                ) : (
-                  "Get Data"
-                )}
+                Get Data
               </button>
             </div>
           </div>
         )}
-        <div className="account-content">{component}</div>
+        {range ? (
+          [
+            <div key={Math.random()} className="component-loading">
+              {data.length > 0 ? (
+                <div className="account-content">{component}</div>
+              ) : loading ? (
+                <span
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              ) : (
+                ""
+              )}
+            </div>
+          ]
+        ) : (
+          <div className="account-content">{component}</div>
+        )}
       </div>
     </Fragment>
   );

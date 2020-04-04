@@ -17,7 +17,9 @@ import { NotFound } from "./components/pages/NotFound";
 import { HideRoute } from "./components/routing/HideRoute";
 import Alert from "./components/common/Alert";
 
-if (localStorage.token) setAuthToken(localStorage.token);
+if (document.cookie && document.cookie.split("=")[1].length > 0) {
+  setAuthToken(document.cookie.split("=")[1]);
+}
 
 function App() {
   return (
@@ -26,11 +28,13 @@ function App() {
         <Alert />
         <div
           className={`main ${
-            !localStorage.getItem("token") ? "" : "container"
+            document.cookie && document.cookie.split("=")[1].length <= 0
+              ? ""
+              : "container"
           }`}
         >
           <div className="row">
-            {localStorage.getItem("token") && (
+            {document.cookie && document.cookie.split("=")[1].length > 0 && (
               <Fragment>
                 <Navbar />
               </Fragment>
