@@ -28,7 +28,8 @@ function App() {
         <Alert />
         <div
           className={`main ${
-            document.cookie && document.cookie.split("=")[1].length <= 0
+            (document.cookie && document.cookie.split("=")[1].length <= 0) ||
+            !document.cookie
               ? ""
               : "container"
           }`}

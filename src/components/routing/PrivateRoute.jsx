@@ -6,7 +6,8 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        document.cookie && document.cookie.split("=")[1].length <= 0 ? (
+        (document.cookie && document.cookie.split("=")[1].length <= 0) ||
+        !document.cookie ? (
           <Redirect to="/login" />
         ) : (
           <Component {...props} />

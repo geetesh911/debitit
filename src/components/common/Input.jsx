@@ -14,7 +14,8 @@ export const Input = ({
   disabled,
   alert,
   helperText,
-  alertMsg
+  alertMsg,
+  step
 }) => {
   let classes = "form-input";
   if (alert) classes = "form-input setAlert";
@@ -33,6 +34,7 @@ export const Input = ({
           maxLength={maxLength}
           required={required === false ? false : true}
           disabled={disabled || false}
+          step={type === "number" && step ? step : ""}
         />
         <label htmlFor={name} className="label">
           <span className="label-content">{label}</span>

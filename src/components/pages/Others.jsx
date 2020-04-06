@@ -12,6 +12,8 @@ import AddExpense from "../others/AddExpense";
 import Drawings from "../others/Drawings";
 import NewAsset from "../others/NewAsset";
 import ExistingAsset from "../others/ExistingAsset";
+import Loan from "../others/Loan";
+import LoanPayment from "../others/LoanPayment";
 
 const Others = ({
   auth: { user },
@@ -67,14 +69,30 @@ const Others = ({
                   seperator: true,
                   arr: [
                     {
-                      heading: "Add New Fixed Asset",
+                      heading: "Add New Asset",
                       body: <NewAsset />,
                       name: "new_asset"
                     },
                     {
-                      heading: "Add Existing Fixed Asset",
+                      heading: "Add Existing Asset",
                       body: <ExistingAsset />,
                       name: "existing_asset"
+                    }
+                  ]
+                },
+                {
+                  heading: "Liabilities",
+                  seperator: true,
+                  arr: [
+                    {
+                      heading: "Add Loan",
+                      body: <Loan />,
+                      name: "add_loan"
+                    },
+                    {
+                      heading: "Pay Loan",
+                      body: <LoanPayment />,
+                      name: "pay_loan"
                     }
                   ]
                 },
@@ -130,12 +148,26 @@ const Others = ({
                   seperator: true,
                   firstOption: {
                     name: "sidetab-new-asset",
-                    label: "Add New Fixed Asset"
+                    label: "Add New Asset"
                   },
                   otherOptions: [
                     {
                       name: "sidetab-existing-asset",
-                      label: "Add Existing Fixed Asset"
+                      label: "Add Existing Asset"
+                    }
+                  ]
+                },
+                {
+                  heading: "Liabilities",
+                  seperator: true,
+                  firstOption: {
+                    name: "sidetab-add-loan",
+                    label: "Add Loan"
+                  },
+                  otherOptions: [
+                    {
+                      name: "sidetab-pay-loan",
+                      label: "Pay Loan"
                     }
                   ]
                 },
@@ -208,6 +240,22 @@ const Others = ({
                   aria-labelledby="existing-asset-tab"
                 >
                   <ExistingAsset />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-add-loan"
+                  role="tabpanel"
+                  aria-labelledby="add-loan-tab"
+                >
+                  <Loan />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="sidetab-pay-loan"
+                  role="tabpanel"
+                  aria-labelledby="pay-loan-tab"
+                >
+                  <LoanPayment />
                 </div>
                 <div
                   className="tab-pane fade"

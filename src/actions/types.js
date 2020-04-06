@@ -130,6 +130,13 @@ export const ADD_NEW_ASSET_FAILED = "ADD_NEW_ASSET_FAILED";
 export const ADD_EXISTING_ASSET = "ADD_EXISTING_ASSET";
 export const ADD_EXISTING_ASSET_FAILED = "ADD_EXISTING_ASSET_FAILED";
 
+export const GET_LOAN = "GET_LOAN";
+export const GET_LOAN_FAILED = "GET_LOAN_FAILED";
+export const ADD_LOAN = "ADD_LOAN";
+export const ADD_LOAN_FAILED = "ADD_LOAN_FAILED";
+export const PAY_LOAN = "PAY_LOAN";
+export const PAY_LOAN_FAILED = "PAY_LOAN_FAILED";
+
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 export const CLEAR_MSG = "CLEAR_MSG";

@@ -24,6 +24,12 @@ import {
   ADD_NEW_ASSET_FAILED,
   ADD_EXISTING_ASSET,
   ADD_EXISTING_ASSET_FAILED,
+  GET_LOAN,
+  GET_LOAN_FAILED,
+  ADD_LOAN,
+  ADD_LOAN_FAILED,
+  PAY_LOAN,
+  PAY_LOAN_FAILED,
   CLEAR_OTHERS_MSG,
   CLEAR_OTHERS_ERROR
 } from "../actions/types";
@@ -242,6 +248,60 @@ export const addExistingAsset = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_EXISTING_ASSET_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// get loan
+export const getLoans = () => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/liabilities`);
+    dispatch({
+      type: GET_LOAN,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_LOAN_FAILED,
+      payload: err.response.msg
+    });
+  }
+};
+
+// add new loan
+export const addLoan = formData => async dispatch => {
+  formData.name = formData.name.trim();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/liabilities`, formData, config);
+    dispatch({ type: ADD_LOAN, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: ADD_LOAN_FAILED,
+      payload: err.response.data.msg
+    });
+  }
+};
+
+// pay loan
+export const payLoan = (formData, id) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(`${url}/liabilities/${id}`, formData, config);
+    dispatch({ type: PAY_LOAN, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: PAY_LOAN_FAILED,
       payload: err.response.data.msg
     });
   }

@@ -23,6 +23,12 @@ import {
   ADD_NEW_ASSET_FAILED,
   ADD_EXISTING_ASSET,
   ADD_EXISTING_ASSET_FAILED,
+  GET_LOAN,
+  GET_LOAN_FAILED,
+  ADD_LOAN,
+  ADD_LOAN_FAILED,
+  PAY_LOAN,
+  PAY_LOAN_FAILED,
   CLEAR_OTHERS_MSG,
   CLEAR_OTHERS_ERROR
 } from "../actions/types";
@@ -33,6 +39,7 @@ const initialState = {
   expenses: [],
   drawings: [],
   assets: [],
+  loans: [],
   msg: null,
   error: null
 };
@@ -127,6 +134,29 @@ export default (state = initialState, action) => {
         }),
         msg: "Asset Added"
       };
+    case GET_LOAN:
+      return {
+        ...state,
+        loans: action.payload
+      };
+    case ADD_LOAN:
+      return {
+        ...state,
+        loans: [...state.loans, action.payload],
+        msg: "Loan Added"
+      };
+    case PAY_LOAN:
+      return {
+        ...state,
+        loans: state.loans.map(loan => {
+          if (loan._id === action.payload.id) {
+            return (loan = action.payload);
+          } else {
+            return loan;
+          }
+        }),
+        msg: "Loan Paid"
+      };
 
     case CLEAR_OTHERS_ERROR:
       return {
@@ -146,6 +176,9 @@ export default (state = initialState, action) => {
     case GET_ASSETS_FAILED:
     case ADD_NEW_ASSET_FAILED:
     case ADD_EXISTING_ASSET_FAILED:
+    case GET_LOAN_FAILED:
+    case ADD_LOAN_FAILED:
+    case PAY_LOAN_FAILED:
       return {
         ...state,
         error: action.payload
