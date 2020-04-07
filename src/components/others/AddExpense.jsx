@@ -6,36 +6,50 @@ import {
   addExpense,
   getExpenseCategories,
   getExpenseCategory,
-  clearOthersMsg
+  clearOthersMsg,
+  clearOthersError
 } from "../../actions/othersAction";
 import { setAlert as Alert } from "../../actions/alertAction";
 import { Select } from "../common/Select";
 
 const AddExpense = ({
-  others: { categories, msg },
+  others: { categories, msg, error },
   Alert,
   addExpense,
   getExpenseCategory,
   getExpenseCategories,
-  clearOthersMsg
+  clearOthersMsg,
+  clearOthersError
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     amount: "",
+    payment: "",
     expenseId: "",
     disabled: false,
     setAlert: {
       expenseId: false,
       name: false,
+      payment: false,
       amount: false
     }
   });
-  const { name, amount, expenseId, setAlert } = formData;
+  const { name, payment, amount, expenseId, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getExpenseCategories();
+
+    if (error === "Enough Cash is not available") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
+    if (error === "Enough amount is not available in bank") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
+
     if (msg) {
       Alert(msg, "info");
       clearOthersMsg();
@@ -44,12 +58,13 @@ const AddExpense = ({
         expenseId: "",
         name: "",
         amount: "",
-        setAlert: { name: false, amount: false }
+        payment: "",
+        setAlert: { name: false, payment: false, amount: false }
       });
     }
 
     //eslint-disable-next-line
-  }, [msg]);
+  }, [error, msg]);
 
   useEffect(() => {
     if (expenseId) {
@@ -77,17 +92,24 @@ const AddExpense = ({
     setFormData({ ...formData, expenseId: value });
   };
 
+  const onPaymentChange = (e, { value }) => {
+    setFormData({ ...formData, payment: value });
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
 
     if (expenseId === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, expenseId: true } });
+    } else if (payment === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, payment: true } });
     } else {
       setLoading(true);
       await addExpense(
         {
           name,
-          amount
+          amount,
+          payment
         },
         expenseId
       );
@@ -126,6 +148,19 @@ const AddExpense = ({
               onChange={onExpenseChange}
             />
           )}
+          <Select
+            label="Payment Method"
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
+              { key: "credit", value: "credit", text: "credit" }
+            ]}
+            id="payment"
+            value={payment}
+            alert={setAlert.payment}
+            alertMsg="Choose a payment method"
+            onChange={onPaymentChange}
+          />
           {expenseId && (
             <Fragment>
               <Input
@@ -155,5 +190,6 @@ export default connect(mapStateToProps, {
   getExpenseCategories,
   getExpenseCategory,
   clearOthersMsg,
+  clearOthersError,
   Alert
 })(AddExpense);

@@ -13,7 +13,12 @@ import {
 } from "../../actions/salesAction";
 import { loadUser } from "./../../actions/authAction";
 import { getAssets, getDrawings } from "./../../actions/othersAction";
-import { getCashData, getRangeCashData } from "./../../actions/accountsAction";
+import {
+  getCashData,
+  getRangeCashData,
+  getBankData,
+  getRangeBankData
+} from "./../../actions/accountsAction";
 import { StatsAccordian } from "../common/StatsAccordian";
 import { CashBook } from "../Accounts/CashBook";
 import Account from "./../common/Account";
@@ -30,7 +35,7 @@ const Accounts = ({
     creditors,
     filtered: { creditor }
   },
-  accounts: { cash, rangeCash },
+  accounts: { cash, rangeCash, bank, rangeBank },
   others: { assets, drawings },
   loadUser,
   getCreditors,
@@ -40,7 +45,9 @@ const Accounts = ({
   clearFilterCustomer,
   getCustomers,
   getCashData,
+  getBankData,
   getAssets,
+  getRangeBankData,
   getRangeCashData,
   getDrawings
 }) => {
@@ -52,6 +59,7 @@ const Accounts = ({
     getCustomers();
     getCreditors();
     getCashData();
+    getBankData();
     getAssets();
     getDrawings();
 
@@ -92,7 +100,9 @@ const Accounts = ({
     creditors.forEach(creditor => (pay += creditor.due));
 
   const netRangeCash = getNetCash(rangeCash);
+  const netRangeBank = getNetCash(rangeBank);
   const netCash = getNetCash(cash);
+  const netBank = getNetCash(bank);
 
   let asset = [];
   assets.length > 0 &&
@@ -110,6 +120,7 @@ const Accounts = ({
 
   const trialBalanceData = [
     { name: "Cash", type: "dr", amount: netCash },
+    { name: "Bank", type: "dr", amount: netBank },
     { name: "Debtors", type: "dr", amount: receive },
     { name: "Creditors", type: "cr", amount: pay },
     { name: "Drawings", type: "dr", amount: drawingsAmount }
@@ -164,6 +175,16 @@ const Accounts = ({
             component={<CashBook cash={rangeCash} balance={netRangeCash} />}
           />
           <Account
+            heading="Bank A/c"
+            seperator={true}
+            netBalance={netRangeBank}
+            range={true}
+            func={getRangeBankData}
+            netHeading="Net Balance"
+            data={rangeBank}
+            component={<CashBook cash={rangeBank} balance={netRangeBank} />}
+          />
+          <Account
             heading="Trial Balance"
             asAt={`31/03/${new Date().getFullYear()}`}
             netBalance={netCash}
@@ -194,6 +215,8 @@ export default connect(mapStateToProps, {
   getCustomers,
   getCashData,
   getRangeCashData,
+  getBankData,
+  getRangeBankData,
   getAssets,
   getDrawings
 })(Accounts);

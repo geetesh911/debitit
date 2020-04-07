@@ -75,7 +75,7 @@ const PurchaseExistingProduct = ({
         showCreditors: true
         // creditorId: creditors[0]._id
       });
-    if (payment === "cash") {
+    if (payment === "cash" || payment === "bank") {
       setFormData({ ...formData, showCreditors: false, creditorId: "" });
     }
     // eslint-disable-next-line
@@ -228,6 +228,7 @@ const PurchaseExistingProduct = ({
             label="Payment Method"
             options={[
               { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
               { key: "credit", value: "credit", text: "credit" }
             ]}
             id="payment"

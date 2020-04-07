@@ -6,8 +6,6 @@ import { logout, loadUser } from "../../actions/authAction";
 import { clearTransactionState } from "./../../actions/salesAction";
 import { connect } from "react-redux";
 import AddExpenseCategory from "../others/AddExpenseCategory";
-import EditExpenseCategory from "../others/EditExpenseCategory";
-import DeleteExpenseCategory from "../others/DeleteExpenseCategory";
 import AddExpense from "../others/AddExpense";
 import Drawings from "../others/Drawings";
 import NewAsset from "../others/NewAsset";
@@ -51,16 +49,6 @@ const Others = ({
                       heading: "Add New Expense",
                       body: <AddExpenseCategory />,
                       name: "add_new_expense"
-                    },
-                    {
-                      heading: "Edit Expense Category",
-                      body: <EditExpenseCategory />,
-                      name: "edit_expense_category"
-                    },
-                    {
-                      heading: "Delete Expense Category",
-                      body: <DeleteExpenseCategory />,
-                      name: "delete_expense_category"
                     }
                   ]
                 },
@@ -131,14 +119,6 @@ const Others = ({
                     {
                       name: "sidetab-add-new-expense",
                       label: "Add New Expense"
-                    },
-                    {
-                      name: "sidetab-edit-expense-category",
-                      label: "Edit Expense Category"
-                    },
-                    {
-                      name: "sidetab-delete-expense-category",
-                      label: "Delete Expense Category"
                     }
                   ],
                   firstActive: true
@@ -209,22 +189,7 @@ const Others = ({
                 >
                   <AddExpenseCategory />
                 </div>
-                <div
-                  className="tab-pane fade"
-                  id="sidetab-edit-expense-category"
-                  role="tabpanel"
-                  aria-labelledby="edit-expense-category-tab"
-                >
-                  <EditExpenseCategory />
-                </div>
-                <div
-                  className="tab-pane fade"
-                  id="sidetab-delete-expense-category"
-                  role="tabpanel"
-                  aria-labelledby="delete-expense-category-tab"
-                >
-                  <DeleteExpenseCategory />
-                </div>
+
                 <div
                   className="tab-pane fade"
                   id="sidetab-new-asset"

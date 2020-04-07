@@ -81,6 +81,7 @@ import {
   GET_SALES_USING_PRODUCTNAME_FAILED,
   RECEIVED_PAYMENT,
   RECEIVED_PAYMENT_FAILED,
+  CLEAR_BILL,
 
   // sales error
   CLEAR_SALES_ERRORS,
@@ -516,6 +517,7 @@ export default (state = initialState, action) => {
     case DELETE_PRODUCT_FAILED:
     case GET_PURCHASE_USING_PRODUCTNAME_FAILED:
     case ADD_PURCHASE_RETURN_FAILED:
+    case GAVE_PAYMENT_FAILED:
       return {
         ...state,
         purchase: {
@@ -613,6 +615,14 @@ export default (state = initialState, action) => {
           })
         },
         msg: "Sale Added"
+      };
+    case CLEAR_BILL:
+      return {
+        ...state,
+        sales: {
+          ...state.sales,
+          bill: null
+        }
       };
     case ADD_SALES_RETURN:
       return {
@@ -736,7 +746,6 @@ export default (state = initialState, action) => {
     case GET_SALES_USING_PRODUCTNAME_FAILED:
     case GET_SALES_FAILED:
     case RECEIVED_PAYMENT_FAILED:
-    case GAVE_PAYMENT_FAILED:
       return {
         ...state,
         sales: {

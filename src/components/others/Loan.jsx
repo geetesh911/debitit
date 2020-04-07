@@ -20,13 +20,13 @@ const Loan = ({
   const [formData, setFormData] = useState({
     name: "",
     amount: "",
-    payment: "",
+    source: "",
     interestRate: "",
     time: "",
     otherExpenses: "0",
     setAlert: {
       name: false,
-      payment: false,
+      source: false,
       interestRate: false,
       time: false,
       amount: false,
@@ -39,7 +39,7 @@ const Loan = ({
   const {
     name,
     amount,
-    payment,
+    source,
     interestRate,
     time,
     otherExpenses,
@@ -58,14 +58,14 @@ const Loan = ({
       setFormData({
         ...formData,
         name: "",
-        payment: "",
+        source: "",
         interestRate: "",
         time: "",
         amount: "",
         otherExpenses: "0",
         setAlert: {
           name: false,
-          payment: false,
+          source: false,
           interestRate: false,
           time: false,
           amount: false,
@@ -81,8 +81,8 @@ const Loan = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onPaymentChange = (e, { value }) => {
-    setFormData({ ...formData, payment: value });
+  const onSourceChange = (e, { value }) => {
+    setFormData({ ...formData, source: value });
   };
 
   const onSubmit = async e => {
@@ -92,8 +92,8 @@ const Loan = ({
 
     if (name === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, name: true } });
-    } else if (payment === "") {
-      setFormData({ ...formData, setAlert: { ...setAlert, payment: true } });
+    } else if (source === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, source: true } });
     } else if (interestRate === "") {
       setFormData({
         ...formData,
@@ -107,7 +107,7 @@ const Loan = ({
     } else {
       await addLoan({
         name,
-        payment,
+        source,
         interestRate,
         time,
         amount: parseInt(amount),
@@ -132,13 +132,16 @@ const Loan = ({
             alertMsg="Loan source is required"
           />
           <Select
-            label="Payment Method"
-            options={[{ key: "cash", value: "cash", text: "cash" }]}
-            id="payment"
-            value={payment}
-            alert={setAlert.payment}
-            alertMsg="Choose a payment method"
-            onChange={onPaymentChange}
+            label="Source"
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" }
+            ]}
+            id="source"
+            value={source}
+            alert={setAlert.source}
+            alertMsg="Choose a source method"
+            onChange={onSourceChange}
           />
           <Input
             name="interestRate"

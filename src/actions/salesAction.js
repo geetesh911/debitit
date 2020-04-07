@@ -23,6 +23,7 @@ import {
   CLEAR_SALES_ERRORS,
   RECEIVED_PAYMENT,
   RECEIVED_PAYMENT_FAILED,
+  CLEAR_BILL,
 
   // filter
   FILTER_ADD_SALES,
@@ -176,6 +177,12 @@ export const addSales = formData => async dispatch => {
       payload: err.response.data.msg
     });
   }
+};
+
+export const clearBill = () => {
+  return {
+    type: CLEAR_BILL
+  };
 };
 
 // add sales return

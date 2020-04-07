@@ -3,11 +3,11 @@ import { Modal } from "react-bootstrap";
 import { printStyle } from "./../../utils/print";
 import convertDate from "./../../utils/convertDate";
 
-export const Bill = ({ show, handleClose, bill, user }) => {
+export const Bill = ({ show, handleClose, bill, clearBill, user }) => {
   const print = () => {
     const content = document.querySelector(".bill").innerHTML;
 
-    const print = window.open("", "", "height=500,width=500");
+    const print = window.open("", "", "height=1000,width=1000");
     print.document.write(
       `<html>
         <head>
@@ -20,6 +20,11 @@ export const Bill = ({ show, handleClose, bill, user }) => {
     );
     print.document.close();
     print.print();
+  };
+
+  const closeFunc = () => {
+    handleClose();
+    clearBill();
   };
   return (
     <Modal show={show} onHide={handleClose}>
@@ -118,7 +123,7 @@ export const Bill = ({ show, handleClose, bill, user }) => {
         </Modal.Body>
       </div>
       <Modal.Footer>
-        <button className="button transparent-button" onClick={handleClose}>
+        <button className="button transparent-button" onClick={closeFunc}>
           Close
         </button>
         <button className="button filled-button" onClick={print}>

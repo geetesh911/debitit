@@ -19,13 +19,15 @@ const ReceivedPayment = ({
 }) => {
   const [formData, setFormData] = useState({
     amount: "",
+    source: "",
     customerId: "",
     setAlert: {
       customerId: false,
-      amount: false
+      amount: false,
+      source: false
     }
   });
-  const { amount, customerId, setAlert } = formData;
+  const { amount, source, customerId, setAlert } = formData;
 
   const [loading, setLoading] = useState(false);
 
@@ -60,12 +62,18 @@ const ReceivedPayment = ({
       setFormData({ ...formData, setAlert: { ...setAlert, customerId: true } });
     } else if (amount === "") {
       setFormData({ ...formData, setAlert: { ...setAlert, amount: true } });
+    } else if (source === "") {
+      setFormData({ ...formData, setAlert: { ...setAlert, source: true } });
     } else {
       setLoading(true);
-      await receivedPayment({ amount, customerId });
+      await receivedPayment({ amount, customerId, source });
 
       setLoading(false);
     }
+  };
+
+  const onSourceChange = (e, { value }) => {
+    setFormData({ ...formData, source: value });
   };
 
   const customersOptions = () => {
@@ -100,6 +108,18 @@ const ReceivedPayment = ({
           )}
           {customerId && (
             <Fragment>
+              <Select
+                label="Source"
+                options={[
+                  { key: "cash", value: "cash", text: "cash" },
+                  { key: "bank", value: "bank", text: "bank" }
+                ]}
+                id="source"
+                value={source}
+                alert={setAlert.source}
+                alertMsg="Choose a source method"
+                onChange={onSourceChange}
+              />
               <Input
                 name="amount"
                 label="Amount*"

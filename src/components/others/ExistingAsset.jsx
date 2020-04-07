@@ -57,6 +57,10 @@ const ExistingAsset = ({
       Alert(error, "danger");
       clearOthersError();
     }
+    if (error === "Enough amount is not available in bank") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
 
     if (payment === "credit")
       setFormData({
@@ -64,7 +68,7 @@ const ExistingAsset = ({
         showCreditors: true
         // creditorId: creditors[0]._id
       });
-    if (payment === "cash") {
+    if (payment === "cash" || payment === "bank") {
       setFormData({ ...formData, showCreditors: false, creditorId: "" });
     }
     if (msg) {
@@ -122,6 +126,7 @@ const ExistingAsset = ({
           {
             otherExpenses: parseInt(otherExpenses),
             creditorId,
+            payment,
             amount: parseInt(amount)
           },
           assetId
@@ -130,6 +135,7 @@ const ExistingAsset = ({
         await addExistingAsset(
           {
             amount: parseInt(amount),
+            payment,
             otherExpenses: parseInt(otherExpenses)
           },
           assetId
@@ -185,6 +191,7 @@ const ExistingAsset = ({
             label="Payment Method"
             options={[
               { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
               { key: "credit", value: "credit", text: "credit" }
             ]}
             id="payment"

@@ -145,6 +145,7 @@ const Drawings = ({
             label="Name"
             options={[
               { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
               { key: "stock", value: "stock", text: "stock" }
             ]}
             id="name"
@@ -173,18 +174,19 @@ const Drawings = ({
               />
             </Fragment>
           )}
-          {name === "cash" && (
-            <Input
-              name="amount"
-              label="Amount*"
-              value={amount}
-              min="1"
-              onChange={onChange}
-              type="number"
-              alert={setAlert.amount}
-              alertMsg="Amount is required"
-            />
-          )}
+          {name === "cash" ||
+            (name === "bank" && (
+              <Input
+                name="amount"
+                label="Amount*"
+                value={amount}
+                min="1"
+                onChange={onChange}
+                type="number"
+                alert={setAlert.amount}
+                alertMsg="Amount is required"
+              />
+            ))}
           <SaveButton label="Add" loading={loading} />
         </form>
       </div>

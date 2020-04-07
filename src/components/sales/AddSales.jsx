@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import {
   addSales,
   clearSalesErrors,
-  clearMsg
+  clearMsg,
+  clearBill
 } from "../../actions/salesAction";
 import { getProducts } from "../../actions/purchaseAction";
 import { Select } from "../common/Select";
@@ -22,7 +23,8 @@ const AddSales = ({
   addSales,
   clearSalesErrors,
   Alert,
-  clearMsg
+  clearMsg,
+  clearBill
 }) => {
   const [formData, setFormData] = useState({
     payment: "",
@@ -71,11 +73,12 @@ const AddSales = ({
         showCustomers: true
         // customerId: creditors[0]._id
       });
-    if (payment === "cash") {
+    if (payment === "cash" || payment === "bank") {
       setFormData({ ...formData, showCustomers: false, customerId: "" });
     }
     if (bill) {
       handleShow();
+      // clearBill();
     }
     // eslint-disable-next-line
   }, [payment, bill]);
@@ -237,6 +240,7 @@ const AddSales = ({
             label="Payment Method"
             options={[
               { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
               { key: "credit", value: "credit", text: "credit" }
             ]}
             id="payment"
@@ -274,7 +278,13 @@ const AddSales = ({
           <SaveButton label="Add" loading={loading} />
         </form>
         {bill && user && (
-          <Bill show={show} handleClose={handleClose} bill={bill} user={user} />
+          <Bill
+            show={show}
+            handleClose={handleClose}
+            bill={bill}
+            user={user}
+            clearBill={clearBill}
+          />
         )}
       </div>
     </div>
@@ -293,5 +303,6 @@ export default connect(mapStateToProps, {
   getProducts,
   clearSalesErrors,
   Alert,
-  clearMsg
+  clearMsg,
+  clearBill
 })(AddSales);

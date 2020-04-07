@@ -46,6 +46,10 @@ const LoanPayment = ({
       Alert(error, "danger");
       clearOthersError();
     }
+    if (error === "Enough amount is not available in bank") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
 
     if (msg) {
       Alert(msg, "info");
@@ -95,6 +99,7 @@ const LoanPayment = ({
       await payLoan(
         {
           amount: parseInt(amount),
+          payment,
           otherExpenses: parseInt(otherExpenses)
         },
         loanId
@@ -134,7 +139,10 @@ const LoanPayment = ({
           />
           <Select
             label="Payment Method"
-            options={[{ key: "cash", value: "cash", text: "cash" }]}
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" }
+            ]}
             id="payment"
             value={payment}
             alert={setAlert.payment}

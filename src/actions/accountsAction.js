@@ -3,6 +3,10 @@ import {
   GET_CASH_DATA_FAILED,
   GET_RANGE_CASH_DATA,
   GET_RANGE_CASH_DATA_FAILED,
+  GET_BANK_DATA,
+  GET_BANK_DATA_FAILED,
+  GET_RANGE_BANK_DATA,
+  GET_RANGE_BANK_DATA_FAILED,
   SET_ACCOUNTS_MSG,
   CLEAR_ACCOUNTS_MSG
 } from "./types";
@@ -47,6 +51,43 @@ export const getRangeCashData = (lRange, uRange) => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_RANGE_CASH_DATA_FAILED,
+      payload: err.response.msg
+    });
+  }
+};
+
+// get bank data
+export const getBankData = () => async dispatch => {
+  try {
+    const res = await axios.get(`${url}/bank`);
+    dispatch({
+      type: GET_BANK_DATA,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_BANK_DATA_FAILED,
+      payload: err.response.msg
+    });
+  }
+};
+
+// get range bank data
+export const getRangeBankData = (lRange, uRange) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${url}/bank/range?lRange=${lRange}&uRange=${uRange}`
+    );
+    let dataNotFound = false;
+    if (res.data.length === 0) dataNotFound = true;
+
+    dispatch({
+      type: GET_RANGE_BANK_DATA,
+      payload: { res: res.data, dataNotFound }
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_RANGE_BANK_DATA_FAILED,
       payload: err.response.msg
     });
   }

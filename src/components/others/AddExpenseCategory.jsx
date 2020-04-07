@@ -4,28 +4,33 @@ import { SaveButton } from "../common/SaveButton";
 import { connect } from "react-redux";
 import {
   addExpenseCategories,
-  clearOthersMsg
+  clearOthersMsg,
+  clearOthersError
 } from "../../actions/othersAction";
 import { setAlert as Alert } from "./../../actions/alertAction";
+import { Select } from "./../common/Select";
 
 const AddExpenseCategory = ({
   addExpenseCategories,
+  clearOthersError,
   clearOthersMsg,
   Alert,
-  others: { msg }
+  others: { msg, error }
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     amount: "",
+    payment: "",
     setAlert: {
       name: false,
+      payment: false,
       amount: false
     }
   });
 
   const [loading, setLoading] = useState(false);
 
-  const { name, amount, setAlert } = formData;
+  const { name, amount, payment, setAlert } = formData;
 
   useEffect(() => {
     if (msg) {
@@ -35,12 +40,22 @@ const AddExpenseCategory = ({
         ...formData,
         name: "",
         amount: "",
-        setAlert: { name: false, amount: false }
+        payment: "",
+        setAlert: { name: false, amount: false, payment: false }
       });
     }
 
+    if (error === "Enough Cash is not available") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
+    if (error === "Enough amount is not available in bank") {
+      Alert(error, "danger");
+      clearOthersError();
+    }
+
     // eslint-disable-next-line
-  }, [msg]);
+  }, [msg, error]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,10 +68,15 @@ const AddExpenseCategory = ({
 
     await addExpenseCategories({
       name,
-      amount
+      amount,
+      payment
     });
 
     setLoading(false);
+  };
+
+  const onPaymentChange = (e, { value }) => {
+    setFormData({ ...formData, payment: value });
   };
 
   return (
@@ -71,6 +91,19 @@ const AddExpenseCategory = ({
             onChange={onChange}
             alert={setAlert.name}
             alertMsg="Expense name is required"
+          />
+          <Select
+            label="Payment Method"
+            options={[
+              { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
+              { key: "credit", value: "credit", text: "credit" }
+            ]}
+            id="payment"
+            value={payment}
+            alert={setAlert.payment}
+            alertMsg="Choose a payment method"
+            onChange={onPaymentChange}
           />
           <Input
             name="amount"
@@ -94,5 +127,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addExpenseCategories,
   clearOthersMsg,
+  clearOthersError,
   Alert
 })(AddExpenseCategory);

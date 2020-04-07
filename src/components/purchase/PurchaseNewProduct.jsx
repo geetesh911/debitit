@@ -60,6 +60,10 @@ const PurchaseNewProduct = ({
       Alert(error, "danger");
       clearErrors();
     }
+    if (error === "Product already exist") {
+      Alert(error, "danger");
+      clearErrors();
+    }
 
     if (payment === "credit")
       setFormData({
@@ -67,7 +71,7 @@ const PurchaseNewProduct = ({
         showCreditors: true
         // creditorId: creditors[0]._id
       });
-    if (payment === "cash") {
+    if (payment === "cash" || payment === "bank") {
       setFormData({ ...formData, showCreditors: false, creditorId: "" });
     }
     if (msg) {
@@ -176,6 +180,7 @@ const PurchaseNewProduct = ({
             label="Payment Method"
             options={[
               { key: "cash", value: "cash", text: "cash" },
+              { key: "bank", value: "bank", text: "bank" },
               { key: "credit", value: "credit", text: "credit" }
             ]}
             id="payment"
