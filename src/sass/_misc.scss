@@ -460,6 +460,12 @@
     display: none;
   }
 }
+.main-loader {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .dr-vertical-table {
   margin-top: 20px;

@@ -1,6 +1,12 @@
 import React, { Fragment } from "react";
 
 export const TrialBalance = ({ data }) => {
+  let drTotal = 0;
+  let crTotal = 0;
+  data.forEach(d => {
+    if (d.type === "dr") drTotal += d.amount;
+    if (d.type === "cr") crTotal += d.amount;
+  });
   return (
     <div className="trial-balance material-css">
       <div className="ledger">
@@ -35,15 +41,21 @@ export const TrialBalance = ({ data }) => {
                               {c.name} <span>A/c</span>
                             </td>
                             <td className="tb-dr">
-                              {c.type === "dr" && c.amount}
+                              {c.type === "dr" ? c.amount : "-"}
                             </td>
                             <td className="tb-cr">
-                              {c.type === "cr" && c.amount}
+                              {c.type === "cr" ? c.amount : "-"}
                             </td>
                           </tr>
                         }
                       </Fragment>
                     ))}
+                  <tr>
+                    <td className="tb-sno">{data.length + 1}</td>
+                    <td className="tb-par">Total</td>
+                    <td className="tb-dr">{drTotal}</td>
+                    <td className="tb-cr">{crTotal}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

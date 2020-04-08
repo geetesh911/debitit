@@ -42,7 +42,7 @@ const MobileNavbar = ({
 
   return (
     <Fragment>
-      <div className="dr-mobile-nav">
+      <nav className="dr-mobile-nav">
         <div className="mobile-nav-items">
           <NavLink
             Icon={AccountsIcon}
@@ -83,7 +83,7 @@ const MobileNavbar = ({
             onlyIcon={true}
           />
         </div>
-      </div>
+      </nav>
     </Fragment>
   );
 };

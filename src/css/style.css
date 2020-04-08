@@ -536,6 +536,19 @@
   display: none;
 }
 
+.main-loader {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .dr-vertical-table {
   margin-top: 20px;
   margin-bottom: 0;
@@ -1022,8 +1035,8 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif !important;
 }
 
-.accounts .stats-accordian .body {
-  max-height: 200px;
+.accounts .stats-accordian .body .body-area {
+  max-height: 130px;
   overflow-y: auto;
 }
 
@@ -2258,6 +2271,25 @@
     border: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.12);
   }
+}
+
+.ledger .tb-sno {
+  text-transform: capitalize;
+}
+
+.ledger .tb-par {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.ledger .tb-par span {
+  font-weight: 400;
+  text-transform: none;
+}
+
+.ledger .tb-dr,
+.ledger .tb-cr {
+  text-transform: capitalize;
 }
 
 @media (min-width: 768px) {

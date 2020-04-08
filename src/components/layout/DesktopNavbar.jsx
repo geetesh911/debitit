@@ -45,7 +45,7 @@ const DesktopNavbar = ({
   return (
     <Fragment>
       {
-        <div className="dr-nav">
+        <nav className="dr-nav">
           <div className="dr-nav-brand">
             <img
               src="https://i.ibb.co/LkbKKgt/logo.png"
@@ -93,7 +93,7 @@ const DesktopNavbar = ({
               </li>
             </ul>
           </div>
-        </div>
+        </nav>
       }
     </Fragment>
   );

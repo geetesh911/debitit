@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { connect } from "react-redux";
 import {
   addSales,
@@ -220,74 +220,76 @@ const AddSales = ({
   };
 
   return (
-    <div className="sale-new-content">
-      <div className="heading">Add a Sale</div>
-      <div className="sale-form">
-        <form onSubmit={onSubmit}>
-          {products && (
-            <SelectMultiple
-              label="Product*"
-              options={inititalProductOptions()}
-              id="product"
-              value={product}
-              first={true}
-              alert={setAlert.product}
-              alertMsg="Choose a product"
-              onChange={onProductChange}
-            />
-          )}
-          <Select
-            label="Payment Method"
-            options={[
-              { key: "cash", value: "cash", text: "cash" },
-              { key: "bank", value: "bank", text: "bank" },
-              { key: "credit", value: "credit", text: "credit" }
-            ]}
-            id="payment"
-            value={payment}
-            onChange={onPaymentChange}
-          />
-          {showCustomers && customers && (
+    <Fragment>
+      <div className="sale-new-content">
+        <div className="heading">Add a Sale</div>
+        <div className="sale-form">
+          <form onSubmit={onSubmit}>
+            {products && (
+              <SelectMultiple
+                label="Product*"
+                options={inititalProductOptions()}
+                id="product"
+                value={product}
+                first={true}
+                alert={setAlert.product}
+                alertMsg="Choose a product"
+                onChange={onProductChange}
+              />
+            )}
             <Select
-              label="Customer*"
-              options={customersOptions()}
-              id="customerId"
-              value={customerId}
-              first={true}
-              alert={setAlert.customerId}
-              alertMsg="Choose a customer"
-              onChange={onCustomerChange}
+              label="Payment Method"
+              options={[
+                { key: "cash", value: "cash", text: "cash" },
+                { key: "bank", value: "bank", text: "bank" },
+                { key: "credit", value: "credit", text: "credit" }
+              ]}
+              id="payment"
+              value={payment}
+              onChange={onPaymentChange}
+            />
+            {showCustomers && customers && (
+              <Select
+                label="Customer*"
+                options={customersOptions()}
+                id="customerId"
+                value={customerId}
+                first={true}
+                alert={setAlert.customerId}
+                alertMsg="Choose a customer"
+                onChange={onCustomerChange}
+              />
+            )}
+            <Input
+              name="quantity"
+              label="Quantity*"
+              value={quantity}
+              min="1"
+              onChange={onChange}
+              helperText="Seperate each product quantity by comma"
+            />
+            <Input
+              name="otherExpenses"
+              label="Other Expenses"
+              type="number"
+              value={otherExpenses}
+              min="0"
+              onChange={onChange}
+            />
+            <SaveButton label="Add" loading={loading} />
+          </form>
+          {bill && user && (
+            <Bill
+              show={show}
+              handleClose={handleClose}
+              bill={bill}
+              user={user}
+              clearBill={clearBill}
             />
           )}
-          <Input
-            name="quantity"
-            label="Quantity*"
-            value={quantity}
-            min="1"
-            onChange={onChange}
-            helperText="Seperate each product quantity by comma"
-          />
-          <Input
-            name="otherExpenses"
-            label="Other Expenses"
-            type="number"
-            value={otherExpenses}
-            min="0"
-            onChange={onChange}
-          />
-          <SaveButton label="Add" loading={loading} />
-        </form>
-        {bill && user && (
-          <Bill
-            show={show}
-            handleClose={handleClose}
-            bill={bill}
-            user={user}
-            clearBill={clearBill}
-          />
-        )}
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

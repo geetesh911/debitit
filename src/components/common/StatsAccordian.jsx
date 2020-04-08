@@ -40,30 +40,32 @@ export const StatsAccordian = ({
         >
           <div className="card-body">
             <SearchInput onChange={onChange} value={searchState} />
-            {data && data.length > 0 ? (
-              data.map(d => (
-                <div className="data" key={d._id}>
-                  <div className="user-image">
-                    <img
-                      src="https://i.ibb.co/nQ951dX/default-profile-200x200.png"
-                      alt=""
-                      className="user-icon"
-                    />
-                  </div>
-                  <div className="user-stats">
-                    <div className="name">{d.name}</div>
-                    <div className="due">
-                      <span className="badge badge-dark">
-                        <strong>Due: </strong>
-                        {`\u20B9${d.due}`}
-                      </span>
+            <div className="body-area">
+              {data && data.length > 0 ? (
+                data.map(d => (
+                  <div className="data" key={d._id}>
+                    <div className="user-image">
+                      <img
+                        src="https://i.ibb.co/nQ951dX/default-profile-200x200.png"
+                        alt=""
+                        className="user-icon"
+                      />
+                    </div>
+                    <div className="user-stats">
+                      <div className="name">{d.name}</div>
+                      <div className="due">
+                        <span className="badge badge-dark">
+                          <strong>Due: </strong>
+                          {`\u20B9${d.due}`}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="msg">Nothing Here...</div>
-            )}
+                ))
+              ) : (
+                <div className="msg">Nothing Here...</div>
+              )}
+            </div>
           </div>
         </div>
       </div>

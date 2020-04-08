@@ -1,3 +1,20 @@
+.ledger {
+  .tb-sno {
+    text-transform: capitalize;
+  }
+  .tb-par {
+    text-transform: capitalize;
+    font-weight: 600;
+    span {
+      font-weight: 400;
+      text-transform: none;
+    }
+  }
+  .tb-dr,
+  .tb-cr {
+    text-transform: capitalize;
+  }
+}
 @media (min-width: 768px) {
   .ledger {
     .tb-sno {

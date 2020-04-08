@@ -12,7 +12,7 @@ import {
   clearFilterCustomer
 } from "../../actions/salesAction";
 import { loadUser } from "./../../actions/authAction";
-import { getAssets, getDrawings } from "./../../actions/othersAction";
+import { getAssets, getLoans, getDrawings } from "./../../actions/othersAction";
 import {
   getCashData,
   getRangeCashData,
@@ -22,8 +22,9 @@ import {
 import { StatsAccordian } from "../common/StatsAccordian";
 import { CashBook } from "../Accounts/CashBook";
 import Account from "./../common/Account";
-import { TrialBalance } from "./../Accounts/TrialBalance";
+// import { TrialBalance } from "./../Accounts/TrialBalance";
 import { getNetCash } from "./../../utils/getNetCash";
+import { MainLoader } from "../common/MainLoader";
 
 const Accounts = ({
   auth: { user },
@@ -36,7 +37,7 @@ const Accounts = ({
     filtered: { creditor }
   },
   accounts: { cash, rangeCash, bank, rangeBank },
-  others: { assets, drawings },
+  others: { assets, loans, drawings },
   loadUser,
   getCreditors,
   filterCreditors,
@@ -47,6 +48,7 @@ const Accounts = ({
   getCashData,
   getBankData,
   getAssets,
+  getLoans,
   getRangeBankData,
   getRangeCashData,
   getDrawings
@@ -61,6 +63,7 @@ const Accounts = ({
     getCashData();
     getBankData();
     getAssets();
+    getLoans();
     getDrawings();
 
     // eslint-disable-next-line
@@ -115,6 +118,17 @@ const Accounts = ({
       return asset.push(arr);
     });
 
+  let loan = [];
+  loans.length > 0 &&
+    loans.map(a => {
+      let arr = {};
+      arr.name = a.name;
+      arr.type = "cr";
+      arr.amount = a.amount;
+
+      return loan.push(arr);
+    });
+
   let drawingsAmount = 0;
   drawings.length > 0 && drawings.forEach(d => (drawingsAmount += d.amount));
 
@@ -127,71 +141,77 @@ const Accounts = ({
   ];
 
   assets.length > 0 && asset.forEach(a => trialBalanceData.push(a));
+  loans.length > 0 && loan.forEach(a => trialBalanceData.push(a));
 
   return (
     <Fragment>
       <div className="offset-lg-2 col-lg-10 offset-md-2 col-md-10 offset-sm-2 col-sm-10 content">
-        <Heading heading="Accounts" icon={user ? user.icon : ""} />
-        <div className="accounts">
-          <div className="stats">
-            <div className="customer">
-              <StatsAccordian
-                name="customer"
-                label={`You'll Receive`}
-                netAmount={`\u20B9${receive}`}
-                data={customer ? customer : customers}
-                search={customerSearch}
-                filterFunction={filterCustomer}
-                clearFilterFunction={clearFilterCustomer}
-                filtered={customer ? customer : customers}
-                searchState={customerSearch}
-                onChange={onCustomerChange}
-              />
-            </div>
-            <div className="stats-seperator"></div>
-            <div className="creditor">
-              <StatsAccordian
-                name="creditor"
-                label={`You'll Pay`}
-                netAmount={`\u20B9${pay}`}
-                data={creditor ? creditor : creditors}
-                filterFunction={filterCreditors}
-                clearFilterFunction={clearFilterCreditors}
-                filtered={creditor ? creditor : creditors}
-                searchState={creditorSearch}
-                onChange={onCreditorChange}
-              />
-            </div>
-          </div>
+        {user ? (
+          <Fragment>
+            <Heading heading="Accounts" icon={user ? user.icon : ""} />
+            <div className="accounts">
+              <div className="stats">
+                <div className="customer">
+                  <StatsAccordian
+                    name="customer"
+                    label={`You'll Receive`}
+                    netAmount={`\u20B9${receive}`}
+                    data={customer ? customer : customers}
+                    search={customerSearch}
+                    filterFunction={filterCustomer}
+                    clearFilterFunction={clearFilterCustomer}
+                    filtered={customer ? customer : customers}
+                    searchState={customerSearch}
+                    onChange={onCustomerChange}
+                  />
+                </div>
+                <div className="stats-seperator"></div>
+                <div className="creditor">
+                  <StatsAccordian
+                    name="creditor"
+                    label={`You'll Pay`}
+                    netAmount={`\u20B9${pay}`}
+                    data={creditor ? creditor : creditors}
+                    filterFunction={filterCreditors}
+                    clearFilterFunction={clearFilterCreditors}
+                    filtered={creditor ? creditor : creditors}
+                    searchState={creditorSearch}
+                    onChange={onCreditorChange}
+                  />
+                </div>
+              </div>
 
-          <Account
-            heading="Cash A/c"
-            seperator={true}
-            netBalance={netRangeCash}
-            range={true}
-            func={getRangeCashData}
-            netHeading="Net Balance"
-            data={rangeCash}
-            component={<CashBook cash={rangeCash} balance={netRangeCash} />}
-          />
-          <Account
-            heading="Bank A/c"
-            seperator={true}
-            netBalance={netRangeBank}
-            range={true}
-            func={getRangeBankData}
-            netHeading="Net Balance"
-            data={rangeBank}
-            component={<CashBook cash={rangeBank} balance={netRangeBank} />}
-          />
-          <Account
-            heading="Trial Balance"
-            asAt={`31/03/${new Date().getFullYear()}`}
-            netBalance={netCash}
-            netHeading="Total"
-            component={<TrialBalance data={trialBalanceData} />}
-          />
-        </div>
+              <Account
+                heading="Cash A/c"
+                seperator={true}
+                netBalance={netRangeCash}
+                range={true}
+                func={getRangeCashData}
+                netHeading="Net Balance"
+                data={rangeCash}
+                component={<CashBook cash={rangeCash} balance={netRangeCash} />}
+              />
+              <Account
+                heading="Bank A/c"
+                netBalance={netRangeBank}
+                range={true}
+                func={getRangeBankData}
+                netHeading="Net Balance"
+                data={rangeBank}
+                component={<CashBook cash={rangeBank} balance={netRangeBank} />}
+              />
+              {/* <Account
+                heading="Trial Balance"
+                asAt={`31/03/${new Date().getFullYear()}`}
+                netBalance={netCash}
+                netHeading="Total"
+                component={<TrialBalance data={trialBalanceData} />}
+              /> */}
+            </div>
+          </Fragment>
+        ) : (
+          <MainLoader />
+        )}
       </div>
     </Fragment>
   );
@@ -218,5 +238,6 @@ export default connect(mapStateToProps, {
   getBankData,
   getRangeBankData,
   getAssets,
+  getLoans,
   getDrawings
 })(Accounts);

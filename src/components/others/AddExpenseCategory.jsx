@@ -110,6 +110,8 @@ const AddExpenseCategory = ({
             label="Amount*"
             value={amount}
             onChange={onChange}
+            type="number"
+            min="1"
             alert={setAlert.amount}
             alertMsg="Amount is required"
           />
