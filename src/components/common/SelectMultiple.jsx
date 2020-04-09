@@ -7,7 +7,8 @@ export const SelectMultiple = ({
   id,
   onChange,
   alert,
-  alertMsg
+  value,
+  alertMsg,
 }) => {
   return (
     <div className={`dr-select-multiple ${alert ? "select-alert" : ""}`}>
@@ -21,6 +22,7 @@ export const SelectMultiple = ({
           multiple
           search
           selection
+          value={value}
           options={options}
           onChange={onChange}
         />

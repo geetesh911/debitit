@@ -18,9 +18,10 @@ const Others = ({
   auth: { user },
   logout,
   clearTransactionState,
-  loadUser
+  loadUser,
 }) => {
   const handleLogOut = () => {
+    window.location = "/login";
     logout();
     clearTransactionState();
   };
@@ -46,14 +47,14 @@ const Others = ({
                         {
                           heading: "Add Existing Expense",
                           body: <AddExpense />,
-                          name: "add_expenses"
+                          name: "add_expenses",
                         },
                         {
                           heading: "Add New Expense",
                           body: <AddExpenseCategory />,
-                          name: "add_new_expense"
-                        }
-                      ]
+                          name: "add_new_expense",
+                        },
+                      ],
                     },
                     {
                       heading: "Assets",
@@ -62,14 +63,14 @@ const Others = ({
                         {
                           heading: "Add New Asset",
                           body: <NewAsset />,
-                          name: "new_asset"
+                          name: "new_asset",
                         },
                         {
                           heading: "Add Existing Asset",
                           body: <ExistingAsset />,
-                          name: "existing_asset"
-                        }
-                      ]
+                          name: "existing_asset",
+                        },
+                      ],
                     },
                     {
                       heading: "Liabilities",
@@ -78,14 +79,14 @@ const Others = ({
                         {
                           heading: "Add Loan",
                           body: <Loan />,
-                          name: "add_loan"
+                          name: "add_loan",
                         },
                         {
                           heading: "Pay Loan",
                           body: <LoanPayment />,
-                          name: "pay_loan"
-                        }
-                      ]
+                          name: "pay_loan",
+                        },
+                      ],
                     },
                     {
                       heading: "Others",
@@ -94,9 +95,9 @@ const Others = ({
                         {
                           heading: "Drawings",
                           body: <Drawings />,
-                          name: "drawings"
-                        }
-                      ]
+                          name: "drawings",
+                        },
+                      ],
                     },
                     {
                       seperator: true,
@@ -104,10 +105,10 @@ const Others = ({
                         {
                           heading: "Logout",
                           name: "logout",
-                          onClick: handleLogOut
-                        }
-                      ]
-                    }
+                          onClick: handleLogOut,
+                        },
+                      ],
+                    },
                   ]}
                 />
                 <RouteSideNav
@@ -116,60 +117,60 @@ const Others = ({
                       heading: "Expenses",
                       firstOption: {
                         name: "sidetab-add-expenses",
-                        label: "Add Existing Expenses"
+                        label: "Add Existing Expenses",
                       },
                       otherOptions: [
                         {
                           name: "sidetab-add-new-expense",
-                          label: "Add New Expense"
-                        }
+                          label: "Add New Expense",
+                        },
                       ],
-                      firstActive: true
+                      firstActive: true,
                     },
                     {
                       heading: "Assets",
                       seperator: true,
                       firstOption: {
                         name: "sidetab-new-asset",
-                        label: "Add New Asset"
+                        label: "Add New Asset",
                       },
                       otherOptions: [
                         {
                           name: "sidetab-existing-asset",
-                          label: "Add Existing Asset"
-                        }
-                      ]
+                          label: "Add Existing Asset",
+                        },
+                      ],
                     },
                     {
                       heading: "Liabilities",
                       seperator: true,
                       firstOption: {
                         name: "sidetab-add-loan",
-                        label: "Add Loan"
+                        label: "Add Loan",
                       },
                       otherOptions: [
                         {
                           name: "sidetab-pay-loan",
-                          label: "Pay Loan"
-                        }
-                      ]
+                          label: "Pay Loan",
+                        },
+                      ],
                     },
                     {
                       heading: "Others",
                       seperator: true,
                       firstOption: {
                         name: "sidetab-drawings",
-                        label: "Drawings"
-                      }
+                        label: "Drawings",
+                      },
                     },
                     {
                       seperator: true,
                       other: {
                         name: "sidetab-logout",
                         label: "Logout",
-                        onClick: handleLogOut
-                      }
-                    }
+                        onClick: handleLogOut,
+                      },
+                    },
                   ]}
                 />
               </div>
@@ -246,12 +247,12 @@ const Others = ({
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   logout,
   clearTransactionState,
-  loadUser
+  loadUser,
 })(Others);

@@ -1,7 +1,15 @@
 import React from "react";
 import { Dropdown } from "semantic-ui-react";
 
-export const Select = ({ label, options, id, onChange, alert, alertMsg }) => {
+export const Select = ({
+  label,
+  options,
+  value,
+  id,
+  onChange,
+  alert,
+  alertMsg,
+}) => {
   options = [{ key: "", text: "Select...", value: "" }, ...options];
   return (
     <div className={`dr-select ${alert ? "select-alert" : ""}`}>
@@ -14,6 +22,7 @@ export const Select = ({ label, options, id, onChange, alert, alertMsg }) => {
             placeholder="Select..."
             fluid
             search
+            value={value}
             selection
             options={options}
             onChange={onChange}

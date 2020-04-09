@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { login } from "./../../actions/authAction";
 import { clearErrors } from "./../../actions/authAction";
 import { SaveButton } from "../common/SaveButton";
+import { Link } from "react-router-dom";
 
 const Login = ({ auth: { isAuthenticated, error }, login, clearErrors }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    setAlert: false
+    setAlert: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,16 +26,16 @@ const Login = ({ auth: { isAuthenticated, error }, login, clearErrors }) => {
     //eslint-disable-next-line
   }, [isAuthenticated, error]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     await login({
       email,
-      password
+      password,
     });
     setLoading(false);
   };
@@ -72,14 +73,17 @@ const Login = ({ auth: { isAuthenticated, error }, login, clearErrors }) => {
             />
             <SaveButton label="Login" loading={loading} />
           </form>
+          <div className="signup-link">
+            <Link to="/register">Don't have an account? Sign up</Link>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { login, clearErrors })(Login);

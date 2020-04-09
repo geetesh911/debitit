@@ -2,10 +2,21 @@
   align-items: flex-start !important;
   .form-area {
     margin-top: 30px;
-    height: 60%;
+    height: 400px;
     .form {
       .form-text {
         text-align: center;
+      }
+    }
+  }
+  .signup-link {
+    text-align: right;
+    margin-top: 75px;
+    padding-right: 10px;
+    a {
+      color: $text-color-dark;
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
