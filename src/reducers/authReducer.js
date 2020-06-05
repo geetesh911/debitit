@@ -7,7 +7,7 @@ import {
   CLEAR_ERRORS,
   LOAD_USER,
   AUTH_FAILED,
-  SET_LOADING
+  SET_LOADING,
 } from "../actions/types";
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
   isAuthenticated: null,
   loading: false,
   user: null,
-  error: null
+  error: null,
 };
 
 export default (state = initialState, action) => {
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload
+        user: action.payload,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
     case REGISTER_FAILED:
     case AUTH_FAILED:
@@ -50,17 +50,17 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload
+        error: action.payload,
       };
     case CLEAR_ERRORS:
       return {
         ...state,
-        error: null
+        error: null,
       };
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     default:
       return state;

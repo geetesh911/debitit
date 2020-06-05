@@ -45,7 +45,7 @@ import {
   FILTER_CREDITORS,
   CLEAR_FILTER_CREDITORS,
   GAVE_PAYMENT,
-  GAVE_PAYMENT_FAILED
+  GAVE_PAYMENT_FAILED,
 } from "../actions/types";
 import axios from "axios";
 
@@ -57,12 +57,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // add new purchase
-export const addNewPurchase = formData => async dispatch => {
+export const addNewPurchase = (formData) => async (dispatch) => {
   formData.productName = formData.productName.trim();
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -72,104 +72,104 @@ export const addNewPurchase = formData => async dispatch => {
     console.log(err.response.data.msg);
     dispatch({
       type: SAVE_NEW_PURCHASE_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add existing purchase
-export const addExistingPurchase = formData => async dispatch => {
+export const addExistingPurchase = (formData) => async (dispatch) => {
   formData.productName = formData.productName.trim();
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
     const res = await axios.post(`${url}/purchase`, formData, config);
     dispatch({
       type: SAVE_EXISTING_PURCHASE,
-      payload: { res: res.data, productId: formData.productId }
+      payload: { res: res.data, productId: formData.productId },
     });
   } catch (err) {
     console.log(err.response.data.msg);
     dispatch({
       type: SAVE_EXISTING_PURCHASE_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get purchases
-export const getPurchases = () => async dispatch => {
+export const getPurchases = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/purchase`);
     dispatch({ type: GET_PURCHASE, payload: res.data });
   } catch (err) {
     dispatch({
       type: GET_PURCHASE_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get purchases using product name
-export const getPurchaseUsingProduct = productName => async dispatch => {
+export const getPurchaseUsingProduct = (productName) => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/purchase?product=${productName}`);
     dispatch({ type: GET_PURCHASE_USING_PRODUCTNAME, payload: res.data });
   } catch (err) {
     dispatch({
       type: GET_PURCHASE_USING_PRODUCTNAME_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add purchase return
-export const addPurchaseReturn = formData => async dispatch => {
+export const addPurchaseReturn = (formData) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
     const res = await axios.post(`${url}/purchasereturn`, formData, config);
     dispatch({
       type: ADD_PURCHASE_RETURN,
-      payload: { res: res.data, productId: formData.productId }
+      payload: { res: res.data, productId: formData.productId },
     });
   } catch (err) {
     console.log(err.response.data.msg);
     dispatch({
       type: ADD_PURCHASE_RETURN_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get product
-export const getProducts = () => async dispatch => {
+export const getProducts = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/product`);
     dispatch({ type: GET_PRODUCTS, payload: res.data });
   } catch (err) {
     dispatch({
       type: GET_PRODUCTS_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // post product
-export const addNewProduct = formData => async dispatch => {
+export const addNewProduct = (formData) => async (dispatch) => {
   formData.productName = formData.productName.trim();
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -178,52 +178,52 @@ export const addNewProduct = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_NEW_PRODUCT_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get creditors
-export const getCreditors = () => async dispatch => {
+export const getCreditors = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/creditor`);
     dispatch({
       type: GET_CREDITORS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_CREDITORS_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get creditor
-export const getCreditor = id => async dispatch => {
+export const getCreditor = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/creditor/${id}`);
     dispatch({
       type: GET_CREDITOR,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_CREDITOR_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add creditor
-export const addCreditor = formData => async dispatch => {
+export const addCreditor = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
   formData.contact = formData.contact.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/creditor`, formData, config);
@@ -231,20 +231,20 @@ export const addCreditor = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_CREDITOR_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // edit creditor
-export const editCreditor = (formData, id) => async dispatch => {
+export const editCreditor = (formData, id) => async (dispatch) => {
   formData.name = formData.name.trim();
   formData.contact = formData.contact.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.put(`${url}/creditor/${id}`, formData, config);
@@ -252,13 +252,13 @@ export const editCreditor = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: EDIT_CREDITOR_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // delete creditor
-export const deleteCreditor = id => async dispatch => {
+export const deleteCreditor = (id) => async (dispatch) => {
   try {
     await axios.delete(`${url}/creditor/${id}`);
     dispatch({ type: DELETE_CREDITOR, payload: id });
@@ -268,7 +268,7 @@ export const deleteCreditor = id => async dispatch => {
 };
 
 // delete product
-export const deleteProduct = id => async dispatch => {
+export const deleteProduct = (id) => async (dispatch) => {
   try {
     await axios.delete(`${url}/product/${id}`);
     dispatch({ type: DELETE_PRODUCT, payload: id });
@@ -278,29 +278,29 @@ export const deleteProduct = id => async dispatch => {
 };
 
 // get product
-export const getProduct = id => async dispatch => {
+export const getProduct = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/product/${id}`);
     dispatch({
       type: GET_PRODUCT,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_PRODUCT_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // edit product
-export const editProduct = (formData, id) => async dispatch => {
+export const editProduct = (formData, id) => async (dispatch) => {
   formData.productName = formData.productName.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.put(`${url}/product/${id}`, formData, config);
@@ -308,17 +308,17 @@ export const editProduct = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: EDIT_PRODUCT_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // gave payment
-export const gavePayment = formData => async dispatch => {
+export const gavePayment = (formData) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/gavepayment`, formData, config);
@@ -326,84 +326,84 @@ export const gavePayment = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: GAVE_PAYMENT_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // Filter product
-export const filterCreditors = text => dispatch => {
+export const filterCreditors = (text) => (dispatch) => {
   dispatch({ type: FILTER_CREDITORS, payload: text });
 };
 
 // clear filter creditors
-export const clearFilterCreditors = text => dispatch => {
+export const clearFilterCreditors = (text) => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_CREDITORS, payload: text });
 };
 
 // Filter product
-export const filterProduct = text => dispatch => {
+export const filterProduct = (text) => (dispatch) => {
   dispatch({ type: FILTER_CARDS, payload: text });
 };
 
 // Filter existing purchase
-export const filterExistingPurchase = text => dispatch => {
+export const filterExistingPurchase = (text) => (dispatch) => {
   dispatch({ type: FILTER_PURCHASE_EXISTING_PRODUCT, payload: text });
 };
 
 // Filter edit product
-export const filterEditProduct = text => dispatch => {
+export const filterEditProduct = (text) => (dispatch) => {
   dispatch({ type: FILTER_EDIT_PRODUCT, payload: text });
 };
 
 // Filter delete product
-export const filterDeleteProduct = text => dispatch => {
+export const filterDeleteProduct = (text) => (dispatch) => {
   dispatch({ type: FILTER_DELETE_PRODUCT, payload: text });
 };
 
 // Filter purchase return products
-export const filterPurcahseReturn = text => dispatch => {
+export const filterPurcahseReturn = (text) => (dispatch) => {
   dispatch({ type: FILTER_PURCHASE_RETURN, payload: text });
 };
 
 // Filter purchase products
-export const filterPurchase = text => dispatch => {
+export const filterPurchase = (text) => (dispatch) => {
   dispatch({ type: FILTER_PURCHASE, payload: text });
 };
 
 // Clear Filter
-export const clearFilterCards = () => dispatch => {
+export const clearFilterCards = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_CARDS });
 };
 
 // Clear Filter
-export const clearFilterExistingPurchase = () => dispatch => {
+export const clearFilterExistingPurchase = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_PURCHASE_EXISTING_PRODUCT });
 };
 
 // Clear Edit product filter
-export const clearEditProductFilter = () => dispatch => {
+export const clearEditProductFilter = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_EDIT_PRODUCT });
 };
 
 // Clear delete product filter
-export const clearDeleteProductFilter = () => dispatch => {
+export const clearDeleteProductFilter = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_DELETE_PRODUCT });
 };
 
 // Clear purchase return product filter
-export const clearPurchaseReturnFilter = () => dispatch => {
+export const clearPurchaseReturnFilter = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_PURCHASE_RETURN });
 };
 
 // Clear purchase product filter
-export const clearPurchaseFilter = () => dispatch => {
+export const clearPurchaseFilter = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_PURCHASE });
 };
 
 // Clear Errors
 export const clearErrors = () => {
   return {
-    type: CLEAR_ERRORS
+    type: CLEAR_ERRORS,
   };
 };

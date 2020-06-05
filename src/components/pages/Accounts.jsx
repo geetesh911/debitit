@@ -4,20 +4,20 @@ import { connect } from "react-redux";
 import {
   getCreditors,
   filterCreditors,
-  clearFilterCreditors
+  clearFilterCreditors,
 } from "../../actions/purchaseAction";
 import {
   getCustomers,
   filterCustomer,
-  clearFilterCustomer
+  clearFilterCustomer,
 } from "../../actions/salesAction";
-import { loadUser } from "./../../actions/authAction";
+import { loadUser, logout } from "./../../actions/authAction";
 import { getAssets, getLoans, getDrawings } from "./../../actions/othersAction";
 import {
   getCashData,
   getRangeCashData,
   getBankData,
-  getRangeBankData
+  getRangeBankData,
 } from "./../../actions/accountsAction";
 import { StatsAccordian } from "../common/StatsAccordian";
 import { CashBook } from "../Accounts/CashBook";
@@ -30,13 +30,13 @@ const Accounts = ({
   auth: { user },
   sales: {
     customers,
-    filtered: { customer }
+    filtered: { customer },
   },
   purchase: {
     creditors,
-    filtered: { creditor }
+    filtered: { creditor },
   },
-  accounts: { cash, rangeCash, bank, rangeBank },
+  accounts: { cash, rangeCash, bank, rangeBank, error },
   others: { assets, loans, drawings },
   loadUser,
   getCreditors,
@@ -51,7 +51,7 @@ const Accounts = ({
   getLoans,
   getRangeBankData,
   getRangeCashData,
-  getDrawings
+  getDrawings,
 }) => {
   const [customerSearch, setCustomerSearch] = useState("");
   const [creditorSearch, setCreditorSearch] = useState("");
@@ -65,9 +65,13 @@ const Accounts = ({
     getAssets();
     getLoans();
     getDrawings();
+    if (error === "token is not valid") {
+      logout();
+      // console.log("error", logout);
+    }
 
     // eslint-disable-next-line
-  }, []);
+  }, [error]);
 
   useEffect(() => {
     if (customerSearch !== "") {
@@ -87,20 +91,20 @@ const Accounts = ({
   let receive = 0;
   let pay = 0;
 
-  const onCustomerChange = e => {
+  const onCustomerChange = (e) => {
     setCustomerSearch(e.target.value);
   };
-  const onCreditorChange = e => {
+  const onCreditorChange = (e) => {
     setCreditorSearch(e.target.value);
   };
 
   customers &&
     customers.length > 0 &&
-    customers.forEach(customer => (receive += customer.due));
+    customers.forEach((customer) => (receive += customer.due));
 
   creditors &&
     creditors.length > 0 &&
-    creditors.forEach(creditor => (pay += creditor.due));
+    creditors.forEach((creditor) => (pay += creditor.due));
 
   const netRangeCash = getNetCash(rangeCash);
   const netRangeBank = getNetCash(rangeBank);
@@ -109,7 +113,7 @@ const Accounts = ({
 
   let asset = [];
   assets.length > 0 &&
-    assets.map(a => {
+    assets.map((a) => {
       let arr = {};
       arr.name = a.name;
       arr.type = "dr";
@@ -120,7 +124,7 @@ const Accounts = ({
 
   let loan = [];
   loans.length > 0 &&
-    loans.map(a => {
+    loans.map((a) => {
       let arr = {};
       arr.name = a.name;
       arr.type = "cr";
@@ -130,18 +134,18 @@ const Accounts = ({
     });
 
   let drawingsAmount = 0;
-  drawings.length > 0 && drawings.forEach(d => (drawingsAmount += d.amount));
+  drawings.length > 0 && drawings.forEach((d) => (drawingsAmount += d.amount));
 
   const trialBalanceData = [
     { name: "Cash", type: "dr", amount: netCash },
     { name: "Bank", type: "dr", amount: netBank },
     { name: "Debtors", type: "dr", amount: receive },
     { name: "Creditors", type: "cr", amount: pay },
-    { name: "Drawings", type: "dr", amount: drawingsAmount }
+    { name: "Drawings", type: "dr", amount: drawingsAmount },
   ];
 
-  assets.length > 0 && asset.forEach(a => trialBalanceData.push(a));
-  loans.length > 0 && loan.forEach(a => trialBalanceData.push(a));
+  assets.length > 0 && asset.forEach((a) => trialBalanceData.push(a));
+  loans.length > 0 && loan.forEach((a) => trialBalanceData.push(a));
 
   return (
     <Fragment>
@@ -217,16 +221,17 @@ const Accounts = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   purchase: state.transaction.purchase,
   sales: state.transaction.sales,
   accounts: state.accounts,
-  others: state.others
+  others: state.others,
 });
 
 export default connect(mapStateToProps, {
   loadUser,
+  logout,
   filterCustomer,
   clearFilterCustomer,
   filterCreditors,
@@ -239,5 +244,5 @@ export default connect(mapStateToProps, {
   getRangeBankData,
   getAssets,
   getLoans,
-  getDrawings
+  getDrawings,
 })(Accounts);

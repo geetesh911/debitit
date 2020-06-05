@@ -7,10 +7,11 @@ import {
   CLEAR_ERRORS,
   LOAD_USER,
   AUTH_FAILED,
-  SET_LOADING
+  SET_LOADING,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "./../utils/setAuthToken";
+import { getToken } from "./../utils/getToken";
 
 let url = "";
 if (process.env.NODE_ENV !== "production") {
@@ -19,10 +20,11 @@ if (process.env.NODE_ENV !== "production") {
   url = "https://debitit-api.herokuapp.com/api";
 }
 
-export const loadUser = () => async dispatch => {
+const token = getToken();
+
+export const loadUser = () => async (dispatch) => {
   // if (localStorage.token) setAuthToken(localStorage.token);
-  if (document.cookie && document.cookie.split("=")[1])
-    setAuthToken(document.cookie.split("=")[1]);
+  if (token) setAuthToken(token);
 
   try {
     const res = await axios.get(`${url}/auth`);
@@ -32,7 +34,7 @@ export const loadUser = () => async dispatch => {
   }
 };
 
-export const registerUser = formData => async dispatch => {
+export const registerUser = (formData) => async (dispatch) => {
   setLoading();
 
   formData.name = formData.name.trim();
@@ -41,8 +43,8 @@ export const registerUser = formData => async dispatch => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/users`, formData, config);
@@ -63,7 +65,7 @@ export const registerUser = formData => async dispatch => {
 };
 
 // Login User
-export const login = formData => async dispatch => {
+export const login = (formData) => async (dispatch) => {
   setLoading();
 
   formData.email = formData.email.trim();
@@ -71,8 +73,8 @@ export const login = formData => async dispatch => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/auth`, formData, config);
@@ -94,21 +96,22 @@ export const login = formData => async dispatch => {
 
 // Logout
 export const logout = () => {
+  console.log("run");
   return {
-    type: LOGOUT
+    type: LOGOUT,
   };
 };
 
 // Clear Errors
 export const clearErrors = () => {
   return {
-    type: CLEAR_ERRORS
+    type: CLEAR_ERRORS,
   };
 };
 
 // Set Loading
 export const setLoading = () => {
   return {
-    type: SET_LOADING
+    type: SET_LOADING,
   };
 };

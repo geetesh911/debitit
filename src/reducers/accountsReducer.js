@@ -8,7 +8,7 @@ import {
   GET_RANGE_BANK_DATA,
   GET_RANGE_BANK_DATA_FAILED,
   SET_ACCOUNTS_MSG,
-  CLEAR_ACCOUNTS_MSG
+  CLEAR_ACCOUNTS_MSG,
 } from "../actions/types";
 
 const initialState = {
@@ -20,8 +20,8 @@ const initialState = {
   msg: null,
   dataNotFound: {
     rangeCashData: false,
-    rangeBankData: false
-  }
+    rangeBankData: false,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
     case GET_CASH_DATA:
       return {
         ...state,
-        cash: action.payload
+        cash: action.payload,
       };
     case GET_RANGE_CASH_DATA:
       return {
@@ -37,13 +37,13 @@ export default (state = initialState, action) => {
         rangeCash: action.payload.res,
         dataNotFound: {
           ...state.dataNotFound,
-          rangeCashData: action.payload.dataNotFound
-        }
+          rangeCashData: action.payload.dataNotFound,
+        },
       };
     case GET_BANK_DATA:
       return {
         ...state,
-        bank: action.payload
+        bank: action.payload,
       };
     case GET_RANGE_BANK_DATA:
       return {
@@ -51,26 +51,27 @@ export default (state = initialState, action) => {
         rangeBank: action.payload.res,
         dataNotFound: {
           ...state.dataNotFound,
-          rangeBankData: action.payload.dataNotFound
-        }
+          rangeBankData: action.payload.dataNotFound,
+        },
       };
     case SET_ACCOUNTS_MSG:
       return {
         ...state,
-        msg: action.payload
+        msg: action.payload,
       };
     case CLEAR_ACCOUNTS_MSG:
       return {
         ...state,
-        msg: null
+        msg: null,
       };
     case GET_CASH_DATA_FAILED:
     case GET_RANGE_CASH_DATA_FAILED:
     case GET_BANK_DATA_FAILED:
     case GET_RANGE_BANK_DATA_FAILED:
+      console.log(action.payload);
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;

@@ -31,7 +31,7 @@ import {
   PAY_LOAN,
   PAY_LOAN_FAILED,
   CLEAR_OTHERS_MSG,
-  CLEAR_OTHERS_ERROR
+  CLEAR_OTHERS_ERROR,
 } from "../actions/types";
 
 let url = "";
@@ -42,45 +42,45 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // get categories
-export const getExpenseCategories = () => async dispatch => {
+export const getExpenseCategories = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/expensecategory`);
     dispatch({
       type: GET_CATEGORIES,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_CATEGORIES_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get category
-export const getExpenseCategory = id => async dispatch => {
+export const getExpenseCategory = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/expensecategory/${id}`);
     dispatch({
       type: GET_CATEGORY,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_CATEGORY_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add categories
-export const addExpenseCategories = formData => async dispatch => {
+export const addExpenseCategories = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/expensecategory`, formData, config);
@@ -88,19 +88,19 @@ export const addExpenseCategories = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_CATEGORY_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // edit category
-export const editExpenseCategory = (formData, id) => async dispatch => {
+export const editExpenseCategory = (formData, id) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.put(
@@ -112,13 +112,13 @@ export const editExpenseCategory = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: EDIT_CATEGORY_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // delete customer
-export const deleteExpenseCategory = id => async dispatch => {
+export const deleteExpenseCategory = (id) => async (dispatch) => {
   try {
     await axios.delete(`${url}/expensecategory/${id}`);
     dispatch({ type: DELETE_CATEGORY, payload: id });
@@ -128,29 +128,29 @@ export const deleteExpenseCategory = id => async dispatch => {
 };
 
 // get expenses
-export const getExpenses = () => async dispatch => {
+export const getExpenses = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/expense`);
     dispatch({
       type: GET_EXPENSES,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_EXPENSES_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add expense
-export const addExpense = formData => async dispatch => {
+export const addExpense = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/expense`, formData, config);
@@ -158,35 +158,35 @@ export const addExpense = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_EXPENSE_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get assets
-export const getDrawings = () => async dispatch => {
+export const getDrawings = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/drawing`);
     dispatch({
       type: GET_DRAWINGS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_DRAWINGS_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add expense
-export const addDrawings = formData => async dispatch => {
+export const addDrawings = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/drawing`, formData, config);
@@ -194,35 +194,35 @@ export const addDrawings = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_DRAWINGS_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get assets
-export const getAssets = () => async dispatch => {
+export const getAssets = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/assets`);
     dispatch({
       type: GET_ASSETS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_ASSETS_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add new asset
-export const addNewAsset = formData => async dispatch => {
+export const addNewAsset = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/assets`, formData, config);
@@ -230,17 +230,17 @@ export const addNewAsset = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_NEW_ASSET_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add existig asset
-export const addExistingAsset = (formData, id) => async dispatch => {
+export const addExistingAsset = (formData, id) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/assets/${id}`, formData, config);
@@ -248,35 +248,35 @@ export const addExistingAsset = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_EXISTING_ASSET_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // get loan
-export const getLoans = () => async dispatch => {
+export const getLoans = () => async (dispatch) => {
   try {
     const res = await axios.get(`${url}/liabilities`);
     dispatch({
       type: GET_LOAN,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: GET_LOAN_FAILED,
-      payload: err.response.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // add new loan
-export const addLoan = formData => async dispatch => {
+export const addLoan = (formData) => async (dispatch) => {
   formData.name = formData.name.trim();
 
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/liabilities`, formData, config);
@@ -284,17 +284,17 @@ export const addLoan = formData => async dispatch => {
   } catch (err) {
     dispatch({
       type: ADD_LOAN_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
 
 // pay loan
-export const payLoan = (formData, id) => async dispatch => {
+export const payLoan = (formData, id) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   try {
     const res = await axios.post(`${url}/liabilities/${id}`, formData, config);
@@ -302,7 +302,7 @@ export const payLoan = (formData, id) => async dispatch => {
   } catch (err) {
     dispatch({
       type: PAY_LOAN_FAILED,
-      payload: err.response.data.msg
+      payload: err.response.data.msg,
     });
   }
 };
@@ -310,13 +310,13 @@ export const payLoan = (formData, id) => async dispatch => {
 // clear error
 export const clearOthersError = () => {
   return {
-    type: CLEAR_OTHERS_ERROR
+    type: CLEAR_OTHERS_ERROR,
   };
 };
 
 // Clear msg
 export const clearOthersMsg = () => {
   return {
-    type: CLEAR_OTHERS_MSG
+    type: CLEAR_OTHERS_MSG,
   };
 };
