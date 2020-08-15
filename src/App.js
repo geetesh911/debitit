@@ -44,9 +44,9 @@ function App() {
               </Fragment>
             )}
             <Switch>
-              <HideRoute exact path="/" component={Home} />
-              <HideRoute exact path="/register" component={Register} />
-              <HideRoute exact path="/login" component={Login} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/accounts" component={Accounts} />
               <PrivateRoute exact path="/sales" component={Sales} />
               <PrivateRoute exact path="/purchase" component={Purchase} />
