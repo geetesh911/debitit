@@ -14,7 +14,6 @@ import store from "./store";
 import "./css/style.css";
 import { PrivateRoute } from "./components/routing/PrivateRoute";
 import { NotFound } from "./components/pages/NotFound";
-import { HideRoute } from "./components/routing/HideRoute";
 import Alert from "./components/common/Alert";
 import { getToken } from "./utils/getToken";
 
